@@ -1,0 +1,55 @@
+@import "fonts";
+@import "animations";
+
+$c-1: red;
+$f-1: sans-serif;
+$f-1-l-h: 1.4em;
+$f-2: serif;
+$f-2-l-h: 1.4em;
+$bp-1: 400px;
+$bp-2: 600px;
+$bp-3: 800px;
+$bp-4: 1000px;
+$bp-5: 1200px;
+$bp-6: 1400px;
+$g-1: 5px;
+$g-2: 10px;
+$g-3: 20px;
+$g-4: 40px;
+$g-5: 80px;
+$g-6: 160px;
+
+* {
+	box-sizing: border-box;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: normal normal normal 12px/#{$f-1-l-h} $f-1;
+	background: white;
+}
+
+::selection {
+  background: transparentize($c-1, .5);
+}
+
+@import "app";
+
+.testing-testing {
+	box-shadow:
+		inset 0 1px 0 0 yellow,
+		inset -1px 0 0 0 red,
+		inset 0 -1px 0 0 blue,
+		inset 1px 0 0 0 green
+	;
+	font: italic small-caps bold 24px/#{$f-1-l-h} $f-1;
+	font: normal normal bold 14px/#{$f-1-l-h} $f-1;
+	background: linear-gradient(to bottom, white 0%, black 100%);
+
+	@media all and (max-width: $bp-1) {}
+	@media all and (max-width: $bp-2) {}
+	@media all and (max-width: $bp-3) {}
+	@media all and (min-width: $bp-2) and (max-width: $bp-3 - 1) {}
+}
