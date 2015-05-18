@@ -1,0 +1,19 @@
+Alpha
+
+Technologies
+	Nginx
+	NPM
+	Browserify
+	Strictify
+	Flux
+	React
+	FastClick
+	Sass
+	Autoprefixer
+	UglifyJS
+	Nodemon
+
+Commands
+	npm install
+	npm run watch
+	npm run build
