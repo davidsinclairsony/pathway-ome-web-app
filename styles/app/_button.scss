@@ -1,0 +1,29 @@
+.button {
+	color: white;
+
+	&.large {
+		border-radius: 8px;
+		font: normal normal normal 26px/#{$f-1-l-h} $f-1;
+		padding: 10px 30px;
+	}
+
+	&.medium {
+		border-radius: 8px;
+		font: normal normal normal 20px/#{$f-1-l-h} $f-1;
+		padding: 5px 15px;
+	}
+
+	&.small {
+		border-radius: 6px;
+		font: normal normal normal 16px/#{$f-1-l-h} $f-1;
+		padding: 5px 10px;
+	}
+
+	&.c-1 {
+		background: $c-1;
+	}
+
+	&.c-2 {
+		color: $c-2;
+	}
+}
