@@ -1,29 +1,40 @@
 .button {
 	color: white;
+	cursor: pointer;
 
 	&.large {
 		border-radius: 8px;
-		font: normal normal normal 26px/#{$f-1-l-h} $f-1;
-		padding: 10px 30px;
+		font: normal normal normal 20px/#{$f-1-l-h} $f-1;
+		padding: $g-3 $g-4;
 	}
 
 	&.medium {
 		border-radius: 8px;
-		font: normal normal normal 20px/#{$f-1-l-h} $f-1;
-		padding: 5px 15px;
+		font: normal normal normal 16px/#{$f-1-l-h} $f-1;
+		padding: $g-2 $g-3;
 	}
 
 	&.small {
 		border-radius: 6px;
-		font: normal normal normal 16px/#{$f-1-l-h} $f-1;
-		padding: 5px 10px;
+		font: normal normal normal 12px/#{$f-1-l-h} $f-1;
+		padding: $g-1 $g-2;
 	}
 
-	&.c-1 {
+	&.positive {
+		background: $c-2;
+		color: white;
+
+		&:hover {
+			background: lighten($c-2, 5%);
+		}
+	}
+
+	&.neutral {
 		background: $c-1;
-	}
+		color: white;
 
-	&.c-2 {
-		color: $c-2;
+		&:hover {
+			background: lighten($c-1, 5%);
+		}
 	}
 }

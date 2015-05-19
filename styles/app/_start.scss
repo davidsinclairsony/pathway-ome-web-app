@@ -1,0 +1,18 @@
+.start.view {
+	h1 {
+		text-align: center;
+		padding: $g-4;
+
+		svg {
+			height: $g-4;
+
+			path {
+				fill: white;
+			}
+		}
+	}
+
+	.login {
+		margin-top: $g-4;
+	}
+}

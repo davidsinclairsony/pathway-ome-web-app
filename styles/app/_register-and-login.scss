@@ -1,0 +1,81 @@
+.register,
+.login {
+	margin: 0 auto;
+	max-width: 320px;
+	width: 100%;
+	padding: 0 $g-3;
+
+	h2 {
+		font: normal normal normal 20px/#{$f-1-l-h} $f-1;
+		padding: $g-2;
+		text-align: center;
+		background: transparentize(white, .7);
+		border-radius: $g-1;
+		cursor: pointer;
+
+		&:hover {
+			background: transparentize(white, .75);
+		}
+	}
+
+	form {
+		//display: none;
+
+		input {
+			display: block;
+			width: 90%;
+			margin: 0 auto;
+
+			&:nth-last-child(n + 3) {
+				border-bottom: 1px solid transparentize(white, .9);
+			}
+
+			&:not([type="submit"]) {
+				padding: $g-2;
+				color: white;
+				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+				background: transparentize(white, .9);
+			}
+
+			&[type="submit"] {
+				border-radius: 0 0 $g-1 $g-1;
+			}
+		}
+	}
+
+	p {
+		display: block;
+		text-align: center;
+		padding: $g-3 0 0 0;
+		font: normal normal 100 12px/#{$f-1-l-h} $f-1;
+		color: transparentize(white, .2);
+
+		a {
+			text-decoration: none;
+		}
+	}
+}
+
+.register {
+	p {
+		a {
+			color: $c-2;
+
+			&:hover {
+				color: lighten($c-2, 5%);
+			}
+		}
+	}
+}
+
+.login {
+	p {
+		a {
+			color: $c-1;
+
+			&:hover {
+				color: lighten($c-1, 5%);
+			}
+		}
+	}
+}

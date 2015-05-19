@@ -1,8 +1,8 @@
 @import "fonts";
 @import "animations";
 
-$c-1: green;
-$c-2: yellow;
+$c-1: #3898c0; // Light blue
+$c-2: #2aa42d; // Green
 $f-1: sans-serif;
 $f-1-l-h: 1.4em;
 $f-2: serif;
@@ -25,11 +25,6 @@ $g-6: 160px;
 	border: 0;
 	margin: 0;
 	padding: 0;
-}
-
-body {
-	font: normal normal normal 12px/#{$f-1-l-h} $f-1;
-	background: white;
 }
 
 ::selection {

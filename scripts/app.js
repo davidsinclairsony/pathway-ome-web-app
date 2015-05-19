@@ -1,5 +1,5 @@
 var React = require('./libs').React;
-var intro = require('./app/intro');
+var start = require('./app/start');
 
 module.exports = React.createClass({displayName: 'App',
 	mixins: [React.addons.PureRenderMixin],
@@ -7,7 +7,7 @@ module.exports = React.createClass({displayName: 'App',
 		var inner = [];
 
 		// Add intro page
-		inner.push(React.createElement(intro, {key: 0}));
+		inner.push(React.createElement(start, {key: 0}));
 
 		return React.DOM.div({className: 'app'}, inner);
 	}

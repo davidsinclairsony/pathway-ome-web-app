@@ -2,8 +2,22 @@
 	height: 100%;
 	width: 100%;
 	position: fixed;
+	top: 0;
+	left: 0;
 	background: linear-gradient(to bottom, #12204f 0%, #052a38 37%, #131933 100%);
+	color: white;
+	font: normal normal normal 12px/#{$f-1-l-h} $f-1;
+
+	.view {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
 
 	@import "app/button";
-	@import "app/intro";
+	@import "app/footer";
+	@import "app/start";
+	@import "app/register-and-login";
 }
