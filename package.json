@@ -9,7 +9,10 @@
 		"nodemon": "latest",
 		"fastclick": "latest",
 		"react": "latest",
-		"flux": "latest"
+		"flux": "latest",
+		"gsap": "latest",
+		"es6-promise": "latest",
+		"object-assign": "latest"
 	},
 	"scripts": {
 		"build:main:bundle": "browserify scripts/main.js -o scripts/main.bundle.js -x ./scripts/libs.js -t strictify",

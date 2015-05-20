@@ -1,5 +1,5 @@
 var React = require('./libs').React;
-var start = require('./app/start');
+var start = require('./components/start');
 
 module.exports = React.createClass({displayName: 'App',
 	mixins: [React.addons.PureRenderMixin],

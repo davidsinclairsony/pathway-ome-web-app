@@ -1,5 +1,8 @@
 module.exports = {
 	FastClick: require('fastclick'),
 	React: require('react/addons'),
-	Flux: require('flux')
+	Flux: require('flux'),
+	TweenMax: require('gsap'),
+	Promise: require('es6-promise'),
+	assign: require('object-assign')
 };
