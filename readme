@@ -13,6 +13,8 @@ Technologies
 	Autoprefixer
 	UglifyJS
 	Nodemon
+	es6-promise
+	object-assign
 
 Commands
 	npm install

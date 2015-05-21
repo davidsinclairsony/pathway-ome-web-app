@@ -3,10 +3,20 @@ var logo = require('./logo');
 var register = require('./register');
 var login = require('./login');
 var footer = require('./footer');
+var store = require('../store');
+
+var getStoreState = function() {
+	return {
+		hasLoggedInBefore: false
+	}
+};
 
 module.exports = React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
+	getInitialState: function() {
+		return getStoreState();
+	},
 	render: function() {
 		var inner = [];
 		var props = {
@@ -17,10 +27,16 @@ module.exports = React.createClass({
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
 
 		// Add register component
-		inner.push(React.createElement(register, {key: 1}));
+		inner.push(React.createElement(register, {
+			key: 1,
+			showExpanded: !this.state.hasLoggedInBefore
+		}));
 
 		// Add login component
-		inner.push(React.createElement(login, {key: 2}));
+		inner.push(React.createElement(login, {
+			key: 2,
+			showExpanded: this.state.hasLoggedInBefore
+		}));
 
 		// Add footer
 		inner.push(React.createElement(footer, {key: 3}));
