@@ -1,5 +1,6 @@
-var React = require('./../../libs').React;
-var TweenMax = require('./../../libs').TweenMax;
+var React = require('../../libs').React;
+var TweenMax = require('../../libs').TweenMax;
+var Actions = require('../actions');
 
 module.exports = React.createClass({
 	displayName: 'Login',
@@ -19,13 +20,13 @@ module.exports = React.createClass({
 		};
 	},
 	toggleAction: function() {
-
+		Actions.toggleExpandLogin();
 	},
 	submitAction: function() {
-
+		Actions.submitLogin();
 	},
 	resetAction: function() {
-
+		Actions.showPasswordReset();
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset

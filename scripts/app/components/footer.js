@@ -1,5 +1,5 @@
-var React = require('./../../libs').React;
-var footerData = require('./../data/footer.js');
+var React = require('../../libs').React;
+var footerData = require('../data/footer.js');
 
 module.exports = React.createClass({
 	displayName: 'Footer',

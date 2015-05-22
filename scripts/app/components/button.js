@@ -1,4 +1,4 @@
-var React = require('./../../libs').React;
+var React = require('../../libs').React;
 
 module.exports = React.createClass({
 	displayName: 'Button',

@@ -1,4 +1,6 @@
-var React = require('./../../libs').React;
+var React = require('../../libs').React;
+var TweenMax = require('../../libs').TweenMax;
+var Actions = require('../actions');
 
 module.exports = React.createClass({
 	displayName: 'Register',
@@ -18,13 +20,13 @@ module.exports = React.createClass({
 		};
 	},
 	toggleAction: function() {
-
+		Actions.toggleExpandRegister();
 	},
 	submitAction: function() {
-
+		Actions.submitRegister();
 	},
 	verifyAction: function() {
-
+		Actions.showVerification();
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset
@@ -85,8 +87,6 @@ module.exports = React.createClass({
 			})
 		]));
 
-
-		// Add link to /email-verification
 		inner.push(React.DOM.p({key: 2}, [
 			'Need to verify your email address? ',
 			React.DOM.a({

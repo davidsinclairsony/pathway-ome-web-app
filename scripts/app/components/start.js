@@ -1,13 +1,14 @@
-var React = require('./../../libs').React;
+var React = require('../../libs').React;
 var logo = require('./logo');
 var register = require('./register');
 var login = require('./login');
 var footer = require('./footer');
-var store = require('../store');
+var Store = require('../store');
 
 var getState = function() {
 	return {
-		hasLoggedInBefore: store.isRecognizedUser()
+		expandRegister: Store.expandRegister(),
+		expandLogin: Store.expandLogin()
 	};
 };
 
@@ -18,10 +19,10 @@ module.exports = React.createClass({
 		return getState();
 	},
 	componentDidMount: function() {
-		store.addChangeListener(this._onChange);
+		Store.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		store.removeChangeListener(this._onChange);
+		Store.removeChangeListener(this._onChange);
 	},
 	render: function() {
 		var inner = [];
@@ -35,13 +36,13 @@ module.exports = React.createClass({
 		// Add register component
 		inner.push(React.createElement(register, {
 			key: 1,
-			showExpanded: !this.state.hasLoggedInBefore
+			showExpanded: this.state.expandRegister
 		}));
 
 		// Add login component
 		inner.push(React.createElement(login, {
 			key: 2,
-			showExpanded: this.state.hasLoggedInBefore
+			showExpanded: this.state.expandLogin
 		}));
 
 		// Add footer

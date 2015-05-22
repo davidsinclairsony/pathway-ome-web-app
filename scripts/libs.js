@@ -5,5 +5,6 @@ module.exports = {
 	TweenMax: require('gsap'),
 	Promise: require('es6-promise'),
 	assign: require('object-assign'),
-	events: require('events')
+	events: require('events'),
+	keyMirror: require('keymirror')
 };
