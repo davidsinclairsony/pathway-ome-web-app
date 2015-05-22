@@ -1,4 +1,4 @@
-var React = require('./../libs').React;
+var React = require('./../../libs').React;
 var footerData = require('./../data/footer.js');
 
 module.exports = React.createClass({

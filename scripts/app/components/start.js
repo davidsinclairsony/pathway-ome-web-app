@@ -1,27 +1,33 @@
-var React = require('./../libs').React;
+var React = require('./../../libs').React;
 var logo = require('./logo');
 var register = require('./register');
 var login = require('./login');
 var footer = require('./footer');
 var store = require('../store');
 
-var getStoreState = function() {
+var getState = function() {
 	return {
-		hasLoggedInBefore: false
-	}
+		hasLoggedInBefore: store.isRecognizedUser()
+	};
 };
 
 module.exports = React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
-		return getStoreState();
+		return getState();
+	},
+	componentDidMount: function() {
+		store.addChangeListener(this._onChange);
+	},
+	componentWillUnmount: function() {
+		store.removeChangeListener(this._onChange);
 	},
 	render: function() {
 		var inner = [];
 		var props = {
 			className: 'start view'
-		}
+		};
 
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
@@ -42,5 +48,8 @@ module.exports = React.createClass({
 		inner.push(React.createElement(footer, {key: 3}));
 
 		return React.DOM.div(props, inner);
+	},
+	_onChange: function() {
+		this.setState(getState());
 	}
 });

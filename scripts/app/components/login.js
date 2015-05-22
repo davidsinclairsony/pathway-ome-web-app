@@ -1,24 +1,40 @@
-var React = require('./../libs').React;
-var TweenMax = require('./../libs').TweenMax;
+var React = require('./../../libs').React;
+var TweenMax = require('./../../libs').TweenMax;
 
 module.exports = React.createClass({
 	displayName: 'Login',
 	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
+		// Set initial form height
+		var height;
+
+		if(this.props.showExpanded) {
+			height = 'auto';
+		} else {
+			height = 0;
+		}
+
 		return {
-			formHeight: 0
+			formHeight: height
 		};
 	},
-	toggleForm: function() {
-		this.setState({shouldExpandForm: !this.state.shouldExpandForm});
+	toggleAction: function() {
+
+	},
+	submitAction: function() {
+
+	},
+	resetAction: function() {
+
 	},
 	componentDidMount: function() {
-		// Get form's expanded height, reset, save
+		// Get form's expanded height, reset
 		var form = this.getDOMNode().getElementsByTagName('form')[0];
 		form.style.height = 'auto';
 		var formHeight = form.offsetHeight;
-		form.style.height = '0';
+		form.style.height = this.state.formHeight;
 
+		// Save, causing a needless render
 		this.setState({formHeight: formHeight});
 	},
 	componentDidUpdate: function() {
@@ -26,10 +42,10 @@ module.exports = React.createClass({
 		var form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
-		if(this.props.shouldExpandForm) {
-			TweenMax.to(form, .1, {height: this.state.formHeight});
+		if(this.props.showExpanded) {
+			TweenMax.to(form, 0.1, {height: this.state.formHeight});
 		} else {
-			TweenMax.to(form, .1, {height: 0});
+			TweenMax.to(form, 0.1, {height: 0});
 		}
 	},
 	render: function() {
@@ -41,7 +57,7 @@ module.exports = React.createClass({
 		// Add h2
 		inner.push(React.DOM.h2({
 			key: 0,
-			onClick: this.toggleForm
+			onClick: this.toggleAction
 		}, 'Log In to an Account'));
 
 		// Add form
@@ -60,13 +76,14 @@ module.exports = React.createClass({
 				key: 2,
 				type: 'submit',
 				value: 'Login',
-				className: 'button neutral medium'
+				className: 'button neutral medium',
+				onClick: this.submitAction
 			}),
 			React.DOM.p({key: 3}, [
 				'Need your password reset? ',
 				React.DOM.a({
 					key: 4,
-					href: '/password-reset'
+					onClick: this.resetAction
 				}, 'Click here'),
 				'.'
 			])

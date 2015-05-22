@@ -1,3 +1,3 @@
-var Dispatcher = require('./libs').Flux.Dispatcher;
+var Dispatcher = require('./../libs').Flux.Dispatcher;
 
 module.exports = new Dispatcher();
