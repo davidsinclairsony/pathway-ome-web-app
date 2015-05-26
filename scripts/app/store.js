@@ -5,31 +5,18 @@ var assign = require('../libs').assign;
 
 var CHANGE_EVENT = 'change';
 
-// Private functions
-var isPreviousUser = function() {
-	return false;
+// Private
+var submitLogin = function() {
+	console.log("submitted");
 };
-var toggleExpandRegister = function() {
-	expandRegister = !expandRegister;
-};
-var toggleExpandLogin = function() {
-	expandLogin = !expandLogin;
-};
-
-// Private values
-var expandRegister = !isPreviousUser();
-var expandLogin = isPreviousUser();
 
 // Create store
 var Store = assign({}, EventEmitter.prototype, {
 	checkIfInStart: function() {
 		return true;
 	},
-	expandRegister: function() {
-		return expandRegister;
-	},
-	expandLogin: function() {
-		return expandLogin;
+	isPreviousUser: function() {
+		return true;
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -46,12 +33,8 @@ Dispatcher.register(function(action) {
 	var text;
 
 	switch(action.actionType) {
-		case Constants.TOGGLE_EXPAND_LOGIN:
-			toggleExpandLogin();
-			Store.emitChange();
-			break;
-		case Constants.TOGGLE_EXPAND_REGISTER:
-			toggleExpandRegister();
+		case Constants.SUBMIT_LOGIN:
+			submitLogin();
 			Store.emitChange();
 			break;
 	}

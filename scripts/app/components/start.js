@@ -5,25 +5,9 @@ var login = require('./login');
 var footer = require('./footer');
 var Store = require('../store');
 
-var getState = function() {
-	return {
-		expandRegister: Store.expandRegister(),
-		expandLogin: Store.expandLogin()
-	};
-};
-
 module.exports = React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
-	getInitialState: function() {
-		return getState();
-	},
-	componentDidMount: function() {
-		Store.addChangeListener(this._onChange);
-	},
-	componentWillUnmount: function() {
-		Store.removeChangeListener(this._onChange);
-	},
 	render: function() {
 		var inner = [];
 		var props = {
@@ -36,13 +20,15 @@ module.exports = React.createClass({
 		// Add register component
 		inner.push(React.createElement(register, {
 			key: 1,
-			showExpanded: this.state.expandRegister
+			showExpanded: !this.props.isPreviousUser,
+			collapsible: true
 		}));
 
 		// Add login component
 		inner.push(React.createElement(login, {
 			key: 2,
-			showExpanded: this.state.expandLogin
+			showExpanded: this.props.isPreviousUser,
+			collapsible: true
 		}));
 
 		// Add footer

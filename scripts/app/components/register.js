@@ -16,13 +16,17 @@ module.exports = React.createClass({
 		}
 
 		return {
-			formHeight: height
+			formHeight: height,
+			showExpanded: this.props.showExpanded
 		};
 	},
 	toggleAction: function() {
-		Actions.toggleExpandRegister();
+		if(this.props.collapsible) {
+			this.setState({showExpanded: !this.state.showExpanded});
+		}
 	},
-	submitAction: function() {
+	submitAction: function(event) {
+		event.preventDefault();
 		Actions.submitRegister();
 	},
 	verifyAction: function() {
@@ -35,7 +39,7 @@ module.exports = React.createClass({
 		var formHeight = form.offsetHeight;
 		form.style.height = this.state.formHeight;
 
-		// Save, causing a needless render
+		// Save, causing a needless re-render
 		this.setState({formHeight: formHeight});
 	},
 	componentDidUpdate: function() {
@@ -43,7 +47,7 @@ module.exports = React.createClass({
 		var form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
-		if(this.props.showExpanded) {
+		if(this.state.showExpanded) {
 			TweenMax.to(form, 0.1, {height: this.state.formHeight});
 		} else {
 			TweenMax.to(form, 0.1, {height: 0});
@@ -55,14 +59,19 @@ module.exports = React.createClass({
 			className: 'register'
 		};
 
+		// Add class if collapsible
+		if(this.props.collapsible) {
+			props.className += ' collapsible';
+		}
+
 		// Add h2
 		inner.push(React.DOM.h2({
 			key: 0,
 			onClick: this.toggleAction
 		}, 'Create an Account'));
 
-		// Add form if state allows
-		inner.push(React.DOM.form({key: 1,}, [
+		// Add form
+		inner.push(React.DOM.form({key: 1}, [
 			React.DOM.input({
 				key: 0,
 				type: 'email',
@@ -83,7 +92,8 @@ module.exports = React.createClass({
 				key: 3,
 				type: 'submit',
 				value: 'Register',
-				className: 'button positive medium'
+				className: 'button positive medium',
+				onClick: this.submitAction
 			})
 		]));
 

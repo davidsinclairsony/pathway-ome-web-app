@@ -5,17 +5,22 @@
 	width: 100%;
 	padding: 0 $g-3;
 
+	&.collapsible {
+		h2 {
+			cursor: pointer;
+
+			&:hover {
+				background: transparentize(white, .75);
+			}
+		}
+	}
+
 	h2 {
 		font: normal normal normal 20px/#{$f-1-l-h} $f-1;
 		padding: $g-2;
 		text-align: center;
 		background: transparentize(white, .7);
 		border-radius: $g-1;
-		cursor: pointer;
-
-		&:hover {
-			background: transparentize(white, .75);
-		}
 	}
 
 	form {

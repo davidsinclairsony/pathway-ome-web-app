@@ -16,13 +16,17 @@ module.exports = React.createClass({
 		}
 
 		return {
-			formHeight: height
+			formHeight: height,
+			showExpanded: this.props.showExpanded
 		};
 	},
 	toggleAction: function() {
-		Actions.toggleExpandLogin();
+		if(this.props.collapsible) {
+			this.setState({showExpanded: !this.state.showExpanded});
+		}
 	},
-	submitAction: function() {
+	submitAction: function(event) {
+		event.preventDefault();
 		Actions.submitLogin();
 	},
 	resetAction: function() {
@@ -43,7 +47,7 @@ module.exports = React.createClass({
 		var form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
-		if(this.props.showExpanded) {
+		if(this.state.showExpanded) {
 			TweenMax.to(form, 0.1, {height: this.state.formHeight});
 		} else {
 			TweenMax.to(form, 0.1, {height: 0});
@@ -54,6 +58,11 @@ module.exports = React.createClass({
 		var props = {
 			className: 'login'
 		};
+
+		// Add class if collapsible
+		if(this.props.collapsible) {
+			props.className += ' collapsible';
+		}
 
 		// Add h2
 		inner.push(React.DOM.h2({
