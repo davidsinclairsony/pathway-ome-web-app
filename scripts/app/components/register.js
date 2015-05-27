@@ -1,6 +1,5 @@
-var React = require('../../libs').React;
-var TweenMax = require('../../libs').TweenMax;
-var Actions = require('../actions');
+import {React, TweenMax} from '../../libs';
+import Actions from '../actions';
 
 module.exports = React.createClass({
 	displayName: 'Register',

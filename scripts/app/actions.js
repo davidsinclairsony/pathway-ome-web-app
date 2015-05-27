@@ -1,7 +1,7 @@
-var Dispatcher = require('./dispatcher');
-var Constants = require('./constants');
+import Dispatcher from './dispatcher';
+import Constants from './constants';
 
-var Actions = {
+let Actions = {
 	submitLogin: function() {Dispatcher.dispatch({
 		actionType: Constants.SUBMIT_LOGIN
 	});},

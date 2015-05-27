@@ -1,13 +1,13 @@
-var React = require('./libs').React;
-var start = require('./app/components/start');
-var Store = require('./app/store');
+import {React} from './libs';
+import start from './app/components/start';
+import Store from './app/store';
 
 module.exports = React.createClass({displayName: 'App',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
-		var inner = [];
+		let inner = [];
 
-		// Add intro page
+		// Add start view
 		inner.push(React.createElement(start, {
 			key: 0,
 			isPreviousUser: Store.isPreviousUser()

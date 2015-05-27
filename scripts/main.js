@@ -1,6 +1,6 @@
-var FastClick = require('./libs').FastClick;
-var React = require('./libs').React;
-var app = require('./app');
+import {FastClick} from './libs';
+import {React} from './libs';
+import app from './app';
 
 document.addEventListener('DOMContentLoaded', function(e) {
 	FastClick(document.body);

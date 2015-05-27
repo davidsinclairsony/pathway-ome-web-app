@@ -1,16 +1,15 @@
-var React = require('../../libs').React;
-var logo = require('./logo');
-var register = require('./register');
-var login = require('./login');
-var footer = require('./footer');
-var Store = require('../store');
+import {React, TweenMax} from '../../libs';
+import logo from './logo';
+import register from './register';
+import login from './login';
+import footer from './footer';
 
 module.exports = React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
-		var inner = [];
-		var props = {
+		let inner = [];
+		let props = {
 			className: 'start view'
 		};
 

@@ -40,6 +40,7 @@
 				color: white;
 				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
 				background: transparentize(white, .9);
+				cursor: auto;
 			}
 
 			&[type="submit"] {

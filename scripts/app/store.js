@@ -1,17 +1,16 @@
-var Dispatcher = require('./dispatcher');
-var EventEmitter = require('../libs').events.EventEmitter;
-var Constants = require('./constants');
-var assign = require('../libs').assign;
+import {assign, events} from '../libs';
+import Dispatcher from './dispatcher';
+import Constants from './constants';
 
-var CHANGE_EVENT = 'change';
+let CHANGE_EVENT = 'change';
 
 // Private
-var submitLogin = function() {
+let submitLogin = function() {
 	console.log("submitted");
 };
 
 // Create store
-var Store = assign({}, EventEmitter.prototype, {
+let Store = assign({}, events.EventEmitter.prototype, {
 	checkIfInStart: function() {
 		return true;
 	},
@@ -30,8 +29,6 @@ var Store = assign({}, EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(action) {
-	var text;
-
 	switch(action.actionType) {
 		case Constants.SUBMIT_LOGIN:
 			submitLogin();

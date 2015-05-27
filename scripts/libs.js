@@ -6,5 +6,6 @@ module.exports = {
 	Promise: require('es6-promise'),
 	assign: require('object-assign'),
 	events: require('events'),
-	keyMirror: require('keymirror')
+	keyMirror: require('keymirror'),
+	when: require('when')
 };

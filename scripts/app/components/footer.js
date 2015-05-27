@@ -1,10 +1,11 @@
-var React = require('../../libs').React;
-var footerData = require('../data/footer.js');
+import {React} from '../../libs';
 
 module.exports = React.createClass({
 	displayName: 'Footer',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
-		return React.DOM.footer(null, React.DOM.p(null, footerData));
+		let year = new Date().getFullYear();
+
+		return React.DOM.footer(null, React.DOM.p(null, 'Pathway Genomics ' + year));
 	}
 });

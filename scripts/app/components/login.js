@@ -1,13 +1,12 @@
-var React = require('../../libs').React;
-var TweenMax = require('../../libs').TweenMax;
-var Actions = require('../actions');
+import {React} from '../../libs';
+import Actions from '../actions';
 
 module.exports = React.createClass({
 	displayName: 'Login',
-	mixins: [React.addons.PureRenderMixin],
+	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
 		// Set initial form height
-		var height;
+		let height;
 
 		if(this.props.showExpanded) {
 			height = 'auto';
@@ -17,7 +16,9 @@ module.exports = React.createClass({
 
 		return {
 			formHeight: height,
-			showExpanded: this.props.showExpanded
+			showExpanded: this.props.showExpanded,
+			email: this.props.email,
+			password: ''
 		};
 	},
 	toggleAction: function() {
@@ -27,16 +28,20 @@ module.exports = React.createClass({
 	},
 	submitAction: function(event) {
 		event.preventDefault();
-		Actions.submitLogin();
+
+		// Authenticate a user
+		Auth.login(this.state.user, this.state.password).catch(function(error) {
+			console.log('Error logging in', error);
+		});
 	},
 	resetAction: function() {
 		Actions.showPasswordReset();
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset
-		var form = this.getDOMNode().getElementsByTagName('form')[0];
+		let form = this.getDOMNode().getElementsByTagName('form')[0];
 		form.style.height = 'auto';
-		var formHeight = form.offsetHeight;
+		let formHeight = form.offsetHeight;
 		form.style.height = this.state.formHeight;
 
 		// Save, causing a needless render
@@ -44,7 +49,7 @@ module.exports = React.createClass({
 	},
 	componentDidUpdate: function() {
 		// Get form node
-		var form = this.getDOMNode().getElementsByTagName('form')[0];
+		let form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
 		if(this.state.showExpanded) {
@@ -54,8 +59,8 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-		var inner = [];
-		var props = {
+		let inner = [];
+		let props = {
 			className: 'login'
 		};
 
@@ -75,12 +80,14 @@ module.exports = React.createClass({
 			React.DOM.input({
 				key: 0,
 				type: 'email',
-				placeholder: 'Email'
+				placeholder: 'Email',
+				valueLink: this.linkState('email')
 			}),
 			React.DOM.input({
 				key: 1,
 				type: 'password',
-				placeholder: 'Password'
+				placeholder: 'Password',
+				valueLink: this.linkState('password')
 			}),
 			React.DOM.input({
 				key: 2,
