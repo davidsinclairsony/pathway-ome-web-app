@@ -4,7 +4,7 @@ import register from './register';
 import login from './login';
 import footer from './footer';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
@@ -34,8 +34,5 @@ module.exports = React.createClass({
 		inner.push(React.createElement(footer, {key: 3}));
 
 		return React.DOM.div(props, inner);
-	},
-	_onChange: function() {
-		this.setState(getState());
 	}
 });

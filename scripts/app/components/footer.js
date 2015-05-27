@@ -1,6 +1,6 @@
 import {React} from '../../libs';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: 'Footer',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {

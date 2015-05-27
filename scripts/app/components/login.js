@@ -1,7 +1,8 @@
 import {React} from '../../libs';
 import Actions from '../actions';
+import Authenticator from '../authenticator';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: 'Login',
 	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
@@ -30,12 +31,14 @@ module.exports = React.createClass({
 		event.preventDefault();
 
 		// Authenticate a user
-		Auth.login(this.state.user, this.state.password).catch(function(error) {
-			console.log('Error logging in', error);
-		});
+		/*Authenticator.login(this.state.user, this.state.password)
+			.catch(function(error) {
+				console.log('Error logging in', error);
+			}
+		);*/
 	},
 	resetAction: function() {
-		Actions.showPasswordReset();
+		Actions.Login.showPasswordReset();
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset

@@ -1,8 +1,8 @@
 import {React} from './libs';
 import start from './app/components/start';
-import Store from './app/store';
+import BaseStore from './app/stores/base';
 
-module.exports = React.createClass({displayName: 'App',
+export default React.createClass({displayName: 'App',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
 		let inner = [];
@@ -10,7 +10,7 @@ module.exports = React.createClass({displayName: 'App',
 		// Add start view
 		inner.push(React.createElement(start, {
 			key: 0,
-			isPreviousUser: Store.isPreviousUser()
+			isPreviousUser: BaseStore.isPreviousUser()
 		}));
 
 		return React.DOM.div({className: 'app'}, inner);

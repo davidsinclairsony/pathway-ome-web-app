@@ -1,6 +1,6 @@
-import {assign, events} from '../libs';
-import Dispatcher from './dispatcher';
-import Constants from './constants';
+import {assign, events} from '../../libs';
+import Dispatcher from '../dispatcher';
+import Constants from '../constants';
 
 let CHANGE_EVENT = 'change';
 
@@ -37,4 +37,4 @@ Dispatcher.register(function(action) {
 	}
 });
 
-module.exports = Store;
+export default Store;

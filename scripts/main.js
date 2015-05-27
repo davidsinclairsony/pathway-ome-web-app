@@ -1,5 +1,4 @@
-import {FastClick} from './libs';
-import {React} from './libs';
+import {FastClick, React} from './libs';
 import app from './app';
 
 document.addEventListener('DOMContentLoaded', function(e) {

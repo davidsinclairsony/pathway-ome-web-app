@@ -1,11 +1,13 @@
 module.exports = {
-	FastClick: require('fastclick'),
-	React: require('react/addons'),
-	Flux: require('flux'),
-	TweenMax: require('gsap'),
-	Promise: require('es6-promise'),
 	assign: require('object-assign'),
 	events: require('events'),
+	FastClick: require('fastclick'),
+	Flux: require('flux'),
+	jwtDecode: require('jwt-decode'),
 	keyMirror: require('keymirror'),
+	Promise: require('es6-promise'),
+	React: require('react/addons'),
+	reqwest: require('reqwest'),
+	TweenMax: require('gsap'),
 	when: require('when')
 };

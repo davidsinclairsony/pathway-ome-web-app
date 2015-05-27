@@ -1,6 +1,6 @@
 import {React} from '../../libs';
 
-module.exports = React.createClass({displayName: 'Logo',
+export default React.createClass({displayName: 'Logo',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
 		return React.createElement("svg", {x: "0px", y: "0px", viewBox: "0 0 96 36", "enable-background": "new 0 0 96 36"},

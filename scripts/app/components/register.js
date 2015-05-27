@@ -1,7 +1,7 @@
 import {React, TweenMax} from '../../libs';
 import Actions from '../actions';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: 'Register',
 	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
@@ -26,10 +26,10 @@ module.exports = React.createClass({
 	},
 	submitAction: function(event) {
 		event.preventDefault();
-		Actions.submitRegister();
+		console.log("subbmited");
 	},
 	verifyAction: function() {
-		Actions.showVerification();
+		console.log("go to verify");
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset
