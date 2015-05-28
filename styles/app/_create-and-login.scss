@@ -1,4 +1,4 @@
-.register,
+.create,
 .login {
 	margin: 0 auto;
 	max-width: 320px;
@@ -50,21 +50,34 @@
 					padding-right: $g-4;
 				}
 
-				div[class^="icon-"] {
+				[class^="icon-"] {
 					position: absolute;
-					top: 11px;
-					right: $g-1;
-					font-size: 20px;
-					color: $c-3;
+					top: 8px;
+					right: 8px;
+					font-size: 19px;
+					line-height: 26px;
+					color: #1e3d4d;
+					height: 26px;
+					width: 26px;
+					border-radius: 1em;
+					background: $c-3;
+					cursor: pointer;
+
+					&:hover {
+						background: lighten($c-3, 5%);
+					}
+				}
+
+				.tip {
+					display: block;
+					width: 100%;
+					padding: $g-2;
+					color: white;
+					font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+					background: transparentize(white, .9);
+					border-top: 1px solid transparentize(white, .8);
 				}
 			}
-		}
-
-		input[type="submit"] {
-			width: 90%;
-			display: block;
-			margin: 0 auto;
-			border-radius: 0 0 $g-1 $g-1;
 		}
 	}
 
@@ -82,7 +95,7 @@
 	}
 }
 
-.register {
+.create {
 	p {
 		a {
 			color: $c-2;
@@ -94,7 +107,49 @@
 	}
 }
 
+.create {
+	form {
+		input[type="submit"] {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+			border-radius: 0 0 $g-1 $g-1;
+		}
+	}
+}
+
 .login {
+	form {
+		footer {
+			width: 90%;
+			margin: 0 auto;
+			display: flex;
+
+			div {
+				flex: 0 0 auto;
+				padding: $g-2 $g-3;
+				background: $c-1;
+				border-radius: 0 0 0 $g-1;
+				border-right: 1px solid transparentize(white, .7);
+				font: normal normal normal 16px/#{$f-1-l-h} $f-1;
+
+				span {
+					font-size: 12px;
+					margin-right: $g-2;
+				}
+
+				input[type="checkbox"] {
+					font-size: 30px;
+				}
+			}
+
+			input[type="submit"] {
+				flex: 1 1 auto;
+				border-radius: 0 0 $g-1 0;
+			}
+		}
+	}
+
 	p {
 		a {
 			color: $c-1;

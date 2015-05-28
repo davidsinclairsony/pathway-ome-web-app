@@ -6,6 +6,6 @@ export default React.createClass({
 	render: function() {
 		let year = new Date().getFullYear();
 
-		return React.DOM.footer(null, React.DOM.p(null, 'Pathway Genomics ' + year));
+		return React.DOM.footer({className: 'global'}, React.DOM.p(null, 'Pathway Genomics ' + year));
 	}
 });

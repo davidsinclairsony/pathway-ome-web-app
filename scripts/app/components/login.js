@@ -1,7 +1,7 @@
 import {React} from '../../libs';
 import Actions from '../actions';
 import Authenticator from '../utilities/authenticator';
-import Validator from '../utilities/validator';
+import Tips from '../data/tips';
 
 export default React.createClass({
 	displayName: 'Login',
@@ -30,7 +30,7 @@ export default React.createClass({
 			this.setState({showExpanded: !this.state.showExpanded});
 		}
 	},
-	submitAction: function(event) {
+	loginAction: function(event) {
 		event.preventDefault();
 
 		// Authenticate a user
@@ -40,17 +40,8 @@ export default React.createClass({
 			}
 		);
 	},
-	resetAction: function() {
+	passwordResetAction: function() {
 		Actions.Login.showPasswordReset();
-	},
-	validate: function(type, value) {
-		// If fails validation, set state to trigger render
-		if(!validator(type, value)) {
-			let validationErrors = this.state.validationErrors;
-			validationErrors[type] = true;
-			this.setState({validationErrors: validationErrors});
-
-		}
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset
@@ -91,75 +82,83 @@ export default React.createClass({
 			onClick: this.toggleAction
 		}, 'Log In to an Account'));
 
-		// Add form
-		inner.push(React.DOM.form({key: 1,}, [
-			React.DOM.div(
-				{
+		// Create form inner
+		let formInner = [];
+
+		// Add email
+		formInner.push(React.DOM.div(
+			{
+				key: 0,
+				className: this.state.isEmailValid ? '' : 'invalid'
+			},
+			[
+				React.DOM.input({
 					key: 0,
-					className: this.state.isEmailValid ? '' : 'invalid'
-				},
-				[
-					React.DOM.input({
-						key: 0,
-						type: 'email',
-						placeholder: 'Email',
-						valueLink: this.linkState('email'),
-						onBlur: function() {
-							// Set state of email validation after switching fields
-							self.setState({isEmailValid:
-								Validator.isEmailValid(self.state.email)
-							});
-						}
-					}),
-					React.DOM.div({
-						key: 1,
-						className: this.state.isEmailValid ? '' : 'icon-x'
-					})
-				]
-			),
-			React.DOM.div(
-				{
+					type: 'email',
+					placeholder: 'Email',
+					valueLink: this.linkState('email')
+				}),
+				React.DOM.div({
 					key: 1,
-					className: this.state.isPasswordValid ? '' : 'invalid'
-				},
-				[
-					React.DOM.input({
-						key: 0,
-						type: 'password',
-						placeholder: 'Password',
-						valueLink: this.linkState('password'),
-						onBlur: function() {
-							// Set state of email validation after switching fields
-							self.setState({isPasswordValid:
-								Validator.isPasswordValid(self.state.password)
-							});
-						}
-					}),
-					React.DOM.div({
-						key: 1,
-						className: this.state.isPasswordValid ? '' : 'icon-x'
-					})
-				]
-			),
+					className: this.state.isEmailValid ? '' : 'icon-x'
+				})
+			]
+		));
+
+		// Add password
+		formInner.push(React.DOM.div(
+			{
+				key: 1,
+				className: this.state.isPasswordValid ? '' : 'invalid'
+			},
+			[
+				React.DOM.input({
+					key: 0,
+					type: 'password',
+					placeholder: 'Password',
+					valueLink: this.linkState('password')
+				}),
+				React.DOM.div({
+					key: 1,
+					className: this.state.isPasswordValid ? '' : 'icon-x'
+				}),
+				React.DOM.div({
+					key: 2,
+					className: 'tip',
+				}, Tips.invalidPassword)
+			]
+		));
+
+		// Login area
+		formInner.push(React.DOM.footer({key: 2}, [
+			React.DOM.div({key: 0}, [
+				React.DOM.span({key: 0}, 'Save?'),
+				React.DOM.input({
+					key: 1,
+					type: 'checkbox',
+					valueLink: this.linkState('shouldSavePassword')
+				})
+			]),
 			React.DOM.input({
-				key: 2,
+				key: 1,
+				className: 'button neutral medium',
 				type: 'submit',
 				value: 'Login',
-				className: 'button neutral medium',
-				onClick: this.submitAction
-			}),
-			React.DOM.p({key: 3}, [
-				'Need your password reset? ',
-				React.DOM.a({
-					key: 4,
-					onClick: this.resetAction
-				}, 'Click here'),
-				'.'
-			])
+				onClick: this.loginAction
+			})
 		]));
 
-		// Add link to /email-verification
-		inner.push();
+		// Add password reset link
+		formInner.push(React.DOM.p({key: 3}, [
+			'Need your password reset? ',
+			React.DOM.a({
+				key: 1,
+				onClick: this.passwordResetAction
+			}, 'Click here'),
+			'.'
+		]));
+
+		inner.push(React.DOM.form({key: 1,}, formInner));
 
 		return React.DOM.div(props, inner);
 	}

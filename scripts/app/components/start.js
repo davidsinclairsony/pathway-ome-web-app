@@ -1,6 +1,6 @@
 import {React, TweenMax} from '../../libs';
 import logo from './logo';
-import register from './register';
+import create from './create';
 import login from './login';
 import footer from './footer';
 
@@ -16,11 +16,13 @@ export default React.createClass({
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
 
-		// Add register component
-		inner.push(React.createElement(register, {
+		// Add create component
+		inner.push(React.createElement(create, {
 			key: 1,
 			showExpanded: !this.props.isPreviousUser,
-			collapsible: true
+			collapsible: true,
+			isEmailValid: true,
+			isPasswordValid: true
 		}));
 
 		// Add login component
@@ -28,8 +30,8 @@ export default React.createClass({
 			key: 2,
 			showExpanded: this.props.isPreviousUser,
 			collapsible: true,
-			isEmailValid: true,
-			isPasswordValid: true
+			isEmailValid: false,
+			isPasswordValid: false
 		}));
 
 		// Add footer
