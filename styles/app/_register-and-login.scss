@@ -26,16 +26,18 @@
 	form {
 		overflow: hidden;
 
-		input {
-			display: block;
+		> div {
 			width: 90%;
 			margin: 0 auto;
+			position: relative;
 
-			&:nth-last-child(n + 3) {
-				border-bottom: 1px solid transparentize(white, .9);
+			&:nth-last-of-type(n + 2) {
+				border-bottom: 1px solid transparentize(white, .8);
 			}
 
-			&:not([type="submit"]) {
+			input {
+				display: block;
+				width: 100%;
 				padding: $g-2;
 				color: white;
 				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
@@ -43,9 +45,26 @@
 				cursor: auto;
 			}
 
-			&[type="submit"] {
-				border-radius: 0 0 $g-1 $g-1;
+			&.invalid {
+				input {
+					padding-right: $g-4;
+				}
+
+				div[class^="icon-"] {
+					position: absolute;
+					top: 11px;
+					right: $g-1;
+					font-size: 20px;
+					color: $c-3;
+				}
 			}
+		}
+
+		input[type="submit"] {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+			border-radius: 0 0 $g-1 $g-1;
 		}
 	}
 

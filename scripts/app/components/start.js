@@ -27,7 +27,9 @@ export default React.createClass({
 		inner.push(React.createElement(login, {
 			key: 2,
 			showExpanded: this.props.isPreviousUser,
-			collapsible: true
+			collapsible: true,
+			isEmailValid: true,
+			isPasswordValid: true
 		}));
 
 		// Add footer

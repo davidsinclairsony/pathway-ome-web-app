@@ -11,9 +11,6 @@ let submitLogin = function() {
 
 // Create store
 let Store = assign({}, events.EventEmitter.prototype, {
-	checkIfInStart: function() {
-		return true;
-	},
 	isPreviousUser: function() {
 		return true;
 	},

@@ -8,6 +8,7 @@
 		"fastclick": "latest",
 		"flux": "latest",
 		"gsap": "latest",
+		"joi": "latest",
 		"jshint": "latest",
 		"jwt-decode": "latest",
 		"keymirror": "latest",

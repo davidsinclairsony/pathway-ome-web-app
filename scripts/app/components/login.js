@@ -1,6 +1,7 @@
 import {React} from '../../libs';
 import Actions from '../actions';
-import Authenticator from '../authenticator';
+import Authenticator from '../utilities/authenticator';
+import Validator from '../utilities/validator';
 
 export default React.createClass({
 	displayName: 'Login',
@@ -19,7 +20,9 @@ export default React.createClass({
 			formHeight: height,
 			showExpanded: this.props.showExpanded,
 			email: this.props.email,
-			password: ''
+			password: '',
+			isEmailValid: this.props.isEmailValid,
+			isPasswordValid: this.props.isPasswordValid
 		};
 	},
 	toggleAction: function() {
@@ -31,14 +34,23 @@ export default React.createClass({
 		event.preventDefault();
 
 		// Authenticate a user
-		/*Authenticator.login(this.state.user, this.state.password)
+		Authenticator.login(this.state.email, this.state.password)
 			.catch(function(error) {
 				console.log('Error logging in', error);
 			}
-		);*/
+		);
 	},
 	resetAction: function() {
 		Actions.Login.showPasswordReset();
+	},
+	validate: function(type, value) {
+		// If fails validation, set state to trigger render
+		if(!validator(type, value)) {
+			let validationErrors = this.state.validationErrors;
+			validationErrors[type] = true;
+			this.setState({validationErrors: validationErrors});
+
+		}
 	},
 	componentDidMount: function() {
 		// Get form's expanded height, reset
@@ -62,6 +74,7 @@ export default React.createClass({
 		}
 	},
 	render: function() {
+		let self = this;
 		let inner = [];
 		let props = {
 			className: 'login'
@@ -80,18 +93,54 @@ export default React.createClass({
 
 		// Add form
 		inner.push(React.DOM.form({key: 1,}, [
-			React.DOM.input({
-				key: 0,
-				type: 'email',
-				placeholder: 'Email',
-				valueLink: this.linkState('email')
-			}),
-			React.DOM.input({
-				key: 1,
-				type: 'password',
-				placeholder: 'Password',
-				valueLink: this.linkState('password')
-			}),
+			React.DOM.div(
+				{
+					key: 0,
+					className: this.state.isEmailValid ? '' : 'invalid'
+				},
+				[
+					React.DOM.input({
+						key: 0,
+						type: 'email',
+						placeholder: 'Email',
+						valueLink: this.linkState('email'),
+						onBlur: function() {
+							// Set state of email validation after switching fields
+							self.setState({isEmailValid:
+								Validator.isEmailValid(self.state.email)
+							});
+						}
+					}),
+					React.DOM.div({
+						key: 1,
+						className: this.state.isEmailValid ? '' : 'icon-x'
+					})
+				]
+			),
+			React.DOM.div(
+				{
+					key: 1,
+					className: this.state.isPasswordValid ? '' : 'invalid'
+				},
+				[
+					React.DOM.input({
+						key: 0,
+						type: 'password',
+						placeholder: 'Password',
+						valueLink: this.linkState('password'),
+						onBlur: function() {
+							// Set state of email validation after switching fields
+							self.setState({isPasswordValid:
+								Validator.isPasswordValid(self.state.password)
+							});
+						}
+					}),
+					React.DOM.div({
+						key: 1,
+						className: this.state.isPasswordValid ? '' : 'icon-x'
+					})
+				]
+			),
 			React.DOM.input({
 				key: 2,
 				type: 'submit',
