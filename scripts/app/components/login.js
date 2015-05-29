@@ -100,7 +100,7 @@ export default React.createClass({
 				}),
 				React.DOM.div({
 					key: 1,
-					className: this.state.isEmailValid ? '' : 'icon-x'
+					className: this.state.isEmailValid ? '' : 'icon-help'
 				})
 			]
 		));
@@ -120,7 +120,7 @@ export default React.createClass({
 				}),
 				React.DOM.div({
 					key: 1,
-					className: this.state.isPasswordValid ? '' : 'icon-x'
+					className: this.state.isPasswordValid ? '' : 'icon-help'
 				}),
 				React.DOM.div({
 					key: 2,

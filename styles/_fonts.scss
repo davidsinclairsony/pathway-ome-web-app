@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icons';
-  src: url('../fonts/icons.eot?27259501');
-  src: url('../fonts/icons.eot?27259501#iefix') format('embedded-opentype'),
-       url('../fonts/icons.woff?27259501') format('woff'),
-       url('../fonts/icons.ttf?27259501') format('truetype'),
-       url('../fonts/icons.svg?27259501#icons') format('svg');
+  src: url('../fonts/icons.eot?52654424');
+  src: url('../fonts/icons.eot?52654424#iefix') format('embedded-opentype'),
+       url('../fonts/icons.woff?52654424') format('woff'),
+       url('../fonts/icons.ttf?52654424') format('truetype'),
+       url('../fonts/icons.svg?52654424#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'icons';
-    src: url('../font/icons.svg?27259501#icons') format('svg');
+    src: url('../font/icons.svg?52654424#icons') format('svg');
   }
 }
 */
@@ -62,3 +62,4 @@
 .icon-email:before { content: '\e805'; } /* '' */
 .icon-password:before { content: '\e806'; } /* '' */
 .icon-help:before { content: '\e807'; } /* '' */
+.icon-check:before { content: '\e808'; } /* '' */
