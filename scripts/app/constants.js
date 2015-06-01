@@ -2,7 +2,13 @@ import {keyMirror} from '../libs';
 
 let Actions = keyMirror({
 	CREATE_VALIDATE_FIELD: null,
-	CREATE_SHOW_HELP: null
+	CREATE_SHOW_HELP: null,
+	CREATE_SET_HELP: null,
+	CREATE_RESET: null,
+	LOGIN_VALIDATE_FIELD: null,
+	LOGIN_SHOW_HELP: null,
+	LOGIN_SET_HELP: null,
+	LOGIN_RESET: null
 });
 
 let BASE_URL = 'http://localhost:3001/';

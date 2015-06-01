@@ -2,7 +2,7 @@ import {React} from '../../libs';
 
 export default React.createClass({
 	displayName: 'Input',
-	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
+	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
 		return { input: this.props.input || ''};
 	},
@@ -27,7 +27,6 @@ export default React.createClass({
 		}
 	},
 	render: function() {
-		var self = this;
 		let inner = [];
 
 		inner.push(React.DOM.div({
@@ -37,11 +36,9 @@ export default React.createClass({
 		inner.push(React.DOM.input({
 			key: 1,
 			type: this.props.type,
+			value: this.props.value,
 			placeholder: this.props.placeholder,
-			valueLink: this.linkState('input'),
-			onKeyUp: function() {
-				self.props.onKeyUpCallback(self.state.input)
-			}
+			onChange: this.props.onChangeCallback
 		}));
 
 		// Prepare aside if verification is desired
@@ -60,9 +57,7 @@ export default React.createClass({
 					asideInner.push(React.DOM.div({
 						key: 0,
 						className: 'icon-help circle negative small clickable',
-						onClick: function() {
-							self.props.toggleShowHelpCallback();
-						}
+						onClick: this.props.toggleShowHelpCallback
 					}));
 
 					// Show help content if clicked

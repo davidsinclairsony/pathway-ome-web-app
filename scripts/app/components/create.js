@@ -10,12 +10,15 @@ function getState() {
 		isEmailValid: CreateStore.isValid('email'),
 		emailHelp: CreateStore.getHelp('email'),
 		shouldShowEmailHelp: CreateStore.shouldShowHelp('email'),
+		emailValue: CreateStore.getValue('email'),
 		isPasswordValid: CreateStore.isValid('password'),
 		passwordHelp: CreateStore.getHelp('password'),
 		shouldShowPaswordHelp: CreateStore.shouldShowHelp('password'),
+		passwordValue: CreateStore.getValue('password'),
 		isRepeatPasswordValid: CreateStore.isValid('repeatPassword'),
 		repeatPasswordHelp: CreateStore.getHelp('repeatPassword'),
-		shouldShowRepeatPaswordHelp: CreateStore.shouldShowHelp('repeatPassword')
+		shouldShowRepeatPaswordHelp: CreateStore.shouldShowHelp('repeatPassword'),
+		repeatPasswordValue: CreateStore.getValue('repeatPassword'),
 	};
 }
 
@@ -88,9 +91,10 @@ export default React.createClass({
 			shouldValidate: true,
 			isValid: this.state.isEmailValid,
 			help: this.state.emailHelp,
+			value: this.state.emailValue,
 			shouldShowHelp: this.state.shouldShowEmailHelp,
-			onKeyUpCallback: function(value) {
-				Actions.Create.validateField('email', value);
+			onChangeCallback: function(event) {
+				Actions.Create.validateField('email', event.target.value);
 			},
 			toggleShowHelpCallback: function() {
 				Actions.Create.toggleShowHelp('email');
@@ -108,8 +112,8 @@ export default React.createClass({
 			isValid: this.state.isPasswordValid,
 			help: this.state.passwordHelp,
 			shouldShowHelp: this.state.shouldShowPaswordHelp,
-			onKeyUpCallback: function(value) {
-				Actions.Create.validateField('password', value);
+			onChangeCallback: function(event) {
+				Actions.Create.validateField('password', event.target.value);
 			},
 			toggleShowHelpCallback: function() {
 				Actions.Create.toggleShowHelp('password');
@@ -125,8 +129,8 @@ export default React.createClass({
 			isValid: this.state.isRepeatPasswordValid,
 			help: this.state.repeatPasswordHelp,
 			shouldShowHelp: this.state.shouldShowRepeatPaswordHelp,
-			onKeyUpCallback: function(value) {
-				Actions.Create.validateField('repeatPassword', value);
+			onChangeCallback: function(event) {
+				Actions.Create.validateField('repeatPassword', event.target.value);
 			},
 			toggleShowHelpCallback: function() {
 				Actions.Create.toggleShowHelp('repeatPassword');
