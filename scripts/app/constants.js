@@ -1,12 +1,13 @@
 import {keyMirror} from '../libs';
 
-let actions = keyMirror({
-	SUBMIT_LOGIN: null
+let Actions = keyMirror({
+	CREATE_VALIDATE_FIELD: null,
+	CREATE_SHOW_HELP: null
 });
 
 let BASE_URL = 'http://localhost:3001/';
 
-let api = {
+let Api = {
 	BASE_URL: BASE_URL,
 	LOGIN_URL: BASE_URL + 'sessions/create',
 	SIGNUP_URL: BASE_URL + 'users',
@@ -14,4 +15,7 @@ let api = {
 	LOGOUT_USER: 'LOGOUT_USER'
 };
 
-export {actions, api};
+export default {
+	Actions: Actions,
+	Api: Api
+};

@@ -1,9 +1,10 @@
 .create,
 .login {
 	margin: 0 auto;
-	max-width: 320px;
+	max-width: 340px;
 	width: 100%;
 	padding: 0 $g-3;
+	position: relative;
 
 	&.collapsible {
 		h2 {
@@ -24,62 +25,75 @@
 	}
 
 	form {
-		overflow: hidden;
-
 		> div {
 			width: 90%;
 			margin: 0 auto;
 			position: relative;
 
-			&:nth-last-of-type(n + 2) {
-				border-bottom: 1px solid transparentize(white, .8);
+			> [class^="icon-"] {
+				position: absolute;
+				top: 13px;
+				left: 10px;
+				font-size: 14px;
 			}
 
-
-
-			input {
+			input:not([type="submit"]) {
 				display: block;
 				width: 100%;
-				padding: $g-2;
+				padding: $g-2 $g-4;
 				color: white;
 				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
 				background: transparentize(white, .9);
 				cursor: auto;
 			}
 
-			&.invalid {
-				input {
-					padding-right: $g-4;
-				}
-
+			aside {
 				[class^="icon-"] {
 					position: absolute;
-					top: 8px;
-					right: 8px;
-					font-size: 19px;
-					line-height: 26px;
-					color: #1e3d4d;
-					height: 26px;
-					width: 26px;
-					border-radius: 1em;
-					background: $c-3;
-					cursor: pointer;
+					top: 10px;
+					right: 10px;
+				}
 
-					&:hover {
-						background: lighten($c-3, 5%);
+				[class^="icon-help"] {
+					cursor: pointer;
+				}
+
+				.help {
+					position: absolute;
+					left: 104%;
+					background: #e9e9e9;
+					font: normal normal 300 14px/#{$f-1-l-h} $f-1;
+					color: black;
+					width: 200px;
+					border-radius: 5px;
+					padding: 15px 20px;
+					z-index: 100;
+					text-align: left;
+
+					&:after {
+						top: 50%;
+						right: 100%;
+						border: solid transparent;
+						content: "";
+						height: 0;
+						width: 0;
+						position: absolute;
+						pointer-events: none;
+						border-style: solid;
+						border-color: rgba(0, 0, 0, 0);
+						border-right-color: #e9e9e9;
+						border-width: 10px 18px;
+						margin-top: -10px;
 					}
 				}
-
-				.tip {
-					display: block;
-					width: 100%;
-					padding: $g-2;
-					color: white;
-					font: normal normal 100 14px/#{$f-1-l-h} $f-1;
-					background: transparentize(white, .9);
-					border-top: 1px solid transparentize(white, .8);
-				}
 			}
+		}
+
+		input[type="submit"] {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+			border-radius: 0 0 $g-1 $g-1;
 		}
 	}
 
@@ -98,6 +112,12 @@
 }
 
 .create {
+	form {
+		> *:nth-last-of-type(n + 2) {
+			border-bottom: 1px solid transparentize(white, .8);
+		}
+	}
+
 	p {
 		a {
 			color: $c-2;
@@ -109,46 +129,10 @@
 	}
 }
 
-.create {
-	form {
-		input[type="submit"] {
-			width: 90%;
-			display: block;
-			margin: 0 auto;
-			border-radius: 0 0 $g-1 $g-1;
-		}
-	}
-}
-
 .login {
 	form {
-		footer {
-			width: 90%;
-			margin: 0 auto;
-			display: flex;
-
-			div {
-				flex: 0 0 auto;
-				padding: $g-2 $g-3;
-				background: $c-1;
-				border-radius: 0 0 0 $g-1;
-				border-right: 1px solid transparentize(white, .7);
-				font: normal normal normal 16px/#{$f-1-l-h} $f-1;
-
-				span {
-					font-size: 12px;
-					margin-right: $g-2;
-				}
-
-				input[type="checkbox"] {
-					font-size: 30px;
-				}
-			}
-
-			input[type="submit"] {
-				flex: 1 1 auto;
-				border-radius: 0 0 $g-1 0;
-			}
+		> *:nth-last-of-type(n + 3) {
+			border-bottom: 1px solid transparentize(white, .8);
 		}
 	}
 

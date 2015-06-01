@@ -1,0 +1,52 @@
+.circle {
+	color: white;
+	border-radius: 1em;
+	text-align: center;
+
+	&.small {
+		height: 20px;
+		width: 20px;
+		line-height: 20px;
+		font-size: 14px;
+	}
+
+	&.medium {
+		height: 26px;
+		width: 26px;
+		line-height: 26px;
+		font-size: 19px;
+	}
+
+	&.positive {
+		background: $c-2;
+		color: white;
+
+		&.clickable {
+			&:hover {
+				background: lighten($c-2, 5%);
+			}
+		}
+	}
+
+	&.neutral {
+		background: $c-1;
+		color: white;
+
+		&.clickable {
+			&:hover {
+				background: lighten($c-1, 5%);
+			}
+		}
+	}
+
+	&.negative {
+		background: $c-3;
+		color: white;
+
+		&.clickable {
+			&:hover {
+				background: lighten($c-3, 5%);
+			}
+		}
+	}
+}

@@ -2,21 +2,26 @@ import Dispatcher from './dispatcher';
 import Constants from './constants';
 
 let Login = {
-	submit: function() {Dispatcher.dispatch({
-		actionType: Constants.SUBMIT_LOGIN
-	});},
-	showPasswordReset: function() {
 
-	}
 };
 
-let Register = {
-	submit: function() {
-
+let Create = {
+	validateField: function(field, value) {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_VALIDATE_FIELD,
+			field: field,
+			value: value
+		});
 	},
-	verification: function() {
-
+	toggleShowHelp: function(field) {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_HELP,
+			field: field
+		});
 	}
 };
 
-export {Login, Register}
+export default {
+	Login: Login,
+	Create: Create
+}

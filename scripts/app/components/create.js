@@ -1,31 +1,41 @@
 import {React, TweenMax} from '../../libs';
 import Actions from '../actions';
 import Validator from '../utilities/validator';
+import Help from '../data/help';
+import input from './input';
+import CreateStore from '../stores/create';
+
+function getState() {
+	return {
+		isEmailValid: CreateStore.isValid('email'),
+		emailHelp: CreateStore.getHelp('email'),
+		shouldShowEmailHelp: CreateStore.shouldShowHelp('email'),
+		isPasswordValid: CreateStore.isValid('password'),
+		passwordHelp: CreateStore.getHelp('password'),
+		shouldShowPaswordHelp: CreateStore.shouldShowHelp('password'),
+		isRepeatPasswordValid: CreateStore.isValid('repeatPassword'),
+		repeatPasswordHelp: CreateStore.getHelp('repeatPassword'),
+		shouldShowRepeatPaswordHelp: CreateStore.shouldShowHelp('repeatPassword')
+	};
+}
 
 export default React.createClass({
 	displayName: 'Create',
 	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
-		// Set initial form height
-		let height;
+		// Get states from store
+		let state = getState();
 
-		if(this.props.showExpanded) {
-			height = 'auto';
-		} else {
-			height = 0;
-		}
+		// Add in states from props
+		state.showExpanded = this.props.showExpanded;
 
-		// Save all initial states
-		return {
-			formHeight: height,
-			showExpanded: this.props.showExpanded,
-			email: '',
-			password: '',
-			repeatPassword: '',
-			isEmailValid: this.props.isEmailValid,
-			isPasswordValid: this.props.isPasswordValid,
-			isRepeatPasswordValid: true
-		};
+		return state;
+	},
+	componentDidMount: function() {
+		CreateStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount: function() {
+		CreateStore.removeChangeListener(this._onChange);
 	},
 	toggleAction: function() {
 		if(this.props.collapsible) {
@@ -35,47 +45,17 @@ export default React.createClass({
 	createAction: function(event) {
 		event.preventDefault();
 
-		// Save verification states and create if fields are valid
-		this.setState({
-			isEmailValid: Validator.isEmailValid(this.state.email),
-			isPasswordValid: Validator.isPasswordValid(this.state.password),
-			isRepeatPasswordValid:
-				this.state.repeatPassword !== '' &&
-				this.state.isPasswordValid &&
-				this.state.repeatPassword === this.state.password
-		}, function() {
-			if(
-				this.state.isEmailValid &&
-				this.state.isPasswordValid &&
-				this.state.isRepeatPasswordValid
-			) {
-				console.log('subbmited');
-			}
-		});
+		// Create if all valid
+		if(
+			this.state.isEmailValid &&
+			this.state.isPasswordValid &&
+			this.state.isRepeatPasswordValid
+		) {
+			console.log('subbmited');
+		}
 	},
 	verifyAction: function() {
 		console.log('go to verify');
-	},
-	componentDidMount: function() {
-		// Get form's expanded height, reset
-		let form = this.getDOMNode().getElementsByTagName('form')[0];
-		form.style.height = 'auto';
-		let formHeight = form.offsetHeight;
-		form.style.height = this.state.formHeight;
-
-		// Save, causing a needless re-render
-		this.setState({formHeight: formHeight});
-	},
-	componentDidUpdate: function() {
-		// Get form node
-		let form = this.getDOMNode().getElementsByTagName('form')[0];
-
-		// Animate height after update
-		if(this.state.showExpanded) {
-			TweenMax.to(form, 0.1, {height: this.state.formHeight});
-		} else {
-			TweenMax.to(form, 0.1, {height: 0});
-		}
 	},
 	render: function() {
 		let self = this;
@@ -95,89 +75,73 @@ export default React.createClass({
 			onClick: this.toggleAction
 		}, 'Create an Account'));
 
-		// Add form
-		inner.push(React.DOM.form({key: 1}, [
-			React.DOM.div(
-				{
-					key: 0,
-					className: this.state.isEmailValid ? '' : 'invalid'
-				},
-				[
-					React.DOM.input({
-						key: 0,
-						type: 'email',
-						placeholder: 'Email',
-						valueLink: this.linkState('email'),
-						onBlur: function() {
-							// Set state of email validation after switching fields
-							self.setState({isEmailValid:
-								Validator.isEmailValid(self.state.email)
-							});
-						}
-					}),
-					React.DOM.div({
-						key: 1,
-						className: this.state.isEmailValid ? '' : 'icon-x'
-					})
-				]
-			),
-			React.DOM.div(
-				{
-					key: 1,
-					className: this.state.isPasswordValid ? '' : 'invalid'
-				},
-				[
-					React.DOM.input({
-						key: 0,
-						type: 'password',
-						placeholder: 'Password',
-						valueLink: this.linkState('password'),
-						onBlur: function() {
-							// Set state of password validation after switching fields
-							self.setState({isPasswordValid:
-								Validator.isPasswordValid(self.state.password)
-							});
-						}
-					}),
-					React.DOM.div({
-						key: 1,
-						className: this.state.isPasswordValid ? '' : 'icon-x'
-					})
-				]
-			),
-			React.DOM.div(
-				{
-					key: 2,
-					className: this.state.isRepeatPasswordValid ? '' : 'invalid'
-				},
-				[
-					React.DOM.input({
-						key: 0,
-						type: 'password',
-						placeholder: 'Repeat Password',
-						valueLink: this.linkState('repeatPassword'),
-						onBlur: function() {
-							// Set state of password validation after switching fields
-							self.setState({isRepeatPasswordValid:
-								self.state.isPasswordValid &&
-								self.state.repeatPassword === self.state.password
-							});
-						}
-					}),
-					React.DOM.div({
-						key: 1,
-						className: this.state.isRepeatPasswordValid ? '' : 'icon-x'
-					})
-				]
-			),
-			React.DOM.input({
-				key: 3,
-				type: 'submit',
-				value: 'Create',
-				className: 'button positive medium',
-				onClick: this.createAction
-			})
-		]));
+		// Create form inner
+		let formInner = [];
+
+		// Add email input
+		let emailInput;
+
+		emailInput = React.createElement(input, {
+			key: 0,
+			type: 'email',
+			placeholder: 'Email',
+			shouldValidate: true,
+			isValid: this.state.isEmailValid,
+			help: this.state.emailHelp,
+			shouldShowHelp: this.state.shouldShowEmailHelp,
+			onKeyUpCallback: function(value) {
+				Actions.Create.validateField('email', value);
+			},
+			toggleShowHelpCallback: function() {
+				Actions.Create.toggleShowHelp('email');
+			}
+		});
+
+		formInner.push(emailInput);
+
+		// Add password input
+		formInner.push(React.createElement(input, {
+			key: 1,
+			type: 'password',
+			placeholder: 'Password',
+			shouldValidate: true,
+			isValid: this.state.isPasswordValid,
+			help: this.state.passwordHelp,
+			shouldShowHelp: this.state.shouldShowPaswordHelp,
+			onKeyUpCallback: function(value) {
+				Actions.Create.validateField('password', value);
+			},
+			toggleShowHelpCallback: function() {
+				Actions.Create.toggleShowHelp('password');
+			}
+		}));
+
+		// Add repeat password input
+		formInner.push(React.createElement(input, {
+			key: 2,
+			type: 'password',
+			placeholder: 'Repeat Password',
+			shouldValidate: true,
+			isValid: this.state.isRepeatPasswordValid,
+			help: this.state.repeatPasswordHelp,
+			shouldShowHelp: this.state.shouldShowRepeatPaswordHelp,
+			onKeyUpCallback: function(value) {
+				Actions.Create.validateField('repeatPassword', value);
+			},
+			toggleShowHelpCallback: function() {
+				Actions.Create.toggleShowHelp('repeatPassword');
+			}
+		}));
+
+		formInner.push(React.DOM.input({
+			key: 3,
+			type: 'submit',
+			value: 'Create',
+			className: 'button positive medium',
+			onClick: this.createAction
+		}));
+
+		inner.push(React.DOM.form({key: 1}, formInner));
 
 		inner.push(React.DOM.p({key: 2}, [
 			'Need to verify your email address? ',
@@ -189,5 +153,14 @@ export default React.createClass({
 		]));
 
 		return React.DOM.div(props, inner);
+	},
+	_onChange: function() {
+		// Get new states from store
+		let state = getState();
+
+		// Add in states not controlled by store
+		state.showExpanded = this.state.showExpanded;
+
+		this.setState(state);
 	}
 });

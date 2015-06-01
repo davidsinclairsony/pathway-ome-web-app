@@ -4,11 +4,6 @@ import Constants from '../constants';
 
 let CHANGE_EVENT = 'change';
 
-// Private
-let submitLogin = function() {
-	console.log("submitted");
-};
-
 // Create store
 let Store = assign({}, events.EventEmitter.prototype, {
 	isPreviousUser: function() {
@@ -27,10 +22,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.SUBMIT_LOGIN:
-			submitLogin();
-			Store.emitChange();
-			break;
+
 	}
 });
 

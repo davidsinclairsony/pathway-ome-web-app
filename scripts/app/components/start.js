@@ -3,10 +3,27 @@ import logo from './logo';
 import create from './create';
 import login from './login';
 import footer from './footer';
+import AuthenticationStore from '../stores/authentication';
+
+// Get state from store
+function getState() {
+	return {
+		isPreviousUser: AuthenticationStore.isPreviousUser()
+	};
+}
 
 export default React.createClass({
 	displayName: 'Start',
 	mixins: [React.addons.PureRenderMixin],
+	getInitialState: function() {
+		return getState();
+	},
+	componentDidMount: function() {
+		AuthenticationStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount: function() {
+		AuthenticationStore.removeChangeListener(this._onChange);
+	},
 	render: function() {
 		let inner = [];
 		let props = {
@@ -19,24 +36,22 @@ export default React.createClass({
 		// Add create component
 		inner.push(React.createElement(create, {
 			key: 1,
-			showExpanded: !this.props.isPreviousUser,
-			collapsible: true,
-			isEmailValid: true,
-			isPasswordValid: true
+			showExpanded: this.state.isPreviousUser,
+			collapsible: true
 		}));
 
 		// Add login component
 		inner.push(React.createElement(login, {
 			key: 2,
-			showExpanded: this.props.isPreviousUser,
-			collapsible: true,
-			isEmailValid: false,
-			isPasswordValid: false
+
 		}));
 
 		// Add footer
 		inner.push(React.createElement(footer, {key: 3}));
 
 		return React.DOM.div(props, inner);
+	},
+	_onChange: function() {
+		this.setState(getState());
 	}
 });

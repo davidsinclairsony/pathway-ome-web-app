@@ -1,7 +1,7 @@
 import {React} from '../../libs';
 import Actions from '../actions';
 import Authenticator from '../utilities/authenticator';
-import Tips from '../data/tips';
+import Help from '../data/help';
 
 export default React.createClass({
 	displayName: 'Login',
@@ -125,7 +125,7 @@ export default React.createClass({
 				React.DOM.div({
 					key: 2,
 					className: 'tip',
-				}, Tips.invalidPassword)
+				}, Help.invalidPassword)
 			]
 		));
 
@@ -158,7 +158,7 @@ export default React.createClass({
 			'.'
 		]));
 
-		inner.push(React.DOM.form({key: 1,}, formInner));
+		inner.push(React.DOM.form({key: 1}, formInner));
 
 		return React.DOM.div(props, inner);
 	}
