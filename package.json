@@ -1,5 +1,9 @@
 {
 	"private": true,
+	"name": "alpha",
+	"description": "Front end demo of OME",
+	"author": "David Sinclair",
+	"email": "david.sinclair@pathway.com",
 	"devDependencies": {
 		"autoprefixer": "latest",
 		"babelify": "latest",

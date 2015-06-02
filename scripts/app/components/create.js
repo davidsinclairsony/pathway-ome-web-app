@@ -7,6 +7,7 @@ import CreateStore from '../stores/create';
 
 function getState() {
 	return {
+		isWaiting: CreateStore.isWaiting(),
 		isEmailValid: CreateStore.isValid('email'),
 		emailHelp: CreateStore.getHelp('email'),
 		shouldShowEmailHelp: CreateStore.shouldShowHelp('email'),
@@ -45,20 +46,19 @@ export default React.createClass({
 			this.setState({showExpanded: !this.state.showExpanded});
 		}
 	},
-	createAction: function(event) {
+	submitAction: function(event) {
 		event.preventDefault();
 
-		// Create if all valid
+		// Submit if all valid
 		if(
 			this.state.isEmailValid &&
 			this.state.isPasswordValid &&
 			this.state.isRepeatPasswordValid
 		) {
-			console.log('subbmited');
+			Actions.Create.submit();
+		} else {
+			Actions.Create.validateAll();
 		}
-	},
-	verifyAction: function() {
-		console.log('go to verify');
 	},
 	render: function() {
 		let self = this;
@@ -142,8 +142,16 @@ export default React.createClass({
 			type: 'submit',
 			value: 'Create',
 			className: 'button positive medium',
-			onClick: this.createAction
+			onClick: this.submitAction
 		}));
+
+
+		if(this.state.isWaiting) {
+			formInner.push(React.DOM.div({
+				key: 4,
+				className: 'waiting'
+			}));
+		}
 
 		inner.push(React.DOM.form({key: 1}, formInner));
 
@@ -151,7 +159,7 @@ export default React.createClass({
 			'Need to verify your email address? ',
 			React.DOM.a({
 				key: 4,
-				onClick: this.verifyAction
+				onClick: Actions.Create.goToVerify
 			}, 'Click here'),
 			'.'
 		]));

@@ -3,11 +3,13 @@ import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
+import Authenticator from '../utilities/authenticator';
 
 let CHANGE_EVENT = 'change';
 
 let Store = assign({}, events.EventEmitter.prototype, {
 	defaults: {
+		isWaiting: false,
 		fields: {
 			email: {
 				isValid: undefined,
@@ -44,6 +46,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			this.save();
 		}
 	},
+	isWaiting: function() {
+		return this.storage.isWaiting;
+	},
 	save: function(object, key, value) {
 		// Save within storage
 		if(object) {
@@ -52,6 +57,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		// Persist to local storage
 		localStorage.create = JSON.stringify(this.storage);
+	},
+	validateAll: function() {
+		for(let field in this.storage.fields) {
+			if(this.storage.fields.hasOwnProperty(field)) {
+				this.validateField(field, this.storage.fields[field].value);
+			}
+		}
 	},
 	validateField: function(field, value) {
 		let fieldObject = this.storage.fields[field];
@@ -132,6 +144,22 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	setHelp: function(field, help) {
 		this.save(this.storage.fields[field].help, help);
 	},
+	submit: function() {
+		// Show waiting
+		this.save(this.storage, 'isWaiting', true);
+
+		// Gather data
+		let data = {
+			email: this.storage.fields.email.value,
+			password: this.storage.fields.password.value,
+			passwordConfirmation: this.storage.fields.repeatPassword.value
+		};
+
+		// Pew pew pew
+		Authenticator.create(data).catch(function(error) {
+			console.log("Error logging in", err);
+		});
+	},
 	reset: function() {
 		this.save(this.storage, 'fields', this.defaults.fields);
 	},
@@ -148,6 +176,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
+		case Constants.Actions.CREATE_VALIDATE_ALL:
+			Store.validateAll();
+			Store.emitChange();
+			break;
 		case Constants.Actions.CREATE_VALIDATE_FIELD:
 			Store.validateField(action.field, action.value);
 			Store.emitChange();
@@ -162,6 +194,10 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CREATE_RESET:
 			Store.reset();
+			Store.emitChange();
+			break;
+		case Constants.Actions.CREATE_SUBMIT:
+			Store.submit();
 			Store.emitChange();
 			break;
 	}

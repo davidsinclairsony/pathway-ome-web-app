@@ -1,34 +1,39 @@
 import {when, reqwest} from '../../libs';
-import {api} from '../constants';
+import {Api} from '../constants';
 import Actions from '../actions';
 
 export default {
-	login: function(email, password) {
-		return this.handleAuth(when(reqwest({
-			url: api.LOGIN_URL,
+	login: function(data) {
+		return this.handleLogin(when(reqwest({
+			url: Api.LOGIN_URL,
 			method: 'POST',
-			crossOrigin: true,
 			type: 'json',
-			data: {email, password}
+			data: data
 		})));
 	},
 	logout: function() {
-		Actions.Login.logoutUser();
+
 	},
-	signup: function(email, password) {
-		return this.handleAuth(when(reqwest({
-			url: api.SIGNUP_URL,
+	create: function(data) {
+		return this.handleCreate(when(reqwest({
+			url: Api.CREATE_URL,
 			method: 'POST',
-			crossOrigin: true,
 			type: 'json',
-			data: {email, password}
+			data: data
 		})));
 	},
-	handleAuth: function(loginPromise) {
+	handleLogin: function(loginPromise) {
 		return loginPromise.then(function(response) {
 			var jwt = response.id_token;
 			Actions.Login.loginUser(jwt);
-
+			return true;
+		});
+	},
+	handleCreate: function(createPromise) {
+		return createPromise.then(function(response) {
+			//Actions.Create.createComplete(jwt);
+			console.log("create complete");
+			console.log(response);
 			return true;
 		});
 	}
