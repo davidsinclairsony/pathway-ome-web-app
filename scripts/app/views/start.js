@@ -1,16 +1,16 @@
 import {React, TweenMax} from '../../libs';
-import logo from './logo';
-import create from './create';
-import login from './login';
-import footer from './footer';
+import logo from '../components/logo';
+import create from '../components/create';
+import login from '../components/login';
+import footer from '../components/footer';
 import AuthenticationStore from '../stores/authentication';
 
 // Get state from store
-function getState() {
+let getState = function() {
 	return {
 		isPreviousUser: AuthenticationStore.isPreviousUser()
 	};
-}
+};
 
 export default React.createClass({
 	displayName: 'Start',

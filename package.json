@@ -21,13 +21,14 @@
 		"object-assign": "latest",
 		"postcss-cli": "latest",
 		"react": "latest",
+		"react-router": "latest",
 		"reqwest": "latest",
 		"strictify": "latest",
 		"uglify-js": "latest",
 		"when": "latest"
 	},
 	"scripts": {
-		"build:main:jshint": "jshint -c scripts/jshint.js scripts/main.js",
+		"build:main:jshint": "jshint scripts/.",
 		"build:main:bundle": "browserify scripts/main.js -o scripts/main.bundle.js -x ./scripts/libs.js -t strictify -t babelify",
 		"build:main:uglify": "uglifyjs scripts/main.bundle.js -c -o scripts/main.bundle.js",
 		"build:main": "npm run build:main:jshint && npm run build:main:bundle && npm run build:main:uglify",
@@ -40,5 +41,8 @@
 		"watch:main": "nodemon -e js -w scripts -i scripts/main.bundle.js -x 'npm run build:main:jshint && npm run build:main:bundle'",
 		"watch:styles": "nodemon -e scss -w styles -x 'npm run build:styles'",
 		"watch": "npm run watch:main & npm run watch:styles"
+	},
+	"jshintConfig": {
+		"esnext": true
 	}
 }

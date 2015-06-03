@@ -16,7 +16,7 @@ let Login = {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_SET_HELP,
 			field: field,
-			field: help
+			help: help
 		});
 	},
 	submit: function() {
@@ -50,21 +50,21 @@ let Create = {
 			actionType: Constants.Actions.CREATE_GO_TO_VERIFY
 		});
 	},
-	reset: function() {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_RESET
-		});
-	},
 	setHelp: function(field, help) {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_SET_HELP,
 			field: field,
-			field: help
+			help: help
 		});
 	},
 	submit: function() {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_SUBMIT
+		});
+	},
+	success: function() {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_SUCCESS
 		});
 	},
 	toggleShowHelp: function(field) {
@@ -84,10 +84,10 @@ let Create = {
 			field: field,
 			value: value
 		});
-	},
+	}
 };
 
 export default {
 	Login: Login,
 	Create: Create
-}
+};

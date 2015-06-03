@@ -5,7 +5,7 @@ import Help from '../data/help';
 import input from './input';
 import CreateStore from '../stores/create';
 
-function getState() {
+let getState = function() {
 	return {
 		isWaiting: CreateStore.isWaiting(),
 		isEmailValid: CreateStore.isValid('email'),
@@ -21,7 +21,7 @@ function getState() {
 		shouldShowRepeatPaswordHelp: CreateStore.shouldShowHelp('repeatPassword'),
 		repeatPasswordValue: CreateStore.getValue('repeatPassword'),
 	};
-}
+};
 
 export default React.createClass({
 	displayName: 'Create',

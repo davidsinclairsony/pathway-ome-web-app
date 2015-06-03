@@ -31,9 +31,7 @@ export default {
 	},
 	handleCreate: function(createPromise) {
 		return createPromise.then(function(response) {
-			//Actions.Create.createComplete(jwt);
-			console.log("create complete");
-			console.log(response);
+			Actions.Create.success();
 			return true;
 		});
 	}

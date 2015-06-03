@@ -16,10 +16,12 @@
 		left: 0;
 	}
 
-	@import "app/button";
-	@import "app/circle";
-	@import "app/waiting";
-	@import "app/footer";
-	@import "app/start";
-	@import "app/create-and-login";
+	@import "app/components/button";
+	@import "app/components/circle";
+	@import "app/components/waiting";
+	@import "app/components/footer";
+	@import "app/components/create-and-login";
+	@import "app/views/waiting";
+	@import "app/views/start";
+	@import "app/views/verify";
 }

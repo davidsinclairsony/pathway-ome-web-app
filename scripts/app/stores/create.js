@@ -4,6 +4,7 @@ import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
 import Authenticator from '../utilities/authenticator';
+import Actions from '../actions';
 
 let CHANGE_EVENT = 'change';
 
@@ -126,9 +127,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		let shouldShowHelp = this.storage.fields[field].shouldShowHelp;
 
 		// Disable all showing
-		for(let field in this.storage.fields) {
-			if(this.storage.fields.hasOwnProperty(field)) {
-				this.storage.fields[field].shouldShowHelp = false;
+		for(let f in this.storage.fields) {
+			if(this.storage.fields.hasOwnProperty(f)) {
+				this.storage.fields[f].shouldShowHelp = false;
 			}
 		}
 
@@ -160,8 +161,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			console.log("Error logging in", err);
 		});
 	},
-	reset: function() {
-		this.save(this.storage, 'fields', this.defaults.fields);
+	success: function() {
+		// Create new login storage object
+		let loginStorage = {
+			email: this.storage.fields.email.value
+		};
+
+		// Save email to local storage
+		localStorage.login = JSON.stringify(loginStorage);
+
+		// Reset storage
+		this.storage = this.defaults;
+		this.save();
+
+		// Trigger navigation to verify
+		console.log("navigate away to verify!");
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -176,28 +190,28 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.CREATE_VALIDATE_ALL:
-			Store.validateAll();
+		case Constants.Actions.CREATE_SET_HELP:
+			Store.setHelp(action.field, action.help);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_VALIDATE_FIELD:
-			Store.validateField(action.field, action.value);
+		case Constants.Actions.CREATE_SUBMIT:
+			Store.submit();
+			Store.emitChange();
+			break;
+		case Constants.Actions.CREATE_SUCCESS:
+			Store.success();
 			Store.emitChange();
 			break;
 		case Constants.Actions.CREATE_TOGGLE_SHOW_HELP:
 			Store.toggleShowHelp(action.field);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_SET_HELP:
-			Store.setHelp(action.field, action.help);
+		case Constants.Actions.CREATE_VALIDATE_ALL:
+			Store.validateAll();
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_RESET:
-			Store.reset();
-			Store.emitChange();
-			break;
-		case Constants.Actions.CREATE_SUBMIT:
-			Store.submit();
+		case Constants.Actions.CREATE_VALIDATE_FIELD:
+			Store.validateField(action.field, action.value);
 			Store.emitChange();
 			break;
 	}
