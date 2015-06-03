@@ -6,7 +6,7 @@ export default React.createClass({displayName: 'App',
 	mixins: [React.addons.PureRenderMixin],
 	render: function() {
 		return React.DOM.div(
-			{className: 'app'},
+			{id: 'app'},
 			React.createElement(ReactRouter.RouteHandler, null)
 		);
 	}

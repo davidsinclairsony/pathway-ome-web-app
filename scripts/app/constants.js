@@ -16,14 +16,14 @@ let Actions = keyMirror({
 	LOGIN_VALIDATE_FIELD: null
 });
 
-let BASE_URL = 'http://alpha.local:8080/api/v1/';
+let BASE_URL = 'http://' + window.location.host + '/api/v1/';
 
 let Api = {
 	BASE_URL: BASE_URL,
 	LOGIN_URL: BASE_URL + 'user/login',
 	CREATE_URL: BASE_URL + 'user/create',
-	LOGIN_USER: 'LOGIN_USER',
-	LOGOUT_USER: 'LOGOUT_USER'
+	LOGIN_USER: BASE_URL + 'user/login',
+	LOGOUT_USER: BASE_URL + 'user/logout'
 };
 
 export default {

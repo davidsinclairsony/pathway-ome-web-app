@@ -1,4 +1,4 @@
-import {React, TweenMax} from '../../libs';
+import {React, ReactRouter, TweenMax} from '../../libs';
 import Actions from '../actions';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
@@ -157,10 +157,9 @@ export default React.createClass({
 
 		inner.push(React.DOM.p({key: 2}, [
 			'Need to verify your email address? ',
-			React.DOM.a({
-				key: 4,
-				onClick: Actions.Create.goToVerify
-			}, 'Click here'),
+			React.createElement(ReactRouter.Link,
+				{key: 1, to: "verify"}, "Click here"
+			),
 			'.'
 		]));
 

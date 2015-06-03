@@ -4,21 +4,20 @@ import start from './views/start';
 import verify from './views/verify';
 
 let Route = ReactRouter.Route;
-let Default = ReactRouter.DefaultRoute;
-let NotFound = ReactRouter.NotFoundRoute;
+let DefaultRoute = ReactRouter.DefaultRoute;
+let NotFoundRoute = ReactRouter.NotFoundRoute;
 
 export default (React.createElement(Route, {handler: app, path: "/"},
-	/*React.createElement(NotFound, {name: 'notFound', handler: NotFound}),
-	React.createElement(Route,
-		{path: 'reset-password', name: 'resetPassword', handler: Reset}
+	/*React.createElement(NotFoundRoute,
+		{name: 'notFound', handler: notFound}
 	),
 	React.createElement(Route,
-		{path: 'logout', name: 'logout', handler: Logout}
+		{path: 'reset-password', name: 'resetPassword', handler: resetPassword}
 	),*/
 	React.createElement(Route,
 		{path: 'verify', name: 'verify', handler: verify}
 	),
-	React.createElement(Default,
+	React.createElement(DefaultRoute,
 		{name: 'home', handler: start}
 	)
 ));
