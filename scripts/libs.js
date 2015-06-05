@@ -3,7 +3,6 @@ module.exports = {
 	events: require('events'),
 	FastClick: require('fastclick'),
 	Flux: require('flux'),
-	gsap: require('gsap'),
 	Joi: require('joi'),
 	jwtDecode: require('jwt-decode'),
 	keyMirror: require('keymirror'),
