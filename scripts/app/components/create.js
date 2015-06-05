@@ -5,7 +5,7 @@ import Help from '../data/help';
 import input from './input';
 import CreateStore from '../stores/create';
 
-let getState = function() {
+let getState = () => {
 	return {
 		isWaiting: CreateStore.isWaiting(),
 		isEmailValid: CreateStore.isValid('email'),
@@ -61,7 +61,6 @@ export default React.createClass({
 		}
 	},
 	render: function() {
-		let self = this;
 		let inner = [];
 		let props = {
 			className: 'create'
@@ -93,10 +92,10 @@ export default React.createClass({
 			help: this.state.emailHelp,
 			value: this.state.emailValue,
 			shouldShowHelp: this.state.shouldShowEmailHelp,
-			onChangeCallback: function(event) {
+			onChangeCallback: event => {
 				Actions.Create.validateField('email', event.target.value);
 			},
-			toggleShowHelpCallback: function() {
+			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('email');
 			}
 		});
@@ -112,10 +111,10 @@ export default React.createClass({
 			isValid: this.state.isPasswordValid,
 			help: this.state.passwordHelp,
 			shouldShowHelp: this.state.shouldShowPaswordHelp,
-			onChangeCallback: function(event) {
+			onChangeCallback: event => {
 				Actions.Create.validateField('password', event.target.value);
 			},
-			toggleShowHelpCallback: function() {
+			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('password');
 			}
 		}));
@@ -129,10 +128,10 @@ export default React.createClass({
 			isValid: this.state.isRepeatPasswordValid,
 			help: this.state.repeatPasswordHelp,
 			shouldShowHelp: this.state.shouldShowRepeatPaswordHelp,
-			onChangeCallback: function(event) {
+			onChangeCallback: event => {
 				Actions.Create.validateField('repeatPassword', event.target.value);
 			},
-			toggleShowHelpCallback: function() {
+			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('repeatPassword');
 			}
 		}));

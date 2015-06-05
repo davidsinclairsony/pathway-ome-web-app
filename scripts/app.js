@@ -1,13 +1,19 @@
 import {React, ReactRouter} from './libs';
-import start from './app/views/verify';
-import BaseStore from './app/stores/base';
 
-export default React.createClass({displayName: 'App',
-	mixins: [React.addons.PureRenderMixin],
+export default React.createClass({
+	displayName: 'App',
 	render: function() {
-		return React.DOM.div(
-			{id: 'app'},
-			React.createElement(ReactRouter.RouteHandler, null)
+		var dt = new Date();
+var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
+		console.log(ReactRouter.RouteHandler);
+		return React.DOM.div({id: 'app'},
+			React.createElement(React.addons.CSSTransitionGroup,
+				{
+					transitionName: 'example',
+					transitionAppear: true
+				},
+				React.createElement(ReactRouter.RouteHandler, {key: secs})
+			)
 		);
 	}
 });

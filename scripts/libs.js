@@ -3,6 +3,7 @@ module.exports = {
 	events: require('events'),
 	FastClick: require('fastclick'),
 	Flux: require('flux'),
+	gsap: require('gsap'),
 	Joi: require('joi'),
 	jwtDecode: require('jwt-decode'),
 	keyMirror: require('keymirror'),
@@ -10,6 +11,6 @@ module.exports = {
 	React: require('react/addons'),
 	ReactRouter: require('react-router'),
 	reqwest: require('reqwest'),
-	TweenMax: require('gsap'),
+	Velocity: require('velocity-animate'),
 	when: require('when')
 };

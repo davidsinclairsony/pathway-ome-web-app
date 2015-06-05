@@ -4,7 +4,6 @@ import Constants from '../constants';
 
 let CHANGE_EVENT = 'change';
 
-
 // Create store
 let Store = assign({}, events.EventEmitter.prototype, {
 	isPreviousUser: function() {

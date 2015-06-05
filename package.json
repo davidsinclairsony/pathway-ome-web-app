@@ -11,7 +11,7 @@
 		"es6-promise": "latest",
 		"fastclick": "latest",
 		"flux": "latest",
-		"gsap": "latest",
+		"gsap-react-plugin": "latest",
 		"joi": "latest",
 		"jshint": "latest",
 		"jwt-decode": "latest",
@@ -25,6 +25,7 @@
 		"reqwest": "latest",
 		"strictify": "latest",
 		"uglify-js": "latest",
+		"velocity-animate": "latest",
 		"when": "latest"
 	},
 	"scripts": {

@@ -6,7 +6,7 @@ import footer from '../components/footer';
 import AuthenticationStore from '../stores/authentication';
 
 // Get state from store
-let getState = function() {
+let getState = () => {
 	return {
 		isPreviousUser: AuthenticationStore.isPreviousUser()
 	};
@@ -41,10 +41,7 @@ export default React.createClass({
 		}));
 
 		// Add login component
-		inner.push(React.createElement(login, {
-			key: 2,
 
-		}));
 
 		// Add footer
 		inner.push(React.createElement(footer, {key: 3}));

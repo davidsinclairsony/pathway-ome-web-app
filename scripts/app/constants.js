@@ -26,7 +26,4 @@ let Api = {
 	LOGOUT_USER: BASE_URL + 'user/logout'
 };
 
-export default {
-	Actions: Actions,
-	Api: Api
-};
+export default {Actions, Api};

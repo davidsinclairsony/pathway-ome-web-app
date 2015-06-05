@@ -2,40 +2,38 @@ import Dispatcher from './dispatcher';
 import Constants from './constants';
 
 let Login = {
-	goToVerify:  function() {
+	goToVerify: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_GO_TO_RESET_PASSWORD
 		});
 	},
-	reset: function() {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_RESET
-		});
+	reset: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_RESET});
 	},
-	setHelp: function(field, help) {
+	setHelp: (field, help) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_SET_HELP,
 			field: field,
 			help: help
 		});
 	},
-	submit: function() {
+	submit: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_SUBMIT
 		});
 	},
-	toggleShowHelp: function(field) {
+	toggleShowHelp: field => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_TOGGLE_SHOW_HELP,
 			field: field
 		});
 	},
-	validateAll: function() {
+	validateAll: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_VALIDATE_ALL
 		});
 	},
-	validateField: function(field, value) {
+	validateField: (field, value) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.LOGIN_VALIDATE_FIELD,
 			field: field,
@@ -45,40 +43,34 @@ let Login = {
 };
 
 let Create = {
-	goToVerify:  function() {
+	goToVerify: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_GO_TO_VERIFY
 		});
 	},
-	setHelp: function(field, help) {
+	setHelp: (field, help) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_SET_HELP,
 			field: field,
 			help: help
 		});
 	},
-	submit: function() {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_SUBMIT
-		});
+	submit: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_SUBMIT});
 	},
-	success: function() {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_SUCCESS
-		});
+	success: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_SUCCESS});
 	},
-	toggleShowHelp: function(field) {
+	toggleShowHelp: field => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_HELP,
 			field: field
 		});
 	},
-	validateAll: function() {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_VALIDATE_ALL
-		});
+	validateAll: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_VALIDATE_ALL});
 	},
-	validateField: function(field, value) {
+	validateField: (field, value) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_VALIDATE_FIELD,
 			field: field,
@@ -87,7 +79,4 @@ let Create = {
 	}
 };
 
-export default {
-	Login: Login,
-	Create: Create
-};
+export default {Login, Create};
