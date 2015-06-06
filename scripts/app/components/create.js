@@ -4,22 +4,29 @@ import Validator from '../utilities/validator';
 import Help from '../data/help';
 import input from './input';
 import CreateStore from '../stores/create';
+import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
 	return {
-		isWaiting: CreateStore.isWaiting(),
-		isEmailValid: CreateStore.isValid('email'),
-		emailHelp: CreateStore.getHelp('email'),
-		shouldShowEmailHelp: CreateStore.shouldShowHelp('email'),
-		emailValue: CreateStore.getValue('email'),
-		isPasswordValid: CreateStore.isValid('password'),
-		passwordHelp: CreateStore.getHelp('password'),
-		shouldShowPaswordHelp: CreateStore.shouldShowHelp('password'),
-		passwordValue: CreateStore.getValue('password'),
-		isRepeatPasswordValid: CreateStore.isValid('repeatPassword'),
-		repeatPasswordHelp: CreateStore.getHelp('repeatPassword'),
-		shouldShowRepeatPaswordHelp: CreateStore.shouldShowHelp('repeatPassword'),
-		repeatPasswordValue: CreateStore.getValue('repeatPassword'),
+		isWaiting: CreateStore.get(['isWaiting']),
+		isEmailValid: CreateStore.get(['fields', 'email', 'isValid']),
+		emailHelp: CreateStore.get(['fields', 'email', 'help']),
+		showEmailHelp: CreateStore.get(['fields', 'email', 'showHelp']),
+		emailValue: CreateStore.get(['fields', 'email', 'value']),
+		isPasswordValid: CreateStore.get(['fields', 'password', 'isValid']),
+		passwordHelp: CreateStore.get(['fields', 'password', 'help']),
+		showPaswordHelp: CreateStore.get(['fields', 'password', 'showHelp']),
+		passwordValue: CreateStore.get(['fields', 'password', 'value']),
+		isRepeatPasswordValid: CreateStore.get(
+			['fields', 'repeatPassword', 'isValid']
+		),
+		repeatPasswordHelp: CreateStore.get(['fields', 'repeatPassword', 'help']),
+		showRepeatPaswordHelp: CreateStore.get(
+			['fields', 'repeatPassword', 'showHelp']
+		),
+		repeatPasswordValue: CreateStore.get(
+			['fields', 'repeatPassword', 'value']
+		)
 	};
 };
 
@@ -27,24 +34,13 @@ export default React.createClass({
 	displayName: 'Create',
 	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
-		// Get states from store
-		let state = getState();
-
-		// Add in states from props
-		state.showExpanded = this.props.showExpanded;
-
-		return state;
+		return getState();
 	},
 	componentDidMount: function() {
 		CreateStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
 		CreateStore.removeChangeListener(this._onChange);
-	},
-	toggleAction: function() {
-		if(this.props.collapsible) {
-			this.setState({showExpanded: !this.state.showExpanded});
-		}
 	},
 	submitAction: function(event) {
 		event.preventDefault();
@@ -71,10 +67,18 @@ export default React.createClass({
 			props.className += ' collapsible';
 		}
 
+		// If it will be collapsed
+		if(this.props.showExpanded) {
+			props.className += ' collapsed';
+		}
+
 		// Add h2
 		inner.push(React.DOM.h2({
 			key: 0,
-			onClick: this.toggleAction
+			onClick: () => {
+				Actions.Create.hideAllHelp();
+				Actions.Start.toggleShowExpanded('create');
+			},
 		}, 'Create an Account'));
 
 		// Create form inner
@@ -91,9 +95,9 @@ export default React.createClass({
 			isValid: this.state.isEmailValid,
 			help: this.state.emailHelp,
 			value: this.state.emailValue,
-			shouldShowHelp: this.state.shouldShowEmailHelp,
+			showHelp: this.state.showEmailHelp,
 			onChangeCallback: event => {
-				Actions.Create.validateField('email', event.target.value);
+				Actions.Create.onFieldChange('email', event.target.value);
 			},
 			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('email');
@@ -110,9 +114,9 @@ export default React.createClass({
 			shouldValidate: true,
 			isValid: this.state.isPasswordValid,
 			help: this.state.passwordHelp,
-			shouldShowHelp: this.state.shouldShowPaswordHelp,
+			showHelp: this.state.showPaswordHelp,
 			onChangeCallback: event => {
-				Actions.Create.validateField('password', event.target.value);
+				Actions.Create.onFieldChange('password', event.target.value);
 			},
 			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('password');
@@ -127,9 +131,9 @@ export default React.createClass({
 			shouldValidate: true,
 			isValid: this.state.isRepeatPasswordValid,
 			help: this.state.repeatPasswordHelp,
-			shouldShowHelp: this.state.shouldShowRepeatPaswordHelp,
+			showHelp: this.state.showRepeatPaswordHelp,
 			onChangeCallback: event => {
-				Actions.Create.validateField('repeatPassword', event.target.value);
+				Actions.Create.onFieldChange('repeatPassword', event.target.value);
 			},
 			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('repeatPassword');
@@ -144,7 +148,6 @@ export default React.createClass({
 			onClick: this.submitAction
 		}));
 
-
 		if(this.state.isWaiting) {
 			formInner.push(React.DOM.div({
 				key: 4,
@@ -152,7 +155,14 @@ export default React.createClass({
 			}));
 		}
 
-		inner.push(React.DOM.form({key: 1}, formInner));
+		// Wrap form in animation layer and add to main inner
+		inner.push(React.createElement(TransitionGroup,
+			{
+				transitionName: 'fade',
+				key: 1
+			},
+			React.DOM.form({key: 0}, formInner))
+		);
 
 		inner.push(React.DOM.p({key: 2}, [
 			'Need to verify your email address? ',
@@ -165,12 +175,6 @@ export default React.createClass({
 		return React.DOM.div(props, inner);
 	},
 	_onChange: function() {
-		// Get new states from store
-		let state = getState();
-
-		// Add in states not controlled by store
-		state.showExpanded = this.state.showExpanded;
-
-		this.setState(state);
+		this.setState(getState());
 	}
 });

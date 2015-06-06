@@ -7,24 +7,23 @@ export default React.createClass({
 		return { input: this.props.input || ''};
 	},
 	setHelpStyle: function() {
-		// Get email help node
-		let help = this.getDOMNode()
-			.getElementsByTagName('aside')[0]
-			.getElementsByClassName('help')[0]
-		;
+		// Only do this when help is actually showing
+		if(this.props.showHelp) {
+			// Get email help node
+			let help = this.getDOMNode()
+				.getElementsByTagName('aside')[0]
+				.getElementsByClassName('help')[0]
+			;
 
-		// Ensure vertical centering
-		help.style.top = 20 - help.offsetHeight / 2 + 'px';
+			// Ensure vertical centering
+			help.style.top = 20 - help.offsetHeight / 2 + 'px';
+		}
 	},
 	componentDidMount: function() {
-		if(this.props.shouldShowHelp) {
-			this.setHelpStyle();
-		}
+		this.setHelpStyle();
 	},
 	componentDidUpdate: function() {
-		if(this.props.shouldShowHelp) {
-			this.setHelpStyle();
-		}
+		this.setHelpStyle();
 	},
 	render: function() {
 		let inner = [];
@@ -61,7 +60,7 @@ export default React.createClass({
 					}));
 
 					// Show help content if clicked
-					if(this.props.shouldShowHelp) {
+					if(this.props.showHelp) {
 						asideInner.push(React.DOM.div({
 							key: 1,
 							className: 'help'

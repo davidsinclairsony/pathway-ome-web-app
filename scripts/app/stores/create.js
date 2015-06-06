@@ -1,159 +1,144 @@
-import {assign, events} from '../../libs';
+import {assign} from '../../libs';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
 import Authenticator from '../utilities/authenticator';
-import Actions from '../actions';
+import BaseStore from './base';
 
-let CHANGE_EVENT = 'change';
+// Private
+let defaults = {
+	name: 'create',
+	isWaiting: false,
+	fields: {
+		email: {
+			isValid: undefined,
+			showHelp: false,
+			help: undefined,
+			value: undefined
+		},
+		password: {
+			isValid: undefined,
+			showHelp: false,
+			help: undefined,
+			value: undefined
+		},
+		repeatPassword: {
+			isValid: undefined,
+			showHelp: false,
+			help: undefined,
+			value: undefined
+		}
+	}
+};
+let save = function(object, key, value) {
+	// Save within storage
+	if(object) {
+		object[key] = value;
+	}
 
-let Store = assign({}, events.EventEmitter.prototype, {
-	defaults: {
-		isWaiting: false,
-		fields: {
-			email: {
-				isValid: undefined,
-				shouldShowHelp: false,
-				help: undefined,
-				value: undefined
-			},
-			password: {
-				isValid: undefined,
-				shouldShowHelp: false,
-				help: undefined,
-				value: undefined
-			},
-			repeatPassword: {
-				isValid: undefined,
-				shouldShowHelp: false,
-				help: undefined,
-				value: undefined
+	// Persist to local storage
+	localStorage[storage.name] = JSON.stringify(storage);
+};
+let storage;
+
+let Store = assign({}, BaseStore, {
+	get: function(keys) {
+		let value = storage;
+
+		for(let key in keys) {
+			value = value[keys[key]];
+		}
+
+		return value;
+	},
+	hideAllHelp: function() {
+		for(let f in storage.fields) {
+			if(storage.fields.hasOwnProperty(f)) {
+				storage.fields[f].showHelp = false;
 			}
 		}
 	},
 	initialize: function() {
-		// Get defaults
-		this.storage = this.defaults;
+		// Set defaults
+		storage = defaults;
 
 		// Save any data from local storage
-		if(localStorage.create) {
+		if(localStorage[storage.name]) {
 			// Get old data
-			let data = JSON.parse(localStorage.create);
+			let data = JSON.parse(localStorage[storage.name]);
 
-			// Save some previous data
-			this.save(this.storage.fields, 'email', data.fields.email);
+			// Save some previous data from local storage
+			save(storage.fields, 'email', data.fields.email);
 		} else {
-			this.save();
+			save();
 		}
 	},
-	isWaiting: function() {
-		return this.storage.isWaiting;
-	},
-	save: function(object, key, value) {
-		// Save within storage
-		if(object) {
-			object[key] = value;
-		}
+	onFieldChange: function(field, value) {
+		let fieldObject = storage.fields[field];
 
-		// Persist to local storage
-		localStorage.create = JSON.stringify(this.storage);
-	},
-	validateAll: function() {
-		for(let field in this.storage.fields) {
-			if(this.storage.fields.hasOwnProperty(field)) {
-				this.validateField(field, this.storage.fields[field].value);
-			}
-		}
-	},
-	validateField: function(field, value) {
-		let fieldObject = this.storage.fields[field];
+		// Save field value
+		save(fieldObject, 'value', value);
 
-		this.save(fieldObject, 'value', value);
-
+		// Validate
 		switch(field) {
 			case 'email':
-				this.save(fieldObject, 'isValid', Validator.isEmailValid(value));
+				save(fieldObject, 'isValid', Validator.isEmailValid(value));
 
 				// If invalid, set correct help
 				if(!fieldObject.isValid) {
-					this.save(fieldObject, 'help', Help.invalidEmail);
+					save(fieldObject, 'help', Help.invalidEmail);
 				}
 
 				break;
 			case 'password':
 				// Set validation result
-				this.save(fieldObject, 'isValid', Validator.isPasswordValid(value));
+				save(fieldObject, 'isValid', Validator.isPasswordValid(value));
 
 				// If invalid, set correct help
 				if(!fieldObject.isValid) {
-					this.save(fieldObject, 'help', Help.invalidPassword);
+					save(fieldObject, 'help', Help.invalidPassword);
 				}
 
 				// Validate the repeat password field
-				this.validateField('repeatPassword',
-					this.storage.fields.repeatPassword.value
+				this.onFieldChange('repeatPassword',
+					storage.fields.repeatPassword.value
 				);
 
 				break;
 			case 'repeatPassword':
 				// Validate the password and compare to repeated password
-				this.save(
+				save(
 					fieldObject, 'isValid',
-					Validator.isPasswordValid(this.storage.fields.password.value) &&
-						this.storage.fields.password.value === value
+					Validator.isPasswordValid(storage.fields.password.value) &&
+						storage.fields.password.value === value
 				);
 
 				// If invalid, set correct help
 				if(!fieldObject.isValid) {
-					this.save(fieldObject, 'help', Help.invalidRepeatPassword);
+					save(fieldObject, 'help', Help.invalidRepeatPassword);
 				}
 
 				break;
 		}
 
+		// Hide help if it was showing and the field is now valid
 		if(fieldObject.isValid) {
-			this.save(fieldObject, 'shouldShowHelp', false);
+			save(fieldObject, 'shouldShowHelp', false);
 		}
-	},
-	isValid: function(field) {
-		return this.storage.fields[field].isValid;
-	},
-	shouldShowHelp: function(field) {
-		return this.storage.fields[field].shouldShowHelp;
-	},
-	toggleShowHelp: function(field) {
-		// Save current state
-		let shouldShowHelp = this.storage.fields[field].shouldShowHelp;
-
-		// Disable all showing
-		for(let f in this.storage.fields) {
-			if(this.storage.fields.hasOwnProperty(f)) {
-				this.storage.fields[f].shouldShowHelp = false;
-			}
-		}
-
-		// Save new state
-		this.save(this.storage.fields[field], 'shouldShowHelp', !shouldShowHelp);
-	},
-	getValue: function(field) {
-		return this.storage.fields[field].value;
-	},
-	getHelp: function(field) {
-		return this.storage.fields[field].help;
 	},
 	setHelp: function(field, help) {
-		this.save(this.storage.fields[field].help, help);
+		save(storage.fields[field].help, help);
 	},
 	submit: function() {
 		// Show waiting
-		this.save(this.storage, 'isWaiting', true);
+		save(storage, 'isWaiting', true);
 
 		// Gather data
 		let data = {
-			email: this.storage.fields.email.value,
-			password: this.storage.fields.password.value,
-			passwordConfirmation: this.storage.fields.repeatPassword.value
+			email: storage.fields.email.value,
+			password: storage.fields.password.value,
+			passwordConfirmation: storage.fields.repeatPassword.value
 		};
 
 		// Pew pew pew
@@ -164,27 +149,35 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	success: function() {
 		// Create new login storage object
 		let loginStorage = {
-			email: this.storage.fields.email.value
+			email: storage.fields.email.value
 		};
 
 		// Save email to local storage
 		localStorage.login = JSON.stringify(loginStorage);
 
 		// Reset storage
-		this.storage = this.defaults;
-		this.save();
+		storage = defaults;
+		save();
 
 		// Trigger navigation to verify
 		console.log("navigate away to verify!");
 	},
-	emitChange: function() {
-		this.emit(CHANGE_EVENT);
+	toggleShowHelp: function(field) {
+		// Save current state
+		let showHelp = storage.fields[field].showHelp;
+
+		// Hide any previous help
+		this.hideAllHelp();
+
+		// Save new state
+		save(storage.fields[field], 'showHelp', !showHelp);
 	},
-	addChangeListener: function(callback) {
-		this.on(CHANGE_EVENT, callback);
-	},
-	removeChangeListener: function(callback) {
-		this.removeListener(CHANGE_EVENT, callback);
+	validateAll: function() {
+		for(let field in storage.fields) {
+			if(storage.fields.hasOwnProperty(field)) {
+				this.onFieldChange(field, storage.fields[field].value);
+			}
+		}
 	}
 });
 
@@ -192,6 +185,14 @@ Dispatcher.register(function(action) {
 	switch(action.actionType) {
 		case Constants.Actions.CREATE_SET_HELP:
 			Store.setHelp(action.field, action.help);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CREATE_HIDE_ALL_HELP:
+			Store.hideAllHelp();
+			Store.emitChange();
+			break;
+		case Constants.Actions.CREATE_ON_FIELD_CHANGE:
+			Store.onFieldChange(action.field, action.value);
 			Store.emitChange();
 			break;
 		case Constants.Actions.CREATE_SUBMIT:
@@ -208,10 +209,6 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CREATE_VALIDATE_ALL:
 			Store.validateAll();
-			Store.emitChange();
-			break;
-		case Constants.Actions.CREATE_VALIDATE_FIELD:
-			Store.validateField(action.field, action.value);
 			Store.emitChange();
 			break;
 	}

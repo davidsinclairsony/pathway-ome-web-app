@@ -2,18 +2,24 @@ import {keyMirror} from '../libs';
 
 let Actions = keyMirror({
 	CREATE_GO_TO_VERIFY: null,
+	CREATE_HIDE_ALL_HELP: null,
+	CREATE_ON_FIELD_CHANGE: null,
 	CREATE_SET_HELP: null,
 	CREATE_SHOW_HELP: null,
 	CREATE_SUBMIT: null,
 	CREATE_SUCCESS: null,
+	CREATE_TOGGLE_SHOW_EXPANDED: null,
+	CREATE_TOGGLE_SHOW_HELP: null,
 	CREATE_VALIDATE_ALL: null,
-	CREATE_VALIDATE_FIELD: null,
+
 	LOGIN_GO_TO_RESET_PASSWORD: null,
 	LOGIN_SHOW_HELP: null,
 	LOGIN_SET_HELP: null,
 	LOGIN_SUBMIT: null,
 	LOGIN_VALIDATE_ALL: null,
-	LOGIN_VALIDATE_FIELD: null
+	LOGIN_VALIDATE_FIELD: null,
+
+	START_TOGGLE_SHOW_EXPANDED: null
 });
 
 let BASE_URL = 'http://' + window.location.host + '/api/v1/';

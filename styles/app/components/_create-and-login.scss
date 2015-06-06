@@ -6,6 +6,10 @@
 	padding: 0 $g-3;
 	position: relative;
 
+	&.collapsed {
+		overflow: hidden;
+	}
+
 	&.collapsible {
 		h2 {
 			cursor: pointer;

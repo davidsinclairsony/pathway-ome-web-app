@@ -3,12 +3,15 @@ import logo from '../components/logo';
 import create from '../components/create';
 import login from '../components/login';
 import footer from '../components/footer';
-import AuthenticationStore from '../stores/authentication';
+import StartStore from '../stores/start';
 
 // Get state from store
 let getState = () => {
 	return {
-		isPreviousUser: AuthenticationStore.isPreviousUser()
+		createShowExpanded: StartStore.get(['createShowExpanded']),
+		createCollapsible: StartStore.get(['createCollapsible']),
+		loginShowExpanded: true,
+		loginCollapsible: true
 	};
 };
 
@@ -19,16 +22,14 @@ export default React.createClass({
 		return getState();
 	},
 	componentDidMount: function() {
-		AuthenticationStore.addChangeListener(this._onChange);
+		StartStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		AuthenticationStore.removeChangeListener(this._onChange);
+		StartStore.removeChangeListener(this._onChange);
 	},
 	render: function() {
 		let inner = [];
-		let props = {
-			className: 'start view'
-		};
+		let props = {className: 'start view'};
 
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
@@ -36,8 +37,9 @@ export default React.createClass({
 		// Add create component
 		inner.push(React.createElement(create, {
 			key: 1,
-			showExpanded: this.state.isPreviousUser,
-			collapsible: true
+			showExpanded: this.state.createShowExpanded,
+			collapsible: this.state.createCollapsible,
+
 		}));
 
 		// Add login component
