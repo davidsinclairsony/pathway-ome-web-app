@@ -195,9 +195,9 @@ export default React.createClass({
 
 		// Add link for verifying email
 		inner.push(React.DOM.p({key: 2}, [
-			'Need to activate your account? ',
+			'Need to verify your email address? ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "activate"}, "Click here"
+				{key: 1, to: "verify"}, "Click here"
 			),
 			'.'
 		]));

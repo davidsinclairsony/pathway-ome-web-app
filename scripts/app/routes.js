@@ -1,7 +1,7 @@
 import {React, ReactRouter} from './../libs';
 import app from '../app';
 import start from './views/start';
-import verify from './views/verify';
+import activate from './views/activate';
 
 let Route = ReactRouter.Route;
 let DefaultRoute = ReactRouter.DefaultRoute;
@@ -15,7 +15,7 @@ export default (React.createElement(Route, {handler: app, path: "/"},
 		{path: 'reset-password', name: 'resetPassword', handler: resetPassword}
 	),*/
 	React.createElement(Route,
-		{path: 'verify', name: 'verify', handler: verify}
+		{path: 'activate', name: 'activate', handler: activate}
 	),
 	React.createElement(DefaultRoute,
 		{name: 'home', handler: start}

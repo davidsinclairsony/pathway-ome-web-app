@@ -6,10 +6,6 @@
 	padding: 0 $g-3;
 	position: relative;
 
-	&.collapsed {
-		overflow: hidden;
-	}
-
 	&.collapsible {
 		h2 {
 			cursor: pointer;
@@ -51,6 +47,7 @@
 				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
 				background: transparentize(white, .9);
 				cursor: auto;
+				user-select: text !important;
 			}
 
 			aside {
