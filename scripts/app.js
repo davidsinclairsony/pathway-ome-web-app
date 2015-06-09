@@ -1,9 +1,9 @@
-import {React, ReactRouter} from './libs';
+import {assign, React, ReactRouter} from './libs';
+import base from './app/components/base';
 import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'App',
-	contextTypes: {router: React.PropTypes.func},
 	render: function() {
 		let name = this.context.router.getCurrentPath();
 
@@ -17,4 +17,4 @@ export default React.createClass({
 			)
 		);
 	}
-});
+}));

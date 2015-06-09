@@ -1,12 +1,16 @@
-import {React, TweenMax} from '../../libs';
+import {assign, React} from '../../libs';
 import logo from '../components/logo';
 import create from '../components/create';
 import login from '../components/login';
 import footer from '../components/footer';
 import StartStore from '../stores/start';
+import base from '../components/base';
 
 // Get state from store
 let getState = () => {
+	// Reset store
+	StartStore.initialize();
+
 	return {
 		createShowExpanded: StartStore.get(['createShowExpanded']),
 		createCollapsible: StartStore.get(['createCollapsible']),
@@ -15,9 +19,8 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Start',
-	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
 		return getState();
 	},
@@ -53,4 +56,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

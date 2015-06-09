@@ -1,8 +1,8 @@
-import {React} from '../../libs';
+import {assign, React} from '../../libs';
+import base from './base';
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Input',
-	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
 		return { input: this.props.input || ''};
 	},
@@ -74,4 +74,4 @@ export default React.createClass({
 
 		return React.DOM.div({className: 'input'}, inner);
 	}
-});
+}));

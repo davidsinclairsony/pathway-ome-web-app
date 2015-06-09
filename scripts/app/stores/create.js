@@ -1,4 +1,5 @@
-import {assign} from '../../libs';
+import {assign, React} from '../../libs';
+import router from '../router';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';
@@ -6,8 +7,7 @@ import Help from '../data/help';
 import Authenticator from '../utilities/authenticator';
 import BaseStore from './base';
 
-// Private
-let defaults = {
+let defaults = () => {return {
 	name: 'create',
 	isWaiting: false,
 	fields: {
@@ -30,7 +30,7 @@ let defaults = {
 			value: undefined
 		}
 	}
-};
+};};
 let save = function(object, key, value) {
 	// Save within storage
 	if(object) {
@@ -61,7 +61,7 @@ let Store = assign({}, BaseStore, {
 	},
 	initialize: function() {
 		// Set defaults
-		storage = defaults;
+		storage = defaults();
 
 		// Save any data from local storage
 		if(localStorage[storage.name]) {
@@ -143,10 +143,13 @@ let Store = assign({}, BaseStore, {
 
 		// Pew pew pew
 		Authenticator.create(data).catch(function(error) {
-			console.log("Error logging in", err);
+			console.log("Error logging in", error);
 		});
 	},
 	success: function() {
+		// Trigger navigation to activate
+		router.transitionTo('activate');
+
 		// Create new login storage object
 		let loginStorage = {
 			email: storage.fields.email.value
@@ -154,13 +157,6 @@ let Store = assign({}, BaseStore, {
 
 		// Save email to local storage
 		localStorage.login = JSON.stringify(loginStorage);
-
-		// Reset storage
-		storage = defaults;
-		save();
-
-		// Trigger navigation to verify
-		console.log("navigate away to verify!");
 	},
 	toggleShowHelp: function(field) {
 		// Save current state
@@ -170,7 +166,7 @@ let Store = assign({}, BaseStore, {
 		this.hideAllHelp();
 
 		// Save new state
-		save(storage.fields[field], 'showHelp', !showHelp);
+		save(storage.fields[field], '/showHelp', !showHelp);
 	},
 	validateAll: function() {
 		for(let field in storage.fields) {
@@ -213,7 +209,5 @@ Dispatcher.register(function(action) {
 			break;
 	}
 });
-
-Store.initialize();
 
 export default Store;

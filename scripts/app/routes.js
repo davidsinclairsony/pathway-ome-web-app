@@ -7,7 +7,7 @@ let Route = ReactRouter.Route;
 let DefaultRoute = ReactRouter.DefaultRoute;
 let NotFoundRoute = ReactRouter.NotFoundRoute;
 
-export default (React.createElement(Route, {handler: app, path: "/"},
+export default React.createElement(Route, {handler: app, path: "/"},
 	/*React.createElement(NotFoundRoute,
 		{name: 'notFound', handler: notFound}
 	),
@@ -20,4 +20,4 @@ export default (React.createElement(Route, {handler: app, path: "/"},
 	React.createElement(DefaultRoute,
 		{name: 'home', handler: start}
 	)
-));
+);

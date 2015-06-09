@@ -1,8 +1,9 @@
-import {React, TweenMax} from '../../libs';
+import {assign, React, TweenMax} from '../../libs';
 import logo from '../components/logo';
 // import verify from '../components/verify';
 import footer from '../components/footer';
 import AuthenticationStore from '../stores/authentication';
+import base from '../components/base';
 
 // Get state from store
 let getState = function() {
@@ -11,9 +12,8 @@ let getState = function() {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Verify',
-	mixins: [React.addons.PureRenderMixin],
 	getInitialState: function() {
 		return getState();
 	},
@@ -42,4 +42,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

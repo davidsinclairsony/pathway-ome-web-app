@@ -1,10 +1,10 @@
-import {FastClick, React, ReactRouter} from './libs';
-import routes from './app/routes';
+import {FastClick, React} from './libs';
+import router from './app/router';
 
 document.addEventListener('DOMContentLoaded', () => {
 	FastClick(document.body);
 
-	ReactRouter.run(routes, ReactRouter.HistoryLocation, (Handler) => {
+	router.run((Handler) => {
 		React.render(React.createElement(Handler, null), document.body);
 	});
 });

@@ -5,14 +5,13 @@ import Validator from '../utilities/validator';
 import Actions from '../actions';
 import BaseStore from './base';
 
-// Private
-let defaults = {
+let defaults = () => {return {
 	name: 'start',
 	createShowExpanded: true,
 	createCollapsible: true,
 	loginShowExpanded: true,
 	loginCollapsible: true
-};
+};};
 let save = function(object, key, value) {
 	// Save within storage
 	if(object) {
@@ -36,7 +35,7 @@ let Store = assign({}, BaseStore, {
 	},
 	initialize: function() {
 		// Set defaults
-		storage = defaults;
+		storage = defaults();
 
 		// Save any data from local storage
 		if(localStorage[storage.name]) {
@@ -73,7 +72,5 @@ Dispatcher.register(function(action) {
 			break;
 	}
 });
-
-Store.initialize();
 
 export default Store;

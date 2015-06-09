@@ -20,6 +20,7 @@
 		"object-assign": "^2.0.0",
 		"postcss-cli": "latest",
 		"react": "latest",
+		"react-pure-render": "latest",
 		"react-router": "latest",
 		"reqwest": "latest",
 		"strictify": "latest",

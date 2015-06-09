@@ -8,6 +8,7 @@ module.exports = {
 	keyMirror: require('keymirror'),
 	Promise: require('es6-promise'),
 	React: require('react/addons'),
+	ReactPureRender: require('react-pure-render'),
 	ReactRouter: require('react-router'),
 	reqwest: require('reqwest'),
 	Velocity: require('velocity-animate'),

@@ -1,8 +1,8 @@
-import {React} from '../../libs';
+import {assign, React} from '../../libs';
+import base from './base';
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Footer',
-	mixins: [React.addons.PureRenderMixin],
 	render: function() {
 		let year = new Date().getFullYear();
 
@@ -10,4 +10,4 @@ export default React.createClass({
 			React.DOM.p(null, 'Pathway Genomics ' + year)
 		);
 	}
-});
+}));

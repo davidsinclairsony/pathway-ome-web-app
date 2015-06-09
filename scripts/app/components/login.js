@@ -1,11 +1,11 @@
-import {React} from '../../libs';
+import {assign, React} from '../../libs';
 import Actions from '../actions';
 import Authenticator from '../utilities/authenticator';
 import Help from '../data/help';
+import base from './base';
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Login',
-	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
 		// Set initial form height
 		let height;
@@ -115,8 +115,7 @@ export default React.createClass({
 				React.DOM.input({
 					key: 0,
 					type: 'password',
-					placeholder: 'Password',
-					valueLink: this.linkState('password')
+					placeholder: 'Password'
 				}),
 				React.DOM.div({
 					key: 1,
@@ -135,8 +134,7 @@ export default React.createClass({
 				React.DOM.span({key: 0}, 'Save?'),
 				React.DOM.input({
 					key: 1,
-					type: 'checkbox',
-					valueLink: this.linkState('shouldSavePassword')
+					type: 'checkbox'
 				})
 			]),
 			React.DOM.input({
@@ -162,4 +160,4 @@ export default React.createClass({
 
 		return React.DOM.div(props, inner);
 	}
-});
+}));

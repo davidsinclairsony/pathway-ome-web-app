@@ -4,6 +4,7 @@ import Validator from '../utilities/validator';
 import Help from '../data/help';
 import input from './input';
 import CreateStore from '../stores/create';
+import base from './base';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
@@ -30,10 +31,12 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Create',
-	mixins: [React.addons.PureRenderMixin, React.addons.LinkedStateMixin],
 	getInitialState: function() {
+		// Reset the store
+		CreateStore.initialize();
+
 		// Set initial form height
 		let formHeight;
 
@@ -51,7 +54,7 @@ export default React.createClass({
 		// Get form's expanded height, reset
 		let form = this.getDOMNode().getElementsByTagName('form')[0];
 		form.style.height = 'auto';
-		let formHeight = form.offsetHeight;
+		let formHeight = form.offsetHeight + 1;
 		form.style.height = this.state.formHeight;
 
 		// Save, causing a needless render
@@ -207,4 +210,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

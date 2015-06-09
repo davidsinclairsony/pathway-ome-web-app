@@ -1,7 +1,8 @@
-import {React} from '../../libs';
+import {assign, React} from '../../libs';
+import base from './base';
 
-export default React.createClass({displayName: 'Logo',
-	mixins: [React.addons.PureRenderMixin],
+export default React.createClass(assign({}, base, {
+	displayName: 'Logo',
 	render: function() {
 		return React.createElement("svg", {x: "0px", y: "0px", viewBox: "0 0 96 36", "enable-background": "new 0 0 96 36"},
 			React.createElement("path", {d: "M13.2,20.7v8.1C12.6,28.9,12,29,11.4,29c-3.1,0-5.7-1-7.8-3.1s-3.1-4.6-3.1-7.7c0-3,1.1-5.6,3.2-7.7s4.7-3.1,7.7-3.1 c3.4,0,6,1,8,3c1.9,2,2.9,4.7,2.9,8.1v10.2h-7.8v-9.6c0-1.1-0.3-2-0.8-2.6c-0.5-0.7-1.3-1-2.2-1c-0.8,0-1.5,0.3-2.1,0.9 c-0.6,0.6-0.9,1.3-0.9,2.1c0,0.9,0.3,1.6,0.8,2.1c0.5,0.6,1.2,0.8,2.1,0.8C11.9,21.2,12.6,21,13.2,20.7z"}),
@@ -11,4 +12,4 @@ export default React.createClass({displayName: 'Logo',
 			React.createElement("path", {d: "M86.5,20.7v8.1c-0.6,0.1-1.2,0.2-1.8,0.2c-3.1,0-5.7-1-7.8-3.1s-3.1-4.6-3.1-7.7c0-3,1.1-5.6,3.2-7.7s4.7-3.1,7.7-3.1 c3.4,0,6,1,8,3c1.9,2,2.9,4.7,2.9,8.1v10.2h-7.8v-9.6c0-1.1-0.3-2-0.8-2.6c-0.5-0.7-1.3-1-2.2-1c-0.8,0-1.5,0.3-2.1,0.9 c-0.6,0.6-0.9,1.3-0.9,2.1c0,0.9,0.3,1.6,0.8,2.1c0.5,0.6,1.2,0.8,2.1,0.8C85.3,21.2,86,21,86.5,20.7z"})
 		);
 	}
-});
+}));
