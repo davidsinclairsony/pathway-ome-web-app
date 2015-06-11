@@ -1,6 +1,12 @@
 import {keyMirror} from '../libs';
 
 let Actions = keyMirror({
+	ACTIVATE_HIDE_ALL_HELP: null,
+	ACTIVATE_ON_FIELD_CHANGE: null,
+	ACTIVATE_RESPONSE_HANDLER: null,
+	ACTIVATE_SUBMIT: null,
+	ACTIVATE_TOGGLE_SHOW_HELP: null,
+	ACTIVATE_VALIDATE_ALL: null,
 	CREATE_HIDE_ALL_HELP: null,
 	CREATE_ON_FIELD_CHANGE: null,
 	CREATE_RESPONSE_HANDLER: null,
@@ -24,8 +30,8 @@ let Api = {
 	BASE_URL: BASE_URL,
 	LOGIN_URL: BASE_URL + 'user/login',
 	CREATE_URL: BASE_URL + 'user/create',
-	LOGIN_USER: BASE_URL + 'user/login',
-	LOGOUT_USER: BASE_URL + 'user/logout'
+	ACTIVATE_URL: BASE_URL + 'user/activate',
+	GET_ACTIVATION_LINK_URL: BASE_URL + 'user/getActivationLink'
 };
 
 export default {Actions, Api};

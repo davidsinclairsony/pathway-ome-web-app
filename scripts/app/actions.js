@@ -79,13 +79,46 @@ let Create = {
 	}
 };
 
+let Activate = {
+	hideAllHelp: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_HIDE_ALL_HELP
+		});
+	},
+	onFieldChange: (field, value) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_ON_FIELD_CHANGE,
+			field,
+			value
+		});
+	},
+	responseHandler: response => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_RESPONSE_HANDLER,
+			response
+		});
+	},
+	submit: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.ACTIVATE_SUBMIT});
+	},
+	toggleShowHelp: field => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_TOGGLE_SHOW_HELP,
+			field
+		});
+	},
+	validateAll: () => {
+		Dispatcher.dispatch({actionType: Constants.ACTIVATE.LOGIN_VALIDATE_ALL});
+	}
+};
+
 let Start = {
 	toggleShowExpanded: (component) => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.START_TOGGLE_SHOW_EXPANDED,
+			actionType: Constants.Actions.ACTIVATE_TOGGLE_SHOW_EXPANDED,
 			component
 		});
 	}
 };
 
-export default {Login, Create, Start};
+export default {Login, Create, Activate, Start};

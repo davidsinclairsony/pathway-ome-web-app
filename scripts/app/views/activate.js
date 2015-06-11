@@ -1,41 +1,58 @@
-import {assign, React, TweenMax} from '../../libs';
+import {assign, React} from '../../libs';
 import logo from '../components/logo';
-// import verify from '../components/verify';
+import getActivationLink from '../components/getActivationLink';
 import footer from '../components/footer';
-import AuthenticationStore from '../stores/authentication';
+import ActivateStore from '../stores/activate';
 import base from '../components/base';
+import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 // Get state from store
-let getState = function() {
+let getState = () => {
 	return {
 
 	};
 };
 
 export default React.createClass(assign({}, base, {
-	displayName: 'Verify',
+	displayName: 'Activate',
 	getInitialState: function() {
+		// Reset store
+		ActivateStore.initialize();
+
 		return getState();
 	},
 	componentDidMount: function() {
-		AuthenticationStore.addChangeListener(this._onChange);
+		ActivateStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		AuthenticationStore.removeChangeListener(this._onChange);
+		ActivateStore.removeChangeListener(this._onChange);
 	},
 	render: function() {
 		let inner = [];
-		let props = {
-			className: 'verify view'
-		};
+		let props = {className: 'activate view'};
 
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
 
-		inner.push(React.DOM.p({key: 1}, 'Please verify!'));
+		// Dyanmic area
+		let dynamicInner = [];
+
+		// Add needs getActivationLink component if needed
+		if(true) {
+			dynamicInner.push(React.createElement(getActivationLink, {key: 0}));
+		}
+
+		inner.push(React.createElement(TransitionGroup,
+			{
+				key: 2,
+				transitionName: 'fade-fast',
+				transitionAppear: true
+			},
+			dynamicInner
+		));
 
 		// Add footer
-		inner.push(React.createElement(footer, {key: 2}));
+		inner.push(React.createElement(footer, {key: 3}));
 
 		return React.DOM.div(props, inner);
 	},

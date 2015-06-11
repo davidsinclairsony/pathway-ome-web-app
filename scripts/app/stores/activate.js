@@ -9,17 +9,10 @@ import Authenticator from '../utilities/authenticator';
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
-		name: 'login',
+		name: 'activate',
 		isWaiting: false,
-		stayLoggedIn: true,
 		fields: {
 			email: {
-				isValid: undefined,
-				showHelp: false,
-				help: undefined,
-				value: undefined
-			},
-			password: {
 				isValid: undefined,
 				showHelp: false,
 				help: undefined,
@@ -65,16 +58,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	initialize: function() {
 		// Set defaults
 		storage = defaults();
-
-		// Save any data from local storage
-		if(localStorage[storage.name]) {
-			// Get old data
-			let data = JSON.parse(localStorage[storage.name]);
-
-			// Save some previous data from local storage
-			save(storage.fields, 'email', data.fields.email);
-		}
-
 		save();
 	},
 	onFieldChange: function(field, value) {
@@ -91,16 +74,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				// If invalid, set correct help
 				if(!fieldObject.isValid) {
 					save(fieldObject, 'help', Help.invalidEmail);
-				}
-
-				break;
-			case 'password':
-				// Set validation result
-				save(fieldObject, 'isValid', Validator.isPasswordValid(value));
-
-				// If invalid, set correct help
-				if(!fieldObject.isValid) {
-					save(fieldObject, 'help', Help.invalidPassword);
 				}
 
 				break;
@@ -126,29 +99,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		switch(response.statusCode) {
 			// Success
 			case 200:
-				// Prepare authentication storage
-				let authStorage = {jwt: response.auth};
-
-				// Save JWT to local or session storage
-				if(storage.stayLoggedIn) {
-					localStorage.authentication = JSON.stringify(authStorage);
-				} else {
-					sessionStorage.authentication = JSON.stringify(authStorage);
-				}
-
-				// Reset login storage to defaults and email
-				let email = storage.fields.email.value;
+				// Show success message
+				console.log('success');
 
 				// Set defaults
 				storage = defaults();
-
-				// Save
-				storage.fields.email.value = email;
-
 				save();
-
-				// Trigger navigation to activate
-				router.transitionTo('home');
 
 				break;
 			// Not a valid email
@@ -156,16 +112,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				this.setHelp('email', Help.incorrectEmail);
 					save(storage.fields.email, 'isValid', false);
 				break;
-			// Either bad password or no account associated to email
+			// No account associated to email
 			case 401:
-				if(response.message == 'Invalid password') {
-					this.setHelp('password', Help.incorrectPassword);
-					save(storage.fields.password, 'isValid', false);
-				} else {
-					this.setHelp('email', Help.incorrectEmail);
-					save(storage.fields.email, 'isValid', false);
-				}
-
+				this.setHelp('email', Help.incorrectEmail);
+				save(storage.fields.email, 'isValid', false);
 				break;
 			// Trouble!
 			case 500:
@@ -184,12 +134,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		// Gather data
 		let data = {
-			email: storage.fields.email.value,
-			password: storage.fields.password.value
+			email: storage.fields.email.value
 		};
 
 		// Pew pew pew
-		Authenticator.login(data).catch(error => {
+		Authenticator.getActivationLink(data).catch(error => {
 			this.responseHandler(JSON.parse(error.response));
 			this.emitChange();
 		});
@@ -203,9 +152,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		// Save new state
 		save(storage.fields[field], 'showHelp', !showHelp);
-	},
-	toggleStayLoggedIn: function() {
-		save(storage, 'stayLoggedIn', !storage.stayLoggedIn);
 	},
 	validateAll: function() {
 		for(let field in storage.fields) {
@@ -225,31 +171,27 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.LOGIN_HIDE_ALL_HELP:
+		case Constants.Actions.ACTIVATE_HIDE_ALL_HELP:
 			Store.hideAllHelp();
 			Store.emitChange();
 			break;
-		case Constants.Actions.LOGIN_ON_FIELD_CHANGE:
+		case Constants.Actions.ACTIVATE_ON_FIELD_CHANGE:
 			Store.onFieldChange(action.field, action.value);
 			Store.emitChange();
 			break;
-		case Constants.Actions.LOGIN_RESPONSE_HANDLER:
+		case Constants.Actions.ACTIVATE_RESPONSE_HANDLER:
 			Store.responseHandler(action.response);
 			Store.emitChange();
 			break;
-		case Constants.Actions.LOGIN_SUBMIT:
+		case Constants.Actions.ACTIVATE_SUBMIT:
 			Store.submit();
 			Store.emitChange();
 			break;
-		case Constants.Actions.LOGIN_TOGGLE_SHOW_HELP:
+		case Constants.Actions.ACTIVATE_TOGGLE_SHOW_HELP:
 			Store.toggleShowHelp(action.field);
 			Store.emitChange();
 			break;
-		case Constants.Actions.LOGIN_TOGGLE_STAY_LOGGED_IN:
-			Store.toggleStayLoggedIn();
-			Store.emitChange();
-			break;
-		case Constants.Actions.LOGIN_VALIDATE_ALL:
+		case Constants.Actions.ACTIVATE_VALIDATE_ALL:
 			Store.validateAll();
 			Store.emitChange();
 			break;

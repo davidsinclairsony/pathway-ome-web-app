@@ -20,10 +20,11 @@
 	@import "app/components/circle";
 	@import "app/components/waiting";
 	@import "app/components/footer";
+	@import "app/components/getActivationLink";
 	@import "app/components/create-and-login";
 	@import "app/components/input";
 	@import "app/views/waiting";
 	@import "app/views/start";
-	@import "app/views/verify";
+	@import "app/views/activate";
 	@import "app/views/error";
 }
