@@ -1,77 +1,99 @@
-import {assign, React} from '../../libs';
+import {React, ReactRouter, Velocity, assign} from '../../libs';
 import Actions from '../actions';
-import Authenticator from '../utilities/authenticator';
-import Help from '../data/help';
+import Validator from '../utilities/validator';
+import input from './input';
+import LoginStore from '../stores/login';
 import base from './base';
+import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+
+let getState = () => {
+	return {
+		isWaiting: LoginStore.get(['isWaiting']),
+		stayLoggedIn: LoginStore.get(['stayLoggedIn']),
+		isEmailValid: LoginStore.get(['fields', 'email', 'isValid']),
+		emailHelp: LoginStore.get(['fields', 'email', 'help']),
+		showEmailHelp: LoginStore.get(['fields', 'email', 'showHelp']),
+		emailValue: LoginStore.get(['fields', 'email', 'value']),
+		isPasswordValid: LoginStore.get(['fields', 'password', 'isValid']),
+		passwordHelp: LoginStore.get(['fields', 'password', 'help']),
+		showPaswordHelp: LoginStore.get(['fields', 'password', 'showHelp']),
+		passwordValue: LoginStore.get(['fields', 'password', 'value'])
+	};
+};
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Login',
 	getInitialState: function() {
+		// Reset the store
+		LoginStore.initialize();
+
 		// Set initial form height
-		let height;
+		let formHeight;
 
 		if(this.props.showExpanded) {
-			height = 'auto';
+			formHeight = 'auto';
 		} else {
-			height = 0;
+			formHeight = 0;
 		}
 
-		return {
-			formHeight: height,
-			showExpanded: this.props.showExpanded,
-			email: this.props.email,
-			password: '',
-			isEmailValid: this.props.isEmailValid,
-			isPasswordValid: this.props.isPasswordValid
-		};
-	},
-	toggleAction: function() {
-		if(this.props.collapsible) {
-			this.setState({showExpanded: !this.state.showExpanded});
-		}
-	},
-	loginAction: function(event) {
-		event.preventDefault();
-
-		// Authenticate a user
-		Authenticator.login(this.state.email, this.state.password)
-			.catch(function(error) {
-				console.log('Error logging in', error);
-			}
-		);
-	},
-	passwordResetAction: function() {
-		Actions.Login.showPasswordReset();
+		return assign({}, getState(), {formHeight});
 	},
 	componentDidMount: function() {
+		LoginStore.addChangeListener(this._onChange);
+
 		// Get form's expanded height, reset
 		let form = this.getDOMNode().getElementsByTagName('form')[0];
 		form.style.height = 'auto';
-		let formHeight = form.offsetHeight;
+		let formHeight = form.offsetHeight + 1;
 		form.style.height = this.state.formHeight;
 
 		// Save, causing a needless render
 		this.setState({formHeight: formHeight});
+	},
+	componentWillUnmount: function() {
+		LoginStore.removeChangeListener(this._onChange);
 	},
 	componentDidUpdate: function() {
 		// Get form node
 		let form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
-		if(this.state.showExpanded) {
-			TweenMax.to(form, 0.1, {height: this.state.formHeight});
+		if(this.props.showExpanded) {
+			Velocity(form, {height: this.state.formHeight}, {
+				duration: 100,
+				easing: 'linear',
+				complete: () => {
+					form.style.overflow = 'visible';
+				}
+			});
 		} else {
-			TweenMax.to(form, 0.1, {height: 0});
+			form.style.overflow = 'hidden';
+			Velocity(form, {height: 0}, {
+				duration: 100,
+				easing: 'linear'
+			});
+		}
+	},
+	submitAction: function(event) {
+		event.preventDefault();
+
+		// Submit if all valid
+		if(
+			this.state.isEmailValid &&
+			this.state.isPasswordValid
+		) {
+			Actions.Login.submit();
+		} else {
+			Actions.Login.validateAll();
 		}
 	},
 	render: function() {
-		let self = this;
 		let inner = [];
 		let props = {
 			className: 'login'
 		};
 
-		// Add class if collapsible
+		// Add class if collapsible for hover effects and pointer
 		if(this.props.collapsible) {
 			props.className += ' collapsible';
 		}
@@ -79,85 +101,113 @@ export default React.createClass(assign({}, base, {
 		// Add h2
 		inner.push(React.DOM.h2({
 			key: 0,
-			onClick: this.toggleAction
-		}, 'Log In to an Account'));
+			onClick: () => {
+				Actions.Login.hideAllHelp();
+				Actions.Start.toggleShowExpanded('login');
+			},
+		}, 'Log In'));
 
 		// Create form inner
 		let formInner = [];
 
-		// Add email
-		formInner.push(React.DOM.div(
-			{
-				key: 0,
-				className: this.state.isEmailValid ? '' : 'invalid'
+		// Add email input
+		formInner.push(React.createElement(input, {
+			key: 0,
+			type: 'email',
+			placeholder: 'Email',
+			shouldValidate: true,
+			isValid: this.state.isEmailValid,
+			help: this.state.emailHelp,
+			value: this.state.emailValue,
+			showHelp: this.state.showEmailHelp,
+			onChangeCallback: event => {
+				Actions.Login.onFieldChange('email', event.target.value);
 			},
-			[
-				React.DOM.input({
-					key: 0,
-					type: 'email',
-					placeholder: 'Email',
-					valueLink: this.linkState('email')
-				}),
-				React.DOM.div({
-					key: 1,
-					className: this.state.isEmailValid ? '' : 'icon-help'
-				})
-			]
-		));
+			toggleShowHelpCallback: () => {
+				Actions.Login.toggleShowHelp('email');
+			}
+		}));
 
-		// Add password
-		formInner.push(React.DOM.div(
-			{
-				key: 1,
-				className: this.state.isPasswordValid ? '' : 'invalid'
+		// Add password input
+		formInner.push(React.createElement(input, {
+			key: 1,
+			type: 'password',
+			placeholder: 'Password',
+			shouldValidate: true,
+			isValid: this.state.isPasswordValid,
+			help: this.state.passwordHelp,
+			showHelp: this.state.showPaswordHelp,
+			onChangeCallback: event => {
+				Actions.Login.onFieldChange('password', event.target.value);
 			},
-			[
-				React.DOM.input({
-					key: 0,
-					type: 'password',
-					placeholder: 'Password'
-				}),
-				React.DOM.div({
-					key: 1,
-					className: this.state.isPasswordValid ? '' : 'icon-help'
-				}),
+			toggleShowHelpCallback: () => {
+				Actions.Login.toggleShowHelp('password');
+			}
+		}));
+
+		// Setup for staying logged in
+		let checkClasses = 'circle small clickable icon-check switch';
+
+		if(this.state.stayLoggedIn) {
+			checkClasses += ' off';
+		} else {
+			checkClasses += ' on';
+		}
+
+		// Add stay logged in input
+		formInner.push(React.DOM.div({key: 2, className: 'input stayLoggedIn'}, [
+			React.DOM.div({key: 0, className: 'icon-save'}),
+			React.DOM.span({key: 1}, 'Stay logged in?'),
+			React.DOM.aside({key: 2},
 				React.DOM.div({
 					key: 2,
-					className: 'tip',
-				}, Help.invalidPassword)
-			]
-		));
-
-		// Login area
-		formInner.push(React.DOM.footer({key: 2}, [
-			React.DOM.div({key: 0}, [
-				React.DOM.span({key: 0}, 'Save?'),
-				React.DOM.input({
-					key: 1,
-					type: 'checkbox'
+					className: checkClasses,
+					onClick: Actions.Login.toggleStayLoggedIn
 				})
-			]),
-			React.DOM.input({
-				key: 1,
-				className: 'button neutral medium',
-				type: 'submit',
-				value: 'Login',
-				onClick: this.loginAction
-			})
+			)
 		]));
 
-		// Add password reset link
-		formInner.push(React.DOM.p({key: 3}, [
-			'Need your password reset? ',
-			React.DOM.a({
-				key: 1,
-				onClick: this.passwordResetAction
-			}, 'Click here'),
+		// Add submit
+		formInner.push(React.DOM.input({
+			key: 3,
+			type: 'submit',
+			value: 'Log In',
+			className: 'button neutral medium',
+			onClick: this.submitAction
+		}));
+
+		// Setup for waiting overlay
+		let isWaiting;
+
+		if(this.state.isWaiting) {
+			isWaiting = React.DOM.div({className: 'waiting'});
+		}
+
+		// Add overlay in transition group
+		formInner.push(React.createElement(TransitionGroup,
+			{
+				key: 4,
+				transitionName: 'fade-fast',
+				transitionAppear: true
+			},
+			isWaiting
+		));
+
+		// Add form
+		inner.push(React.DOM.form({key: 1}, formInner));
+
+		// Add link for verifying email
+		inner.push(React.DOM.p({key: 2}, [
+			'Need to reset your password? ',
+			React.createElement(ReactRouter.Link,
+				{key: 1, to: "reset"}, "Click here"
+			),
 			'.'
 		]));
 
-		inner.push(React.DOM.form({key: 1}, formInner));
-
 		return React.DOM.div(props, inner);
+	},
+	_onChange: function() {
+		this.setState(getState());
 	}
 }));

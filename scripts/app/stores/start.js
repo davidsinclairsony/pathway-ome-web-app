@@ -1,17 +1,19 @@
-import {assign} from '../../libs';
+import {assign, events} from '../../libs';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Actions from '../actions';
-import BaseStore from './base';
 
-let defaults = () => {return {
-	name: 'start',
-	createShowExpanded: true,
-	createCollapsible: true,
-	loginShowExpanded: true,
-	loginCollapsible: true
-};};
+let CHANGE_EVENT = 'change';
+let defaults = () => {
+	return {
+		name: 'start',
+		createShowExpanded: true,
+		createCollapsible: true,
+		loginShowExpanded: true,
+		loginCollapsible: true
+	};
+};
 let save = function(object, key, value) {
 	// Save within storage
 	if(object) {
@@ -23,7 +25,13 @@ let save = function(object, key, value) {
 };
 let storage;
 
-let Store = assign({}, BaseStore, {
+let Store = assign({}, events.EventEmitter.prototype, {
+	addChangeListener: function(callback) {
+		this.on(CHANGE_EVENT, callback);
+	},
+	emitChange: function() {
+		this.emit(CHANGE_EVENT);
+	},
 	get: function(keys) {
 		let value = storage;
 
@@ -37,16 +45,24 @@ let Store = assign({}, BaseStore, {
 		// Set defaults
 		storage = defaults();
 
-		// Save any data from local storage
-		if(localStorage[storage.name]) {
-			// Get old data
-			let data = JSON.parse(localStorage[storage.name]);
+		// Get login data, otherwise hide login
+		if(localStorage.login) {
+			let loginStorage = JSON.parse(localStorage.login);
 
-			// Save some previous data from local storage
-			save(storage, 'showExpanded', data.showExpanded);
+			// Check if user has a saved email from a previous account creation
+			if(loginStorage.fields.email.value) {
+				save(storage, 'createShowExpanded', false);
+			} else {
+				save(storage, 'loginShowExpanded', false);
+			}
 		} else {
-			save();
+			save(storage, 'loginShowExpanded', false);
 		}
+
+		save();
+	},
+	removeChangeListener: function(callback) {
+		this.removeListener(CHANGE_EVENT, callback);
 	},
 	toggleShowExpanded: function(component) {
 		switch(component) {

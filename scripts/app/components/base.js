@@ -1,6 +1,6 @@
 import {assign, React, ReactPureRender} from '../../libs';
 
-let base = {
+export default {
 	shouldComponentUpdate(nextProps, nextState) {
 		if(this.context.router) {
 			const changed =
@@ -25,5 +25,3 @@ let base = {
 	  router: React.PropTypes.func
 	}
 };
-
-export default base;

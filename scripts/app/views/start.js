@@ -8,20 +8,20 @@ import base from '../components/base';
 
 // Get state from store
 let getState = () => {
-	// Reset store
-	StartStore.initialize();
-
 	return {
 		createShowExpanded: StartStore.get(['createShowExpanded']),
 		createCollapsible: StartStore.get(['createCollapsible']),
-		loginShowExpanded: true,
-		loginCollapsible: true
+		loginShowExpanded: StartStore.get(['loginShowExpanded']),
+		loginCollapsible: StartStore.get(['loginCollapsible'])
 	};
 };
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Start',
 	getInitialState: function() {
+		// Reset store
+		StartStore.initialize();
+
 		return getState();
 	},
 	componentDidMount: function() {
@@ -46,7 +46,12 @@ export default React.createClass(assign({}, base, {
 		}));
 
 		// Add login component
+		inner.push(React.createElement(login, {
+			key: 2,
+			showExpanded: this.state.loginShowExpanded,
+			collapsible: this.state.loginCollapsible,
 
+		}));
 
 		// Add footer
 		inner.push(React.createElement(footer, {key: 3}));

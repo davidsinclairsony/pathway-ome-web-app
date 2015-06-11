@@ -1,7 +1,6 @@
 import {React, ReactRouter, Velocity, assign} from '../../libs';
 import Actions from '../actions';
 import Validator from '../utilities/validator';
-import Help from '../data/help';
 import input from './input';
 import CreateStore from '../stores/create';
 import base from './base';
@@ -65,8 +64,7 @@ export default React.createClass(assign({}, base, {
 	},
 	componentDidUpdate: function() {
 		// Get form node
-		let create = this.getDOMNode();
-		let form = create.getElementsByTagName('form')[0];
+		let form = this.getDOMNode().getElementsByTagName('form')[0];
 
 		// Animate height after update
 		if(this.props.showExpanded) {
@@ -123,9 +121,7 @@ export default React.createClass(assign({}, base, {
 		let formInner = [];
 
 		// Add email input
-		let emailInput;
-
-		emailInput = React.createElement(input, {
+		formInner.push(React.createElement(input, {
 			key: 0,
 			type: 'email',
 			placeholder: 'Email',
@@ -140,9 +136,7 @@ export default React.createClass(assign({}, base, {
 			toggleShowHelpCallback: () => {
 				Actions.Create.toggleShowHelp('email');
 			}
-		});
-
-		formInner.push(emailInput);
+		}));
 
 		// Add password input
 		formInner.push(React.createElement(input, {
@@ -186,12 +180,22 @@ export default React.createClass(assign({}, base, {
 			onClick: this.submitAction
 		}));
 
+		let isWaiting;
+
 		if(this.state.isWaiting) {
-			formInner.push(React.DOM.div({
-				key: 4,
+			isWaiting = React.DOM.div({
 				className: 'waiting'
-			}));
+			});
 		}
+
+		formInner.push(React.createElement(TransitionGroup,
+			{
+				key: 4,
+				transitionName: 'fade-fast',
+				transitionAppear: true
+			},
+			isWaiting
+		));
 
 		// Add form
 		inner.push(React.DOM.form({key: 1}, formInner));

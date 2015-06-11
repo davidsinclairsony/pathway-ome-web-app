@@ -1,36 +1,38 @@
-import {assign, React} from '../../libs';
+import {assign, events} from '../../libs';
 import router from '../router';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
 import Authenticator from '../utilities/authenticator';
-import BaseStore from './base';
 
-let defaults = () => {return {
-	name: 'create',
-	isWaiting: false,
-	fields: {
-		email: {
-			isValid: undefined,
-			showHelp: false,
-			help: undefined,
-			value: undefined
-		},
-		password: {
-			isValid: undefined,
-			showHelp: false,
-			help: undefined,
-			value: undefined
-		},
-		repeatPassword: {
-			isValid: undefined,
-			showHelp: false,
-			help: undefined,
-			value: undefined
+let CHANGE_EVENT = 'change';
+let defaults = () => {
+	return {
+		name: 'create',
+		isWaiting: false,
+		fields: {
+			email: {
+				isValid: undefined,
+				showHelp: false,
+				help: undefined,
+				value: undefined
+			},
+			password: {
+				isValid: undefined,
+				showHelp: false,
+				help: undefined,
+				value: undefined
+			},
+			repeatPassword: {
+				isValid: undefined,
+				showHelp: false,
+				help: undefined,
+				value: undefined
+			}
 		}
-	}
-};};
+	};
+};
 let save = function(object, key, value) {
 	// Save within storage
 	if(object) {
@@ -42,7 +44,13 @@ let save = function(object, key, value) {
 };
 let storage;
 
-let Store = assign({}, BaseStore, {
+let Store = assign({}, events.EventEmitter.prototype, {
+	addChangeListener: function(callback) {
+		this.on(CHANGE_EVENT, callback);
+	},
+	emitChange: function() {
+		this.emit(CHANGE_EVENT);
+	},
 	get: function(keys) {
 		let value = storage;
 
@@ -62,17 +70,7 @@ let Store = assign({}, BaseStore, {
 	initialize: function() {
 		// Set defaults
 		storage = defaults();
-
-		// Save any data from local storage
-		if(localStorage[storage.name]) {
-			// Get old data
-			let data = JSON.parse(localStorage[storage.name]);
-
-			// Save some previous data from local storage
-			save(storage.fields, 'email', data.fields.email);
-		} else {
-			save();
-		}
+		save();
 	},
 	onFieldChange: function(field, value) {
 		let fieldObject = storage.fields[field];
@@ -124,11 +122,60 @@ let Store = assign({}, BaseStore, {
 
 		// Hide help if it was showing and the field is now valid
 		if(fieldObject.isValid) {
-			save(fieldObject, 'shouldShowHelp', false);
+			save(fieldObject, 'showHelp', false);
 		}
 	},
+	removeChangeListener: function(callback) {
+		this.removeListener(CHANGE_EVENT, callback);
+	},
+	responseHandler: function(response) {
+		var setAllFieldsInvalid = () => {
+			for(let field in storage.fields) {
+				if(storage.fields.hasOwnProperty(field)) {
+					storage.fields[field].isValid = false;
+				}
+			}
+		};
+
+		switch(response.statusCode) {
+			// Success
+			case 200:
+				// Create new login storage object
+				let loginStorage = {
+					fields: {
+						email: {
+							value: storage.fields.email.value
+						}
+					}
+				};
+
+				// Save email to local storage
+				localStorage.login = JSON.stringify(loginStorage);
+
+				// Trigger navigation to activate
+				router.transitionTo('activate');
+
+				break;
+			// An invalid email or password was sent
+			case 400:
+				setAllFieldsInvalid();
+				break;
+			// Account already exists
+			case 409:
+				// Make email field invalid and set help
+				this.setHelp('email', Help.emailInUse);
+				save(storage.fields.email, 'isValid', false);
+				break;
+			// Trouble!
+			case 500:
+				setAllFieldsInvalid();
+				break;
+		}
+
+		save(storage, 'isWaiting', false);
+	},
 	setHelp: function(field, help) {
-		save(storage.fields[field].help, help);
+		save(storage.fields[field], 'help', help);
 	},
 	submit: function() {
 		// Show waiting
@@ -142,21 +189,10 @@ let Store = assign({}, BaseStore, {
 		};
 
 		// Pew pew pew
-		Authenticator.create(data).catch(function(error) {
-			console.log("Error logging in", error);
+		Authenticator.create(data).catch(error => {
+			this.responseHandler(JSON.parse(error.response));
+			this.emitChange();
 		});
-	},
-	success: function() {
-		// Trigger navigation to activate
-		router.transitionTo('activate');
-
-		// Create new login storage object
-		let loginStorage = {
-			email: storage.fields.email.value
-		};
-
-		// Save email to local storage
-		localStorage.login = JSON.stringify(loginStorage);
 	},
 	toggleShowHelp: function(field) {
 		// Save current state
@@ -166,13 +202,21 @@ let Store = assign({}, BaseStore, {
 		this.hideAllHelp();
 
 		// Save new state
-		save(storage.fields[field], '/showHelp', !showHelp);
+		save(storage.fields[field], 'showHelp', !showHelp);
 	},
 	validateAll: function() {
 		for(let field in storage.fields) {
 			if(storage.fields.hasOwnProperty(field)) {
 				this.onFieldChange(field, storage.fields[field].value);
 			}
+		}
+
+		if(
+			storage.fields.email.isValid &&
+			storage.fields.password.isValid &&
+			storage.fields.repeatPassword.isValid
+		) {
+			this.submit();
 		}
 	}
 });
@@ -191,12 +235,12 @@ Dispatcher.register(function(action) {
 			Store.onFieldChange(action.field, action.value);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_SUBMIT:
-			Store.submit();
+		case Constants.Actions.CREATE_RESPONSE_HANDLER:
+			Store.responseHandler(action.response);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_SUCCESS:
-			Store.success();
+		case Constants.Actions.CREATE_SUBMIT:
+			Store.submit();
 			Store.emitChange();
 			break;
 		case Constants.Actions.CREATE_TOGGLE_SHOW_HELP:

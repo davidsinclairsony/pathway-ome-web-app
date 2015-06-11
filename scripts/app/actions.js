@@ -2,15 +2,44 @@ import Dispatcher from './dispatcher';
 import Constants from './constants';
 
 let Login = {
-
+	hideAllHelp: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_HIDE_ALL_HELP
+		});
+	},
+	onFieldChange: (field, value) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_ON_FIELD_CHANGE,
+			field,
+			value
+		});
+	},
+	responseHandler: response => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_RESPONSE_HANDLER,
+			response
+		});
+	},
+	submit: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_SUBMIT});
+	},
+	toggleShowHelp: field => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_TOGGLE_SHOW_HELP,
+			field
+		});
+	},
+	toggleStayLoggedIn: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_TOGGLE_STAY_LOGGED_IN
+		});
+	},
+	validateAll: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_VALIDATE_ALL});
+	}
 };
 
 let Create = {
-	goToVerify: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_GO_TO_VERIFY
-		});
-	},
 	hideAllHelp: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_HIDE_ALL_HELP
@@ -19,32 +48,30 @@ let Create = {
 	onFieldChange: (field, value) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_ON_FIELD_CHANGE,
-			field: field,
-			value: value
+			field,
+			value
+		});
+	},
+	responseHandler: response => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_RESPONSE_HANDLER,
+			response
 		});
 	},
 	setHelp: (field, help) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_SET_HELP,
-			field: field,
-			help: help
+			field,
+			help
 		});
 	},
 	submit: () => {
 		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_SUBMIT});
 	},
-	success: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_SUCCESS});
-	},
-	toggleShowExpanded: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_EXPANDED
-		});
-	},
 	toggleShowHelp: field => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_HELP,
-			field: field
+			field
 		});
 	},
 	validateAll: () => {
@@ -56,7 +83,7 @@ let Start = {
 	toggleShowExpanded: (component) => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.START_TOGGLE_SHOW_EXPANDED,
-			component: component
+			component
 		});
 	}
 };

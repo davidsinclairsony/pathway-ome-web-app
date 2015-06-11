@@ -10,7 +10,7 @@ export default React.createClass(assign({}, base, {
 		return React.DOM.div({id: 'app'},
 			React.createElement(TransitionGroup,
 				{
-					transitionName: 'fade',
+					transitionName: 'fade-slow',
 					transitionAppear: true
 				},
 				React.createElement(ReactRouter.RouteHandler, {key: name})

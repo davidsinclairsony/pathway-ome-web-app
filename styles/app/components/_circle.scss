@@ -3,6 +3,10 @@
 	border-radius: 1em;
 	text-align: center;
 
+	&.clickable {
+		cursor: pointer;
+	}
+
 	&.small {
 		height: 20px;
 		width: 20px;
@@ -46,6 +50,26 @@
 		&.clickable {
 			&:hover {
 				background: lighten($c-3, 5%);
+			}
+		}
+	}
+
+	&.switch {
+		color: white;
+
+		&.off {
+			background: gray;
+
+			&:hover {
+				background: $c-2;
+			}
+		}
+
+		&.on {
+			background: $c-2;
+
+			&:hover {
+				background: gray;
 			}
 		}
 	}

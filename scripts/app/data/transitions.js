@@ -1,6 +1,6 @@
 export default {
 	'slide-forward': {
-		duration: 1000,
+		duration: 500,
 		enter: {
 			translateX: ['0%', '100%'],
 		},
@@ -9,7 +9,7 @@ export default {
 		}
 	},
 	'slide-back': {
-		duration: 1000,
+		duration: 500,
 			enter: {
 				translateX: ['0%', '-100%'],
 			},
@@ -18,7 +18,7 @@ export default {
 		}
 	},
 	'slideover-forward': {
-		duration: 1000,
+		duration: 500,
 			enter: {
 				translateX: ['0%', '100%'],
 				zIndex: [1, 1 ]
@@ -29,7 +29,7 @@ export default {
 		}
 	},
 	'slideover-back': {
-		duration: 1000,
+		duration: 500,
 		enter: {
 			// translateX: ['0%', '0%'],
 			zIndex: [0, 0 ]
@@ -39,8 +39,8 @@ export default {
 			zIndex: [1, 1 ]
 		}
 	},
-	'fade': {
-		duration: 1000,
+	'fade-slow': {
+		duration: 500,
 		enter: {
 			opacity: [1, 0],
 		},
@@ -48,8 +48,18 @@ export default {
 			opacity: [0, 1],
 		}
 	},
+	'fade-fast': {
+		duration: 100,
+		enter: {
+			opacity: [1, 0],
+		},
+		leave: {
+			opacity: [0, 1],
+		}
+	},
+
 	default: {
-		duration: 1000,
+		duration: 500,
 		enter: {
 			opacity: [1, 0],
 		},
