@@ -156,18 +156,14 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				router.transitionTo('activate');
 
 				break;
-			// An invalid email or password was sent
-			case 400:
-				setAllFieldsInvalid();
-				break;
 			// Account already exists
 			case 409:
 				// Make email field invalid and set help
 				this.setHelp('email', Help.emailInUse);
 				save(storage.fields.email, 'isValid', false);
 				break;
-			// Trouble!
-			case 500:
+			// An invalid email or password was sent
+			default:
 				setAllFieldsInvalid();
 				break;
 		}

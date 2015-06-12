@@ -12,7 +12,7 @@ export default {
 		})));
 	},
 	handleCreate: function(promise) {
-		return createPromise.then(function(response) {
+		return promise.then(function(response) {
 			Actions.Create.responseHandler(response);
 			return true;
 		});
@@ -45,4 +45,17 @@ export default {
 			return true;
 		});
 	},
+	activate: function(data) {
+		return this.handleActivate(when(reqwest({
+			url: Api.ACTIVATE_URL + '/' + data,
+			method: 'PUT',
+			type: 'json'
+		})));
+	},
+	handleActivate: function(promise) {
+		return promise.then(function(response) {
+			Actions.Activate.activateHandler(response);
+			return true;
+		});
+	}
 };

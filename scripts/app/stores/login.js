@@ -172,7 +172,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				console.log('Too mamany logins!');
 				break;
 			// Trouble!
-			case 500:
+			default:
 				setAllFieldsInvalid();
 				break;
 		}

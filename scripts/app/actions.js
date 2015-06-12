@@ -86,6 +86,12 @@ let Activate = {
 			jwt
 		});
 	},
+	activateHandler: response => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_ACTIVATE_HANDLER,
+			response
+		});
+	},
 	hideAllHelp: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.ACTIVATE_HIDE_ALL_HELP

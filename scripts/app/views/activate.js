@@ -74,10 +74,11 @@ export default React.createClass(assign({}, base, {
 			}));
 		}
 
-		// Add footer
-		inner.push(React.createElement(footer, {key: 3}));
-
-		return React.DOM.div(props, inner);
+		// Wrap for sticky footer purposes
+		return React.DOM.div(props, [
+			React.DOM.div({className: 'wrapper', key: 0}, inner),
+			React.createElement(footer, {key: 1})
+		]);
 	},
 	_onChange: function() {
 		this.setState(getState());

@@ -2,6 +2,7 @@ import {keyMirror} from '../libs';
 
 let Actions = keyMirror({
 	ACTIVATE_ACTIVATE: null,
+	ACTIVATE_ACTIVATE_HANDLER: null,
 	ACTIVATE_HIDE_ALL_HELP: null,
 	ACTIVATE_ON_FIELD_CHANGE: null,
 	ACTIVATE_RESPONSE_HANDLER: null,

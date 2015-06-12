@@ -36,10 +36,29 @@ let storage;
 
 let Store = assign({}, events.EventEmitter.prototype, {
 	activate: function(jwt) {
+		// Store new states
 		save(storage, 'hasJWT', true);
 		save(storage, 'isActivating', true);
 
-		console.log('sending now!');
+		// Pew pew pew
+		Authenticator.activate(jwt).catch(error => {
+			this.responseHandler(JSON.parse(error.response));
+			this.emitChange();
+		});
+	},
+	activateHandler: function(response) {
+		switch(response.statusCode) {
+			// Success
+			case 200:
+				save(storage, 'isActivated', true);
+				save(storage, 'isActivating', false);
+				break;
+			// Not a valid jwt or failed
+			default:
+				save(storage, 'isActivated', false);
+				save(storage, 'isActivating', false);
+				break;
+		}
 	},
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
@@ -96,7 +115,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 	responseHandler: function(response) {
-		var setAllFieldsInvalid = () => {
+		let setAllFieldsInvalid = () => {
 			for(let field in storage.fields) {
 				if(storage.fields.hasOwnProperty(field)) {
 					storage.fields[field].isValid = false;
@@ -126,7 +145,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				save(storage.fields.email, 'isValid', false);
 				break;
 			// Trouble!
-			case 500:
+			default:
 				setAllFieldsInvalid();
 				break;
 		}
@@ -181,6 +200,10 @@ Dispatcher.register(function(action) {
 	switch(action.actionType) {
 		case Constants.Actions.ACTIVATE_ACTIVATE:
 			Store.activate(action.jwt);
+			Store.emitChange();
+			break;
+		case Constants.Actions.ACTIVATE_ACTIVATE_HANDLER:
+			Store.activateHandler(action.response);
 			Store.emitChange();
 			break;
 		case Constants.Actions.ACTIVATE_HIDE_ALL_HELP:

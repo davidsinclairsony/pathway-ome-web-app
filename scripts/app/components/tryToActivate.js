@@ -1,4 +1,5 @@
 import {React, ReactRouter, Velocity, assign} from '../../libs';
+import router from '../router';
 import Actions from '../actions';
 import input from './input';
 import base from './base';
@@ -42,25 +43,31 @@ export default React.createClass(assign({}, base, {
 		inner.push(React.DOM.header({key: 0}, headerInner));
 
 		// For either form or loading icon
-		let contentInner = [];
+		let mainInner = [];
 
 		if(this.props.isActivating) {
-			// Show isWaiting
-			contentInner.push(React.DOM.div({
+			// Show waiting
+			mainInner.push(React.DOM.div({
 				key: 0,
-				className: 'isWaiting'
+				className: 'waiting'
 			}, null));
 		} else {
-			if(this.props.isActivated) {
-				// Show success link
-				contentInner.push(React.DOM.div({
-					key: 1,
-					className: 'success'
-				}, 'Yay'));
-			} else {
-				// Create form inner
-				let formInner = [];
+			// Create form inner
+			let formInner = [];
 
+			if(this.props.isActivated) {
+				// Add success button
+				formInner.push(React.DOM.input({
+					key: 3,
+					type: 'submit',
+					value: 'Go To Login',
+					className: 'button neutral medium',
+					onClick: event => {
+						event.preventDefault();
+						router.transitionTo('start');
+					}
+				}));
+			} else {
 				// Add email input
 				formInner.push(React.createElement(input, {
 					key: 0,
@@ -103,13 +110,13 @@ export default React.createClass(assign({}, base, {
 					},
 					isWaiting
 				));
-
-				// Add form
-				contentInner.push(React.DOM.form({key: 2}, formInner));
 			}
+
+			// Add form
+			mainInner.push(React.DOM.form({key: 2}, formInner));
 		}
 
-		inner.push(React.DOM.main({key: 1}, contentInner));
+		inner.push(React.DOM.main({key: 1}, mainInner));
 
 		return React.DOM.div(props, inner);
 	}
