@@ -1,7 +1,6 @@
 import {assign, events} from '../../libs';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
-import Actions from '../actions';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {

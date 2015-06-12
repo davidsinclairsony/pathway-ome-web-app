@@ -1,5 +1,4 @@
 import {assign, events} from '../../libs';
-import router from '../router';
 import Dispatcher from '../dispatcher';
 import Constants from '../constants';
 import Validator from '../utilities/validator';

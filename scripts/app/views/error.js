@@ -1,5 +1,4 @@
 import {assign, React, ReactRouter} from '../../libs';
-import router from '../router';
 import logo from '../components/logo';
 import footer from '../components/footer';
 import base from '../components/base';

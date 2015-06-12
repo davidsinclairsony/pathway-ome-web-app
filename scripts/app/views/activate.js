@@ -6,7 +6,6 @@ import getActivationLink from '../components/getActivationLink';
 import footer from '../components/footer';
 import ActivateStore from '../stores/activate';
 import base from '../components/base';
-import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 // Get state from store
 let getState = () => {
