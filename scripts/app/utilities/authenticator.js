@@ -11,7 +11,7 @@ export default {
 			data: data
 		})));
 	},
-	handleCreate: function(createPromise) {
+	handleCreate: function(promise) {
 		return createPromise.then(function(response) {
 			Actions.Create.responseHandler(response);
 			return true;
@@ -25,10 +25,24 @@ export default {
 			data: data
 		})));
 	},
-	handleLogin: function(loginPromise) {
-		return loginPromise.then(function(response) {
+	handleLogin: function(promise) {
+		return promise.then(function(response) {
 			Actions.Login.responseHandler(response);
 			return true;
 		});
-	}
+	},
+	getActivationLink: function(data) {
+		return this.handleGetActivationLink(when(reqwest({
+			url: Api.GET_ACTIVATION_LINK_URL,
+			method: 'POST',
+			type: 'json',
+			data: data
+		})));
+	},
+	handleGetActivationLink: function(promise) {
+		return promise.then(function(response) {
+			Actions.Activate.responseHandler(response);
+			return true;
+		});
+	},
 };

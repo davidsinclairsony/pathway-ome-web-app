@@ -32,4 +32,32 @@
 			}
 		}
 	}
+
+	form {
+		position: relative;
+
+		> *:nth-last-of-type(n + 2) {
+			border-bottom: 1px solid transparentize(white, .8);
+		}
+
+		.input {
+			width: 90%;
+			margin: 0 auto;
+		}
+
+		input[type="submit"] {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+			border-radius: 0 0 $g-1 $g-1;
+			outline: none;
+		}
+
+		.waiting {
+			left: 5%;
+			width: 90%;
+			background: transparentize(#243647, .1);
+			border-radius: 0 0 $g-1 $g-1;
+		}
+	}
 }

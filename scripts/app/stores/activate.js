@@ -10,6 +10,8 @@ let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
 		name: 'activate',
+		isActivated: false,
+		isActivating: false,
 		isWaiting: false,
 		fields: {
 			email: {
@@ -33,6 +35,12 @@ let save = function(object, key, value) {
 let storage;
 
 let Store = assign({}, events.EventEmitter.prototype, {
+	activate: function(jwt) {
+		save(storage, 'hasJWT', true);
+		save(storage, 'isActivating', true);
+
+		console.log('sending now!');
+	},
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
@@ -171,6 +179,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
+		case Constants.Actions.ACTIVATE_ACTIVATE:
+			Store.activate(action.jwt);
+			Store.emitChange();
+			break;
 		case Constants.Actions.ACTIVATE_HIDE_ALL_HELP:
 			Store.hideAllHelp();
 			Store.emitChange();

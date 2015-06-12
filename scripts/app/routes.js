@@ -20,6 +20,9 @@ export default React.createElement(Route, {handler: app, path: "/"},
 		{path: 'activate', name: 'activate', handler: activate}
 	),
 	React.createElement(Route,
+		{path: 'activate/:jwt', name: 'activateJWT', handler: activate}
+	),
+	React.createElement(Route,
 		{path: 'start', name: 'start', handler: start}
 	),
 	React.createElement(DefaultRoute,

@@ -167,6 +167,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				}
 
 				break;
+			// Too many login attempts
+			case 403:
+				console.log('Too mamany logins!');
+				break;
 			// Trouble!
 			case 500:
 				setAllFieldsInvalid();

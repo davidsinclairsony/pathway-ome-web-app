@@ -80,6 +80,12 @@ let Create = {
 };
 
 let Activate = {
+	activate: (jwt) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.ACTIVATE_ACTIVATE,
+			jwt
+		});
+	},
 	hideAllHelp: () => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.ACTIVATE_HIDE_ALL_HELP
@@ -108,14 +114,14 @@ let Activate = {
 		});
 	},
 	validateAll: () => {
-		Dispatcher.dispatch({actionType: Constants.ACTIVATE.LOGIN_VALIDATE_ALL});
+		Dispatcher.dispatch({actionType: Constants.Actions.ACTIVATE_VALIDATE_ALL});
 	}
 };
 
 let Start = {
 	toggleShowExpanded: (component) => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_TOGGLE_SHOW_EXPANDED,
+			actionType: Constants.Actions.START_TOGGLE_SHOW_EXPANDED,
 			component
 		});
 	}

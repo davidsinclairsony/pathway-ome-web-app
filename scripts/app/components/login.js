@@ -1,6 +1,5 @@
 import {React, ReactRouter, Velocity, assign} from '../../libs';
 import Actions from '../actions';
-import Validator from '../utilities/validator';
 import input from './input';
 import LoginStore from '../stores/login';
 import base from './base';
