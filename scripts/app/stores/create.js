@@ -39,8 +39,8 @@ let save = function(object, key, value) {
 		object[key] = value;
 	}
 
-	// Persist to local storage
-	localStorage[storage.name] = JSON.stringify(storage);
+	// Persist to session storage
+	sessionStorage[storage.name] = JSON.stringify(storage);
 };
 let storage;
 
@@ -129,7 +129,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 	responseHandler: function(response) {
-		var setAllFieldsInvalid = () => {
+		let setAllFieldsInvalid = () => {
 			for(let field in storage.fields) {
 				if(storage.fields.hasOwnProperty(field)) {
 					storage.fields[field].isValid = false;

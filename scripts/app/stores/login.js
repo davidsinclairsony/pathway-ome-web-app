@@ -34,8 +34,8 @@ let save = function(object, key, value) {
 		object[key] = value;
 	}
 
-	// Persist to local storage
-	localStorage[storage.name] = JSON.stringify(storage);
+	// Persist to session storage
+	sessionStorage[storage.name] = JSON.stringify(storage);
 };
 let storage;
 
@@ -115,7 +115,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 	responseHandler: function(response) {
-		var setAllFieldsInvalid = () => {
+		let setAllFieldsInvalid = () => {
 			for(let field in storage.fields) {
 				if(storage.fields.hasOwnProperty(field)) {
 					storage.fields[field].isValid = false;
@@ -136,15 +136,20 @@ let Store = assign({}, events.EventEmitter.prototype, {
 					sessionStorage.authentication = JSON.stringify(authStorage);
 				}
 
-				// Reset login storage to defaults and email
-				let email = storage.fields.email.value;
+				// Save email to localStorage for future login use
+				let loginLocalStorage = {
+					name: 'login',
+					fields: {
+						email: {
+							value: storage.fields.email.value
+						}
+					}
+				};
 
-				// Set defaults
+				localStorage[storage.name] = JSON.stringify(loginLocalStorage);
+
+				// Set sessionStorage defaults and save
 				storage = defaults();
-
-				// Save
-				storage.fields.email.value = email;
-
 				save();
 
 				// Trigger navigation to activate
@@ -189,11 +194,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		// Gather data
 		let data = {
 			email: storage.fields.email.value,
-			password: storage.fields.password.value
+			password: storage.fields.password.value,
+			//expiration: storage.stayLoggedIn ? 20160 : undefined // 2 weeks
 		};
 
 		// Pew pew pew
 		Authenticator.login(data).catch(error => {
+			console.log(error);
 			this.responseHandler(JSON.parse(error.response));
 			this.emitChange();
 		});

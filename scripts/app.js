@@ -5,7 +5,7 @@ import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 export default React.createClass(assign({}, base, {
 	displayName: 'App',
 	render: function() {
-		let name = this.context.router.getCurrentPath();
+		let path = this.context.router.getCurrentPath();
 
 		return React.DOM.div({id: 'app'},
 			React.createElement(TransitionGroup,
@@ -13,7 +13,7 @@ export default React.createClass(assign({}, base, {
 					transitionName: 'fade-slow',
 					transitionAppear: true
 				},
-				React.createElement(ReactRouter.RouteHandler, {key: name})
+				React.createElement(ReactRouter.RouteHandler, {key: name, path})
 			)
 		);
 	}

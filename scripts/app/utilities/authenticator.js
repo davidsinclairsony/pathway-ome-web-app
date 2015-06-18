@@ -20,7 +20,7 @@ export default {
 	login: function(data) {
 		return this.handleLogin(when(reqwest({
 			url: Api.LOGIN_URL,
-			method: 'POST',
+			method: 'PUT',
 			type: 'json',
 			data: data
 		})));

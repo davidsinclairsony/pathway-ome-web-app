@@ -1,0 +1,98 @@
+header.global {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: transparentize(mix(white, #12204f, 10%), .05);
+	z-index: 1;
+
+	h1 {
+		a {
+			cursor: pointer;
+			display: block;
+
+			* {
+				cursor: pointer;
+			}
+
+			svg {
+				path {
+					fill: white;
+				}
+			}
+
+			&:hover:not(.active) {
+				svg {
+					path {
+						fill: $c-2;
+					}
+				}
+			}
+
+			&.active {
+				cursor: default;
+
+				* {
+					cursor: default;
+				}
+			}
+		}
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		h1 {
+			flex: 0 0 auto;
+
+			a {
+				padding: $g-2;
+
+				svg {
+					height: $g-3;
+
+					path {
+
+					}
+				}
+			}
+		}
+
+		button {
+			font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+			flex: 0 0 auto;
+			background: none;
+			color: white;
+			padding: $g-2 $g-3;
+			cursor: pointer;
+
+			&:before {
+				margin-right: $g-2;
+			}
+		}
+	}
+
+	@media all and (min-width: $bp-2) {
+		h1 {
+			flex: 0 0 auto;
+
+			a {
+				padding: $g-3 + $g-2 $g-4;
+
+				svg {
+					height: $g-3 + $g-1;
+
+					path {
+
+					}
+				}
+			}
+		}
+
+		button {
+			display: none;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+.home.view {
+	main.global {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		z-index: 0;
+
+		.wrapper {
+			margin-bottom: -76px;
+			min-height: 100%;
+			padding: $g-5 0 0 0;
+
+			&:after {
+				content: "";
+				display: block;
+				height: 76px;
+			}
+		}
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		main.global {
+			.wrapper {
+				padding: $g-4 0 0 0;
+			}
+		}
+	}
+
+	@media all and (min-width: $bp-2) {
+		main.global {
+			.wrapper {
+				padding: $g-5 0 0 0;
+			}
+		}
+	}
+}
