@@ -6,26 +6,32 @@ import profile from '../components/profile';
 import conversation from '../components/conversation';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import HomeStore from '../stores/home';
+import WindowStore from '../stores/window';
 
 let getState = () => {
 	return {
-		showMenu: HomeStore.get(['showMenu'])
+		showMenu: HomeStore.get(['showMenu']),
+		windowWidth: WindowStore.get(['width']),
+		windowBps: WindowStore.get(['bps'])
 	};
 };
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Home',
 	getInitialState: function() {
-		// Reset the store
+		// Reset the stores
 		HomeStore.initialize();
+		WindowStore.initialize();
 
 		return getState();
 	},
 	componentDidMount: function() {
 		HomeStore.addChangeListener(this._onChange);
+		WindowStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
 		HomeStore.removeChangeListener(this._onChange);
+		WindowStore.removeChangeListener(this._onChange);
 	},
 	componentDidUpdate: function() {
 		// Get width of nav
@@ -36,7 +42,10 @@ export default React.createClass(assign({}, base, {
 		let main = this.getDOMNode().getElementsByTagName('main')[0];
 
 		// Animate height after update
-		if(this.state.showMenu) {
+		if(
+			this.state.windowWidth < this.state.windowBps[2] - 1 &&
+			this.state.showMenu
+		) {
 			main.style.overflow = 'hidden';
 
 			Velocity(main, {translateX: -navWidth}, {
@@ -69,13 +78,6 @@ export default React.createClass(assign({}, base, {
 				break;
 		}
 
-		// Setup classes for main
-		let mainClasses = 'global';
-
-		if(this.state.showMenu) {
-			mainClasses += ' show-menu';
-		}
-
 		// Return view, wrapping child and header for animations
 		return React.DOM.div({className: 'home view'}, [
 			React.createElement(nav, {key: 0}),
@@ -84,7 +86,7 @@ export default React.createClass(assign({}, base, {
 					transitionName: 'fade-slow',
 					transitionAppear: true,
 					component: 'main',
-					className: mainClasses,
+					className: 'global',
 					key: 1
 				},
 				[

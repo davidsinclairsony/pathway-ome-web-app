@@ -1,6 +1,7 @@
 import {assign, React, ReactRouter} from '../../libs';
 import base from './base';
 import Actions from '../actions';
+import WindowStore from '../stores/window';
 
 // Map navigation
 let navItems = [
@@ -15,8 +16,26 @@ let navItems = [
 	}
 ];
 
+let getState = () => {
+	return {
+		windowWidth: WindowStore.get(['width']),
+		windowBps: WindowStore.get(['bps'])
+	};
+};
+
 export default React.createClass(assign({}, base, {
 	displayName: 'Nav',
+	componentDidMount: function() {
+		WindowStore.addChangeListener(this._onChange);
+	},
+	componentWillUnmount: function() {
+		WindowStore.removeChangeListener(this._onChange);
+	},
+	getInitialState: function() {
+		// Reset the store
+		WindowStore.initialize();
+		return getState();
+	},
 	render: function() {
 		let inner = [];
 
@@ -29,7 +48,10 @@ export default React.createClass(assign({}, base, {
 			if(item.onClick) {
 				link = React.DOM.a({
 					onClick: event => {
-						Actions.Home.toggleShowMenu();
+						if(this.state.windowWidth < this.state.windowBps[2] - 1) {
+							Actions.Home.toggleShowMenu();
+						}
+
 						item.onClick(event);
 					},
 					className
@@ -38,14 +60,16 @@ export default React.createClass(assign({}, base, {
 				// Conversation link goes to home
 				let to = item.name == 'conversation' ? 'home' : item.name;
 
-				link =
-					React.createElement(ReactRouter.Link, {
-						to,
-						className,
-						activeClassName: 'active',
-						onClick: Actions.Home.toggleShowMenu
-					}, span)
-				;
+				link = React.createElement(ReactRouter.Link, {
+					to,
+					className,
+					activeClassName: 'active',
+					onClick: () => {
+						if(this.state.windowWidth < this.state.windowBps[2] - 1) {
+							Actions.Home.toggleShowMenu();
+						}
+					}
+				}, span);
 			}
 
 			// Push li to inner
@@ -53,5 +77,8 @@ export default React.createClass(assign({}, base, {
 		});
 
 		return React.DOM.nav({className: 'global'}, React.DOM.ul(null, inner));
+	},
+	_onChange: function() {
+		this.setState(getState());
 	}
 }));
