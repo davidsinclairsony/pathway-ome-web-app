@@ -18,7 +18,7 @@
 			-webkit-overflow-scrolling: touch;
 			z-index: 0;
 
-			.wrapper {
+			> .wrapper {
 				margin-bottom: -76px;
 				min-height: 100%;
 
@@ -26,6 +26,11 @@
 					content: "";
 					display: block;
 					height: 76px;
+				}
+
+				> .content {
+					max-width: $bp-3;
+					margin: 0 auto;
 				}
 			}
 		}
@@ -37,7 +42,7 @@
 
 			> section {
 				.wrapper {
-					padding: $g-4 0 0 0;
+					padding: $g-4 + $g-2 + $g-1 0 0 0;
 				}
 			}
 		}
@@ -46,7 +51,7 @@
 	@media all and (min-width: $bp-2) {
 		main.global {
 			.wrapper {
-				padding: $g-5 0 0 0;
+				padding: $g-5 + $g-1 0 0 0;
 			}
 		}
 	}

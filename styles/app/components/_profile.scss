@@ -1,3 +1,24 @@
 .profile {
+	.wrapper {
+		.content {
 
+		}
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		.wrapper {
+			.content {
+				padding: $g-1 $g-3;
+			}
+		}
+
+	}
+
+	@media all and (min-width: $bp-2) {
+		.wrapper {
+			.content {
+				padding: $g-4;
+			}
+		}
+	}
 }

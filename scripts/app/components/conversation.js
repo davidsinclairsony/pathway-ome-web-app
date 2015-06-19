@@ -3,6 +3,7 @@ import Actions from '../actions';
 //import CreateStore from '../stores/create';
 import base from './base';
 import footer from './footer';
+import button from './button';
 //import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
@@ -28,11 +29,30 @@ export default React.createClass(assign({}, base, {
 	render: function() {
 		let inner = [];
 
-		// Add content
-		inner.push(React.DOM.p({key: 0}, 'cnvooo'));
+		// Add a question
+		inner.push(React.DOM.div({key: 0, className: 'question'},
+			React.DOM.span({key: 0}, [
+				'This is the initial and only question people will currently ask.',
+				React.DOM.br({key: 1}, null),
+				React.createElement(button, {
+					key: 2,
+					inner: 'Ask',
+					classes: 'button medium positive'
+				})
+			])
+		));
+
+		// Add an answer
+		inner.push(React.DOM.div({key: 1, className: 'answer'},
+			React.DOM.span({key: 0}, [
+				'This is a sample response.'
+			])
+		));
 
 		return React.DOM.section({className: 'conversation'}, [
-			React.DOM.div({key: 0, className: 'wrapper'}, inner),
+			React.DOM.div({key: 0, className: 'wrapper'},
+				React.DOM.div({className: 'content'}, inner)
+			),
 			React.createElement(footer, {key: 1})
 		]);
 	},

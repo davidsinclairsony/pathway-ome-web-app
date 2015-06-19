@@ -1,8 +1,4 @@
 header.global {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	align-content: center;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -10,89 +6,102 @@ header.global {
 	background: transparentize(mix(white, #12204f, 10%), .05);
 	z-index: 1;
 
-	h1 {
-		a {
-			cursor: pointer;
-			display: block;
+	.content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		align-content: center;
+		max-width: $bp-3;
+		margin: 0 auto;
 
-			* {
+		h1 {
+			a {
 				cursor: pointer;
-			}
-
-			svg {
-				path {
-					fill: white;
-				}
-			}
-
-			&:hover:not(.active) {
-				svg {
-					path {
-						fill: $c-2;
-					}
-				}
-			}
-
-			&.active {
-				cursor: default;
+				display: block;
 
 				* {
+					cursor: pointer;
+				}
+
+				svg {
+					path {
+						fill: white;
+					}
+				}
+
+				&:hover:not(.active) {
+					svg {
+						path {
+							fill: $c-2;
+						}
+					}
+				}
+
+				&.active {
 					cursor: default;
+
+					* {
+						cursor: default;
+					}
 				}
 			}
 		}
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
-		h1 {
-			flex: 0 0 auto;
+		.content {
+			h1 {
+				flex: 0 0 auto;
 
-			a {
-				padding: $g-2;
+				a {
+					padding: $g-2 $g-2 + $g-1;
 
-				svg {
-					height: $g-3;
+					svg {
+						height: $g-3;
+					}
 				}
 			}
-		}
 
-		button {
-			font: normal normal 100 16px/#{$f-1-l-h} $f-1;
-			flex: 0 0 auto;
-			background: none;
-			color: white;
-			padding: $g-2 $g-3;
-			cursor: pointer;
-			outline: 0;
+			button {
+				font: normal normal 100 18px/#{$f-1-l-h} $f-1;
+				flex: 0 0 auto;
+				background: none;
+				color: white;
+				padding: $g-2 + $g-1 $g-3;
+				cursor: pointer;
+				outline: 0;
 
-			&:before {
-				margin-right: $g-2;
-				font-size: 22px;
-				position: relative;
-				top: 2px;
-			}
+				&:before {
+					margin-right: $g-2;
+					font-size: 20px;
+					position: relative;
+					top: 0;
+				}
 
-			&:hover {
-				color: transparentize(white, .1);
+				&:hover {
+					color: transparentize(white, .1);
+				}
 			}
 		}
 	}
 
 	@media all and (min-width: $bp-2) {
-		h1 {
-			flex: 0 0 auto;
+		.content {
+			h1 {
+				flex: 0 0 auto;
 
-			a {
-				padding: $g-3 + $g-2 $g-4;
+				a {
+					padding: $g-3 + $g-2 $g-4;
 
-				svg {
-					height: $g-3 + $g-1;
+					svg {
+						height: $g-3 + $g-1;
+					}
 				}
 			}
-		}
 
-		button {
-			display: none;
+			button {
+				display: none;
+			}
 		}
 	}
 }

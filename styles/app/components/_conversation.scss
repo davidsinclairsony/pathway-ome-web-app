@@ -1,3 +1,68 @@
 .conversation {
+	.wrapper {
+		.content {
+			> * {
+				&:nth-child(n + 1) {
+					margin-top: $g-3;
+				}
 
+				> span {
+					border-radius: 5px;
+					padding: $g-2 + $g-1 $g-3;
+					font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+					display: inline-block;
+				}
+			}
+
+			.question {
+				text-align: right;
+				margin-left: auto;
+
+				> span {
+					background: transparentize(white, .9);
+
+					button {
+						margin: $g-2 + $g-1 0 0 0;
+					}
+				}
+			}
+
+			.answer {
+				text-align: left;
+				margin-right: auto;
+
+				> span {
+					background: transparentize(white, .8);
+				}
+			}
+		}
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		.wrapper {
+			.content {
+				padding: $g-1 $g-3;
+
+				> * {
+					&:nth-child(n + 1) {
+						max-width: 90%;
+					}
+				}
+			}
+		}
+	}
+
+	@media all and (min-width: $bp-2) {
+		.wrapper {
+			.content {
+				padding: $g-3 $g-4;
+
+				> * {
+					&:nth-child(n + 1) {
+						max-width: 70%;
+					}
+				}
+			}
+		}
+	}
 }

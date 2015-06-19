@@ -1,7 +1,6 @@
 nav.global {
 	position: fixed;
 	top: 0;
-	right: 0;
 
 	ul {
 		list-style: none;
@@ -11,7 +10,6 @@ nav.global {
 				cursor: pointer;
 				text-decoration: none;
 				display: block;
-				font: normal normal 100 14px/#{$f-1-l-h} $f-1;
 				text-transform: capitalize;
 				color: white;
 
@@ -46,9 +44,10 @@ nav.global {
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
-		padding: $g-3;
+		right: 0;
 		z-index: 0;
 		width: $g-6 + $g-4;
+		padding: $g-1 0;
 		background: darken(mix(grey, #12204f, 40%), 15%);
 		height: 100%;
 		overflow-y: auto;
@@ -58,7 +57,8 @@ nav.global {
 			li {
 				a {
 					text-align: left;
-					padding: $g-1 $g-2;
+					padding: $g-2 $g-3;
+					font: normal normal 100 18px/#{$f-1-l-h} $f-1;
 
 					span {
 						display: inline-block;
@@ -80,6 +80,7 @@ nav.global {
 				a {
 					text-align: center;
 					padding: $g-3;
+					font: normal normal 100 14px/#{$f-1-l-h} $f-1;
 
 					span {
 						display: block;
@@ -88,5 +89,14 @@ nav.global {
 				}
 			}
 		}
+	}
+
+	@media all and (min-width: $bp-2) and (max-width: $bp-3 - 1) {
+		right: 0;
+	}
+
+	@media all and (min-width: $bp-3) {
+		right: 50%;
+		margin-right: -($bp-3 / 2);
 	}
 }
