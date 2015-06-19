@@ -52,10 +52,6 @@ header.global {
 
 				svg {
 					height: $g-3;
-
-					path {
-
-					}
 				}
 			}
 		}
@@ -67,9 +63,17 @@ header.global {
 			color: white;
 			padding: $g-2 $g-3;
 			cursor: pointer;
+			outline: 0;
 
 			&:before {
 				margin-right: $g-2;
+				font-size: 22px;
+				position: relative;
+				top: 2px;
+			}
+
+			&:hover {
+				color: transparentize(white, .1);
 			}
 		}
 	}
@@ -83,10 +87,6 @@ header.global {
 
 				svg {
 					height: $g-3 + $g-1;
-
-					path {
-
-					}
 				}
 			}
 		}

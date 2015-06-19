@@ -2,8 +2,6 @@ nav.global {
 	position: fixed;
 	top: 0;
 	right: 0;
-	z-index: 1;
-	display: none;
 
 	ul {
 		list-style: none;
@@ -48,13 +46,15 @@ nav.global {
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
-		padding: 0 $g-3;
+		padding: $g-3;
+		z-index: 0;
+		width: $g-6 + $g-4;
+		background: darken(mix(grey, #12204f, 40%), 15%);
+		height: 100%;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 
 		ul {
-			position: absolute;
-			top: 0;
-			left: 0;
-
 			li {
 				a {
 					text-align: left;
@@ -71,6 +71,7 @@ nav.global {
 
 	@media all and (min-width: $bp-2) {
 		padding: 0 $g-3;
+		z-index: 2;
 
 		ul {
 			display: flex;

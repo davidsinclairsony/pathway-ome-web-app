@@ -20,7 +20,11 @@ export default React.createClass(assign({}, base, {
 		));
 
 		// Add nav icon
-		inner.push(React.DOM.button({key: 2, className: 'icon-nav'}, 'Menu'));
+		inner.push(React.DOM.button({
+			key: 2,
+			className: 'icon-nav',
+			onClick: Actions.Home.toggleShowMenu
+		}, 'Menu'));
 
 		return React.DOM.header({className: 'global'}, inner);
 	},

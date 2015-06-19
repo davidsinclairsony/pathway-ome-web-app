@@ -125,7 +125,7 @@ let Activate = {
 };
 
 let Start = {
-	toggleShowExpanded: (component) => {
+	toggleShowExpanded: component => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.START_TOGGLE_SHOW_EXPANDED,
 			component
@@ -133,4 +133,12 @@ let Start = {
 	}
 };
 
-export default {Login, Create, Activate, Start};
+let Home = {
+	toggleShowMenu: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.HOME_TOGGLE_SHOW_MENU
+		});
+	}
+};
+
+export default {Login, Create, Activate, Start, Home};

@@ -28,10 +28,10 @@ export default React.createClass(assign({}, base, {
 	render: function() {
 		let inner = [];
 
-		// Add form
-		inner.push(React.DOM.p({key: 0}, ' cnvooo'));
+		// Add content
+		inner.push(React.DOM.p({key: 0}, 'cnvooo'));
 
-		return React.DOM.main({className: 'global conversation'}, [
+		return React.DOM.section({className: 'conversation'}, [
 			React.DOM.div({key: 0, className: 'wrapper'}, inner),
 			React.createElement(footer, {key: 1})
 		]);

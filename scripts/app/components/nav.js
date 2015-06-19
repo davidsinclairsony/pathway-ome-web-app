@@ -1,5 +1,6 @@
 import {assign, React, ReactRouter} from '../../libs';
 import base from './base';
+import Actions from '../actions';
 
 // Map navigation
 let navItems = [
@@ -27,7 +28,10 @@ export default React.createClass(assign({}, base, {
 			// Output certain type of link
 			if(item.onClick) {
 				link = React.DOM.a({
-					onClick: item.onClick,
+					onClick: event => {
+						Actions.Home.toggleShowMenu();
+						item.onClick(event);
+					},
 					className
 				}, span);
 			} else {
@@ -38,7 +42,8 @@ export default React.createClass(assign({}, base, {
 					React.createElement(ReactRouter.Link, {
 						to,
 						className,
-						activeClassName: 'active'
+						activeClassName: 'active',
+						onClick: Actions.Home.toggleShowMenu
 					}, span)
 				;
 			}

@@ -31,7 +31,7 @@ export default React.createClass(assign({}, base, {
 		// Add form
 		inner.push(React.DOM.p({key: 0}, 'proooooooo'));
 
-		return React.DOM.main({className: 'global conversation'}, [
+		return React.DOM.section({className: 'profile'}, [
 			React.DOM.div({key: 0, className: 'wrapper'}, inner),
 			React.createElement(footer, {key: 1})
 		]);
