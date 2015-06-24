@@ -19,15 +19,6 @@
 			z-index: 0;
 
 			> .wrapper {
-				margin-bottom: -76px;
-				min-height: 100%;
-
-				&:after {
-					content: "";
-					display: block;
-					height: 76px;
-				}
-
 				> .content {
 					max-width: $bp-3;
 					margin: 0 auto;
@@ -50,8 +41,10 @@
 
 	@media all and (min-width: $bp-2) {
 		main.global {
-			.wrapper {
-				padding: $g-5 + $g-1 0 0 0;
+			> section {
+				.wrapper {
+					padding: $g-5 + $g-1 0 0 0;
+				}
 			}
 		}
 	}

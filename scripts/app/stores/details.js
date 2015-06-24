@@ -9,10 +9,8 @@ import Authenticator from '../utilities/authenticator';
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
-		name: 'create',
-		isWaiting: false,
-		currentStep: 'details',
-		agreedToConsent: false
+		name: 'details',
+		isWaiting: false
 	};
 };
 let save = function(object, key, value) {
@@ -42,37 +40,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
-	goToStep: function(step) {
-		this.setCurrentStep(step);
-
-		if(step == 'details') {
-			router.transitionTo('create');
-		} else {
-			router.transitionTo(step);
-		}
-	},
 	initialize: function(currentStep) {
-		storage = assign({}, defaults(), {currentStep});
+		storage = defaults();
 		save();
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
-	},
-	setCurrentStep: function(step) {
-		save(storage, 'currentStep', step);
 	}
 });
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.CREATE_GO_TO_STEP:
+		/*case Constants.Actions.CREATE_GO_TO_STEP:
 			Store.goToStep(action.step);
 			Store.emitChange();
-			break;
-		case Constants.Actions.CREATE_SET_CURRENT_STEP:
-			Store.setCurrentStep(action.step);
-			Store.emitChange();
-			break;
+			break;*/
 	}
 });
 

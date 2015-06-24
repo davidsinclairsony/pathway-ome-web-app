@@ -7,7 +7,6 @@ export default React.createClass(assign({}, base, {
 	displayName: 'Error',
 	render: function() {
 		let inner = [];
-		let props = {className: 'error view'};
 
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0}, React.createElement(logo, {key: 0})));
@@ -22,7 +21,7 @@ export default React.createClass(assign({}, base, {
 		));
 
 		// Wrap for sticky footer purposes
-		return React.DOM.div(props, [
+		return React.DOM.div({className: 'error view'}, [
 			React.DOM.div({className: 'wrapper', key: 0}, inner),
 			React.createElement(footer, {key: 1})
 		]);

@@ -1,0 +1,161 @@
+.create.view {
+	h1 {
+		text-align: center;
+		padding: $g-4;
+
+		svg {
+			height: $g-4;
+
+			path {
+				fill: white;
+			}
+		}
+	}
+
+	h2 {
+		text-align: center;
+		font: normal normal 100 30px/#{$f-1-l-h} $f-1;
+	}
+
+	h3 {
+		text-align: center;
+		font: normal normal 100 20px/#{$f-1-l-h} $f-1;
+	}
+
+	.progress {
+		max-width: $bp-3;
+		margin: $g-4 auto;
+		position: relative;
+
+		ul {
+			list-style: none;
+			display: flex;
+			justify-content: space-between;
+
+			li {
+				z-index: 1;
+				position: relative;
+
+				a {
+					text-decoration: none;
+					color: white;
+					font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+					text-align: center;
+					display: block;
+					width: $g-5;
+
+					&.complete {
+						cursor: pointer;
+
+						&:before {
+							background: #0f4e70;
+						}
+					}
+
+					&.active {
+						&:before {
+							background: #1985be;
+						}
+					}
+
+					&.incomplete {
+						&:before {
+							background: #07293b;
+						}
+					}
+
+					&:before {
+						border: 1px solid white;
+						width: $g-3;
+						height: $g-3;
+						padding: $g-2;
+						border-radius: 2em;
+					}
+
+					span {
+						display: block;
+						padding-top: $g-3;
+					}
+				}
+			}
+		}
+
+		.line {
+			position: absolute;
+			left: 0;
+			z-index: 0;
+			width: 100%;
+
+			&:before {
+				content: "";
+				display: block;
+			}
+
+			&.thick {
+				top: $g-3 - 4;
+
+				&:before {
+					background: white;
+					height: 8px;
+					width: 0;
+				}
+			}
+
+			&.thin {
+				top: $g-3;
+				width: 100%;
+
+				&:before {
+					background: transparentize(white, .5);
+					height: 1px;
+					width: 100%;
+				}
+			}
+		}
+
+		&.consent {
+			.line {
+				&.thick {
+					&:before {
+						width: 50%;
+					}
+				}
+			}
+		}
+
+		&.activate {
+			.line {
+				&.thick {
+					&:before {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+
+	.inner {
+		max-width: $bp-3;
+		margin: $g-4 auto;
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		.progress {
+			padding: 0 $g-3;
+
+			.line {
+				padding: 0 $g-3 * 2;
+			}
+		}
+	}
+
+	@media all and (min-width: $bp-2) {
+		.progress {
+			padding: 0 $g-4;
+
+			.line {
+				padding: 0 $g-4 * 2;
+			}
+		}
+	}
+}

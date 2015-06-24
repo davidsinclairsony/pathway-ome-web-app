@@ -40,42 +40,17 @@ let Login = {
 };
 
 let Create = {
-	hideAllHelp: () => {
+	goToStep: step => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_HIDE_ALL_HELP
+			actionType: Constants.Actions.CREATE_GO_TO_STEP,
+			step
 		});
 	},
-	onFieldChange: (field, value) => {
+	setCurrentStep: step => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_ON_FIELD_CHANGE,
-			field,
-			value
+			actionType: Constants.Actions.CREATE_SET_CURRENT_STEP,
+			step
 		});
-	},
-	responseHandler: response => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_RESPONSE_HANDLER,
-			response
-		});
-	},
-	setHelp: (field, help) => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_SET_HELP,
-			field,
-			help
-		});
-	},
-	submit: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_SUBMIT});
-	},
-	toggleShowHelp: field => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_HELP,
-			field
-		});
-	},
-	validateAll: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.CREATE_VALIDATE_ALL});
 	}
 };
 
@@ -124,15 +99,6 @@ let Activate = {
 	}
 };
 
-let Start = {
-	toggleShowExpanded: component => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.START_TOGGLE_SHOW_EXPANDED,
-			component
-		});
-	}
-};
-
 let Home = {
 	toggleShowMenu: () => {
 		Dispatcher.dispatch({
@@ -141,4 +107,4 @@ let Home = {
 	}
 };
 
-export default {Login, Create, Activate, Start, Home};
+export default {Login, Create, Activate, Home};

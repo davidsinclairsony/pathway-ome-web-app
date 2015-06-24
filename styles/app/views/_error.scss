@@ -25,15 +25,4 @@
 			}
 		}
 	}
-
-	.wrapper {
-		margin-bottom: -76px;
-		min-height: 100%;
-
-		&:after {
-			content: "";
-			display: block;
-			height: 76px;
-		}
-	}
 }

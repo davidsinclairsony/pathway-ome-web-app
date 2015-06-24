@@ -40,7 +40,7 @@ export default {
 		}
 	},
 	'fade-slow': {
-		duration: 500,
+		duration: 5000,
 		enter: {
 			opacity: [1, 0],
 		},
@@ -57,7 +57,15 @@ export default {
 			opacity: [0, 1],
 		}
 	},
-
+	'fade-slow-fixed': {
+		duration: 500,
+		enter: {
+			opacity: [1, 0],
+		},
+		leave: {
+			opacity: [0, 1],
+		}
+	},
 	default: {
 		duration: 500,
 		enter: {

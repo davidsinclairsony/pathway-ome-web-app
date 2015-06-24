@@ -9,13 +9,8 @@ let Actions = keyMirror({
 	ACTIVATE_SUBMIT: null,
 	ACTIVATE_TOGGLE_SHOW_HELP: null,
 	ACTIVATE_VALIDATE_ALL: null,
-	CREATE_HIDE_ALL_HELP: null,
-	CREATE_ON_FIELD_CHANGE: null,
-	CREATE_RESPONSE_HANDLER: null,
-	CREATE_SET_HELP: null,
-	CREATE_SUBMIT: null,
-	CREATE_TOGGLE_SHOW_HELP: null,
-	CREATE_VALIDATE_ALL: null,
+	CREATE_GO_TO_STEP: null,
+	CREATE_SET_CURRENT_STEP: null,
 	HOME_TOGGLE_SHOW_MENU: null,
 	LOGIN_HIDE_ALL_HELP: null,
 	LOGIN_ON_FIELD_CHANGE: null,
@@ -24,7 +19,6 @@ let Actions = keyMirror({
 	LOGIN_TOGGLE_SHOW_HELP: null,
 	LOGIN_TOGGLE_STAY_LOGGED_IN: null,
 	LOGIN_VALIDATE_ALL: null,
-	START_TOGGLE_SHOW_EXPANDED: null
 });
 
 let BASE_URL = 'http://' + window.location.host + '/api/v1/';

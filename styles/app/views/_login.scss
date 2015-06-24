@@ -1,4 +1,4 @@
-.start.view {
+.login.view {
 	h1 {
 		text-align: center;
 		padding: $g-4;
@@ -10,9 +10,5 @@
 				fill: white;
 			}
 		}
-	}
-
-	.login {
-		margin-top: $g-4;
 	}
 }
