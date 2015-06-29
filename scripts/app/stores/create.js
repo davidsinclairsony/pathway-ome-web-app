@@ -10,19 +10,9 @@ let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
 		name: 'create',
-		isWaiting: false,
-		currentStep: 'details',
-		agreedToConsent: false
+		agreedToConsent: false,
+		showConsent: false
 	};
-};
-let save = function(object, key, value) {
-	// Save within storage
-	if(object) {
-		object[key] = value;
-	}
-
-	// Persist to session storage
-	sessionStorage[storage.name] = JSON.stringify(storage);
 };
 let storage;
 
@@ -42,35 +32,28 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
-	goToStep: function(step) {
-		this.setCurrentStep(step);
-
-		if(step == 'details') {
-			router.transitionTo('create');
-		} else {
-			router.transitionTo(step);
-		}
-	},
-	initialize: function(currentStep) {
-		storage = assign({}, defaults(), {currentStep});
-		save();
+	initialize: function() {
+		storage = defaults();
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
-	setCurrentStep: function(step) {
-		save(storage, 'currentStep', step);
+	toggleAgreedToConsent: function() {
+		storage.agreedToConsent = !storage.agreedToConsent;
+	},
+	toggleShowConsent: function() {
+		storage.showConsent = !storage.showConsent;
 	}
 });
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.CREATE_GO_TO_STEP:
-			Store.goToStep(action.step);
+		case Constants.Actions.CREATE_TOGGLE_AGREED_TO_CONSENT:
+			Store.toggleAgreedToConsent();
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_SET_CURRENT_STEP:
-			Store.setCurrentStep(action.step);
+		case Constants.Actions.CREATE_TOGGLE_SHOW_CONSENT:
+			Store.toggleShowConsent();
 			Store.emitChange();
 			break;
 	}

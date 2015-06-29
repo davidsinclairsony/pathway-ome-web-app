@@ -1,59 +1,6 @@
 import Dispatcher from './dispatcher';
 import Constants from './constants';
 
-let Login = {
-	hideAllHelp: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_HIDE_ALL_HELP
-		});
-	},
-	onFieldChange: (field, value) => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_ON_FIELD_CHANGE,
-			field,
-			value
-		});
-	},
-	responseHandler: response => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_RESPONSE_HANDLER,
-			response
-		});
-	},
-	submit: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_SUBMIT});
-	},
-	toggleShowHelp: field => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_TOGGLE_SHOW_HELP,
-			field
-		});
-	},
-	toggleStayLoggedIn: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_TOGGLE_STAY_LOGGED_IN
-		});
-	},
-	validateAll: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_VALIDATE_ALL});
-	}
-};
-
-let Create = {
-	goToStep: step => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_GO_TO_STEP,
-			step
-		});
-	},
-	setCurrentStep: step => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_SET_CURRENT_STEP,
-			step
-		});
-	}
-};
-
 let Activate = {
 	activate: (jwt) => {
 		Dispatcher.dispatch({
@@ -99,6 +46,28 @@ let Activate = {
 	}
 };
 
+let Create = {
+	toggleAgreedToConsent: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_TOGGLE_AGREED_TO_CONSENT
+		});
+	},
+	toggleShowConsent: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_CONSENT
+		});
+	}
+};
+
+let Details = {
+	onFieldChange: description => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.DETAILS_ON_FIELD_CHANGE,
+			description
+		});
+	}
+};
+
 let Home = {
 	toggleShowMenu: () => {
 		Dispatcher.dispatch({
@@ -107,4 +76,42 @@ let Home = {
 	}
 };
 
-export default {Login, Create, Activate, Home};
+let Login = {
+	hideAllHelp: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_HIDE_ALL_HELP
+		});
+	},
+	onFieldChange: (field, value) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_ON_FIELD_CHANGE,
+			field,
+			value
+		});
+	},
+	responseHandler: response => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_RESPONSE_HANDLER,
+			response
+		});
+	},
+	submit: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_SUBMIT});
+	},
+	toggleShowHelp: field => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_TOGGLE_SHOW_HELP,
+			field
+		});
+	},
+	toggleStayLoggedIn: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_TOGGLE_STAY_LOGGED_IN
+		});
+	},
+	validateAll: () => {
+		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_VALIDATE_ALL});
+	}
+};
+
+export default {Activate, Create, Details, Home, Login};

@@ -37,4 +37,13 @@
 			background: lighten($c-1, 5%);
 		}
 	}
+
+	&.negative {
+		background: $c-3;
+		color: white;
+
+		&:hover {
+			background: lighten($c-3, 5%);
+		}
+	}
 }

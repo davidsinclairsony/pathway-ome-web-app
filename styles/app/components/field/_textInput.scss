@@ -1,0 +1,25 @@
+&.textInput {
+	.container {
+		background: transparentize(white, .9);
+		flex: 1 1 auto;
+
+		.inputs {
+			display: flex;
+
+			input {
+				display: block;
+				flex: 1 1 auto;
+				color: white;
+				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+				cursor: auto;
+				user-select: text !important;
+				background: transparent;
+				padding: $g-2 $g-3;
+
+				&:nth-child(n + 2) {
+					border-left: 1px solid transparentize(black, .5);
+				}
+			}
+		}
+	}
+}

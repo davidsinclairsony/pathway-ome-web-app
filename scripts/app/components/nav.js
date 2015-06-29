@@ -32,7 +32,6 @@ export default React.createClass(assign({}, base, {
 		WindowStore.removeChangeListener(this._onChange);
 	},
 	getInitialState: function() {
-		// Reset the store
 		WindowStore.initialize();
 		return getState();
 	},
@@ -48,7 +47,7 @@ export default React.createClass(assign({}, base, {
 			if(item.onClick) {
 				link = React.DOM.a({
 					onClick: event => {
-						if(this.state.windowWidth < this.state.windowBps[2] - 1) {
+						if(this.state.windowWidth < this.state.windowBps[2]) {
 							Actions.Home.toggleShowMenu();
 						}
 
@@ -65,7 +64,7 @@ export default React.createClass(assign({}, base, {
 					className,
 					activeClassName: 'active',
 					onClick: () => {
-						if(this.state.windowWidth < this.state.windowBps[2] - 1) {
+						if(this.state.windowWidth < this.state.windowBps[2]) {
 							Actions.Home.toggleShowMenu();
 						}
 					}

@@ -3,7 +3,6 @@ import Actions from '../actions';
 //import CreateStore from '../stores/create';
 import base from './base';
 import footer from './footer';
-import button from './button';
 //import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
@@ -34,11 +33,10 @@ export default React.createClass(assign({}, base, {
 			React.DOM.span({key: 0}, [
 				'This is the initial and only question people will currently ask.',
 				React.DOM.br({key: 1}, null),
-				React.createElement(button, {
+				React.DOM.button({
 					key: 2,
-					inner: 'Ask',
 					classes: 'button medium positive'
-				})
+				}, 'Ask')
 			])
 		));
 

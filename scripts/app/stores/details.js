@@ -5,22 +5,15 @@ import Constants from '../constants';
 import Validator from '../utilities/validator';
 import Help from '../data/help';
 import Authenticator from '../utilities/authenticator';
+import Actions from '../actions';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
 		name: 'details',
+		fields: {},
 		isWaiting: false
 	};
-};
-let save = function(object, key, value) {
-	// Save within storage
-	if(object) {
-		object[key] = value;
-	}
-
-	// Persist to session storage
-	sessionStorage[storage.name] = JSON.stringify(storage);
 };
 let storage;
 
@@ -40,9 +33,28 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
-	initialize: function(currentStep) {
+	initialize: function(fields) {
 		storage = defaults();
-		save();
+
+		// Create fields object in storage
+		fields.forEach(field => {
+			storage.fields[field] = {
+				name: field,
+				values: [],
+				isValid: undefined,
+				help: undefined,
+				showHelp: false,
+				validate: true,
+				showIcon: false
+			};
+		});
+	},
+	onFieldChange: function(o) {
+		if(storage.fields[o.name].values[o.vIndex]) {
+			storage.fields[o.name].values[o.vIndex] = o.value;
+		} else {
+			storage.fields[o.name].values.push(o.value);
+		}
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
@@ -51,10 +63,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		/*case Constants.Actions.CREATE_GO_TO_STEP:
-			Store.goToStep(action.step);
+		case Constants.Actions.DETAILS_ON_FIELD_CHANGE:
+			Store.onFieldChange(action.description);
 			Store.emitChange();
-			break;*/
+			break;
 	}
 });
 

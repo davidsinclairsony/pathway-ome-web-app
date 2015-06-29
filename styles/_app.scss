@@ -19,21 +19,21 @@
 	}
 
 	@import "app/components/button";
-	@import "app/components/wrapper";
 	@import "app/components/circle";
-	@import "app/components/waiting";
+	@import "app/components/conversation";
+	@import "app/components/details";
+	@import "app/components/field";
 	@import "app/components/footer";
-	@import "app/components/getActivationLink";
-	@import "app/components/tryToActivate";
-	@import "app/components/input";
 	@import "app/components/header";
+	@import "app/components/modal";
+	@import "app/components/nav";
 	@import "app/components/nav";
 	@import "app/components/profile";
-	@import "app/components/conversation";
-	@import "app/components/nav";
-	@import "app/views/create";
-	@import "app/views/login";
+	@import "app/components/waiting";
+	@import "app/components/wrapper";
 	@import "app/views/activate";
+	@import "app/views/create";
 	@import "app/views/error";
 	@import "app/views/home";
+	@import "app/views/login";
 }

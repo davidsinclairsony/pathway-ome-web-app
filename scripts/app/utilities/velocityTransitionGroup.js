@@ -32,15 +32,6 @@ let VelocityTransitionGroupChild = React.createClass({
 		let node = this.getDOMNode();
 		let transition = this._getTransition();
 
-		if(this.props.transitionName.includes('fixed')) {
-			node.setAttribute('style',
-				'position: fixed;' +
-				'top: ' + node.parentNode.firstChild.offsetTop + 'px; ' +
-				'left: ' + node.offsetLeft + 'px; ' +
-				'width: ' + node.offsetWidth + 'px; '
-			);
-		}
-
 		Velocity(
 			node,
 			transition.leave,

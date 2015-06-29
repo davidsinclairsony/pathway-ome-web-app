@@ -1,0 +1,82 @@
+.field {
+	position: relative;
+	display: flex;
+
+	&.showingIcon {
+		> [class^="icon-"] {
+			position: absolute;
+			top: 13px;
+			left: 10px;
+			font-size: 14px;
+			padding: 0 0 0 $g-3;
+		}
+	}
+
+	label {
+		flex: 0 0 auto;
+		font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		flex-wrap: wrap;
+
+		label {
+			padding: $g-3 $g-3 $g-1 0;
+			width: 100%;
+		}
+
+		.container {
+			width: 100%;
+			border-radius: $g-1;
+		}
+
+		&:nth-child(1) {
+			label {
+				padding-top: 0;
+			}
+		}
+	}
+
+	@media all and (min-width: $bp-2) {
+		label {
+			padding: $g-2 $g-3;
+			width: $g-5 + $g-4 + $g-3;
+			background: transparentize(white, .7);
+		}
+
+		.container {
+			width: 100%;
+		}
+
+		&:nth-child(1) {
+			label {
+				border-top-left-radius: $g-1;
+			}
+
+			.container {
+				border-top-right-radius: $g-1;
+			}
+		}
+
+		&:nth-child(n + 2) {
+			border-top: 1px solid transparentize(black, .9);
+		}
+
+		&:nth-last-child(1) {
+			label {
+				border-bottom-left-radius: $g-1;
+			}
+
+			.container {
+				border-bottom-right-radius: $g-1;
+			}
+		}
+	}
+
+	@import "field/textInput";
+	@import "field/help";
+}
+
+
+
+

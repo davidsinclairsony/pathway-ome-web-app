@@ -1,7 +1,7 @@
 .activate.view {
 	h1 {
 		text-align: center;
-		padding: $g-4;
+		padding: $g-4 $g-4 $g-4 - $g-2 $g-4;
 
 		svg {
 			height: $g-4;

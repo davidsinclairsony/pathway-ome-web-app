@@ -1,27 +1,19 @@
 export default {
 	'slide-forward': {
 		duration: 500,
-		enter: {
-			translateX: ['0%', '100%'],
-		},
-		leave: {
-			translateX: ['-100%', '0%'],
-		}
+		enter: {translateX: ['0%', '100%']},
+		leave: {translateX: ['-100%', '0%']}
 	},
 	'slide-back': {
 		duration: 500,
-			enter: {
-				translateX: ['0%', '-100%'],
-			},
-		leave: {
-			translateX: ['100%', '0%'],
-		}
+		enter: {translateX: ['0%', '-100%']},
+		leave: {translateX: ['100%', '0%']}
 	},
 	'slideover-forward': {
 		duration: 500,
-			enter: {
-				translateX: ['0%', '100%'],
-				zIndex: [1, 1 ]
+		enter: {
+			translateX: ['0%', '100%'],
+			zIndex: [1, 1 ]
 		},
 		leave: {
 			// translateX: ['0%', '0%'],
@@ -40,39 +32,18 @@ export default {
 		}
 	},
 	'fade-slow': {
-		duration: 5000,
-		enter: {
-			opacity: [1, 0],
-		},
-		leave: {
-			opacity: [0, 1],
-		}
+		duration: 2000,
+		enter: {opacity: [1, 0]},
+		leave: {opacity: [0, 1]}
 	},
 	'fade-fast': {
 		duration: 100,
-		enter: {
-			opacity: [1, 0],
-		},
-		leave: {
-			opacity: [0, 1],
-		}
-	},
-	'fade-slow-fixed': {
-		duration: 500,
-		enter: {
-			opacity: [1, 0],
-		},
-		leave: {
-			opacity: [0, 1],
-		}
+		enter: {opacity: [1, 0]},
+		leave: {opacity: [0, 1]}
 	},
 	default: {
 		duration: 500,
-		enter: {
-			opacity: [1, 0],
-		},
-		leave: {
-			opacity: [0, 1],
-		}
+		enter: {opacity: [1, 0]},
+		leave: {opacity: [0, 1]}
 	}
 };
