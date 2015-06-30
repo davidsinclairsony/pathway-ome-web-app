@@ -47,19 +47,33 @@ let Activate = {
 };
 
 let Create = {
-	toggleAgreedToConsent: () => {
+	changeAgreedToConsent: value => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_TOGGLE_AGREED_TO_CONSENT
+			actionType: Constants.Actions.CREATE_CHANGE_AGREED_TO_CONSENT,
+			value
 		});
 	},
-	toggleShowConsent: () => {
+	changeIsWaiting: value => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.CREATE_TOGGLE_SHOW_CONSENT
+			actionType: Constants.Actions.CREATE_CHANGE_IS_WAITING,
+			value
+		});
+	},
+	changeShowConsent: value => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_CHANGE_SHOW_CONSENT,
+			value
 		});
 	}
 };
 
 let Details = {
+	changeShowHelp: object => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.DETAILS_CHANGE_SHOW_HELP,
+			object
+		});
+	},
 	onFieldChange: description => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.DETAILS_ON_FIELD_CHANGE,

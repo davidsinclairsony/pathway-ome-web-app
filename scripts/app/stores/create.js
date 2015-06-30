@@ -11,7 +11,8 @@ let defaults = () => {
 	return {
 		name: 'create',
 		agreedToConsent: false,
-		showConsent: false
+		showConsent: false,
+		isWaiting: false
 	};
 };
 let storage;
@@ -19,6 +20,15 @@ let storage;
 let Store = assign({}, events.EventEmitter.prototype, {
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
+	},
+	changeAgreedToConsent: function(value) {
+		storage.agreedToConsent = value;
+	},
+	changeIsWaiting: function(value) {
+		storage.isWaiting = value;
+	},
+	changeShowConsent: function(value) {
+		storage.showConsent = value;
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -37,23 +47,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
-	},
-	toggleAgreedToConsent: function() {
-		storage.agreedToConsent = !storage.agreedToConsent;
-	},
-	toggleShowConsent: function() {
-		storage.showConsent = !storage.showConsent;
 	}
 });
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.CREATE_TOGGLE_AGREED_TO_CONSENT:
-			Store.toggleAgreedToConsent();
+		case Constants.Actions.CREATE_CHANGE_AGREED_TO_CONSENT:
+			Store.changeAgreedToConsent(action.value);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CREATE_TOGGLE_SHOW_CONSENT:
-			Store.toggleShowConsent();
+		case Constants.Actions.CREATE_CHANGE_IS_WAITING:
+			Store.changeIsWaiting(action.value);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CREATE_CHANGE_SHOW_CONSENT:
+			Store.changeShowConsent(action.value);
 			Store.emitChange();
 			break;
 	}

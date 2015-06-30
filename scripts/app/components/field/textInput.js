@@ -18,7 +18,7 @@ export default React.createClass(assign({}, base, {
 					this.props.characterLimiters[i] : '',
 				placeholder: this.props.placeholders[i],
 				onChange: event => {
-					Actions.Details.onFieldChange({
+					Actions[this.props.store].onFieldChange({
 						name: this.props.name,
 						value: event.target.value,
 						vIndex: i

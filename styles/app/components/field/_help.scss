@@ -1,9 +1,5 @@
 aside {
-	[class*="icon-"] {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-	}
+	position: relative;
 
 	.help {
 		position: absolute;
@@ -30,24 +26,25 @@ aside {
 
 	@media all and (max-width: $bp-3 - 1) {
 		.help {
-			top: 120% !important;
-			right: -5%;
+			top: $g-4 + $g-2;
+			right: 0;
 
 			&:after {
 				border-bottom-color: #e9e9e9;
 				border-width: 18px 10px;
 				bottom: 100%;
-				right: 23px;
+				right: $g-2;
 			}
 		}
 	}
 
 	@media all and (min-width: $bp-3) {
 		.help {
-			left: 104%;
+			top: -$g-1;
+			left: $g-4 + $g-2;
 
 			&:after {
-				top: 50%;
+				top: $g-3 + $g-1;
 				right: 100%;
 				border-right-color: #e9e9e9;
 				border-width: 10px 18px;

@@ -21,6 +21,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
+	changeShowHelp: function(o) {
+		Object.keys(storage.fields).forEach(field => {
+			storage.fields[field].showHelp = false;
+		});
+
+		storage.fields[o.field].showHelp = o.value;
+	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
 	},
@@ -50,10 +57,24 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		});
 	},
 	onFieldChange: function(o) {
-		if(storage.fields[o.name].values[o.vIndex]) {
-			storage.fields[o.name].values[o.vIndex] = o.value;
+		// Make sure previous array values already exist
+		for(let i = 0; i < o.vIndex; i++) {
+			if(!storage.fields[o.name].values[i] && storage.fields[o.name].values[i] !== '') {
+				storage.fields[o.name].values.push('');
+			}
+		}
+
+		// Save value
+		storage.fields[o.name].values[o.vIndex] = o.value;
+
+		// Validate
+		if(Validator.validate(storage.fields[o.name])) {
+			storage.fields[o.name].isValid = true;
 		} else {
-			storage.fields[o.name].values.push(o.value);
+			storage.fields[o.name].isValid = false;
+
+			// Set help
+			storage.fields[o.name].help = Help[o.name];
 		}
 	},
 	removeChangeListener: function(callback) {
@@ -63,6 +84,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
+		case Constants.Actions.DETAILS_CHANGE_SHOW_HELP:
+			Store.changeShowHelp(action.object);
+			Store.emitChange();
+			break;
 		case Constants.Actions.DETAILS_ON_FIELD_CHANGE:
 			Store.onFieldChange(action.description);
 			Store.emitChange();

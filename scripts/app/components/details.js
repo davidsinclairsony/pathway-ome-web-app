@@ -1,32 +1,11 @@
 import {React, ReactRouter, Velocity, assign} from '../../libs';
 import Actions from '../actions';
 import base from './base';
-import DetailsStore from '../stores/details';
 import field from './field';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
-let getState = () => {
-	return {
-		fields: DetailsStore.get(['fields']),
-		isWaiting: DetailsStore.get(['isWaiting'])
-	};
-};
-
 export default React.createClass(assign({}, {
-	componentDidMount: function() {
-		DetailsStore.addChangeListener(this._onChange);
-	},
-	componentWillUnmount: function() {
-		DetailsStore.removeChangeListener(this._onChange);
-	},
 	displayName: 'Details',
-	getInitialState: function() {
-		DetailsStore.initialize(this.props.fields);
-		return getState();
-	},
-	submitAction: function(event) {
-		event.preventDefault();
-	},
 	render: function() {
 		let inner = [];
 
@@ -35,19 +14,20 @@ export default React.createClass(assign({}, {
 		// Create list items
 		let listInner = [];
 
-		Object.keys(this.state.fields).forEach(key => {
+		Object.keys(this.props.fields).forEach(key => {
 			let help = {
-				isValid: this.state.fields[key].isValid,
-				help: this.state.fields[key].help,
-				showHelp: this.state.fields[key].showHelp,
-				validate: this.state.fields[key].validate,
-				showIcon: this.state.fields[key].showIcon
+				isValid: this.props.fields[key].isValid,
+				content: this.props.fields[key].help,
+				showHelp: this.props.fields[key].showHelp,
+				validate: this.props.fields[key].validate,
+				showIcon: this.props.fields[key].showIcon
 			};
 
 			switch(key) {
 				case 'name':
 					listInner.push(React.createElement(field, {
 						key,
+						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Name',
@@ -60,8 +40,8 @@ export default React.createClass(assign({}, {
 							name: key,
 							placeholders: ['First Name', 'Last Name'],
 							type: 'textInput',
-							values: this.state.fields[key].values ?
-								this.state.fields[key].values : []
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
 						},
 						help
 					}));
@@ -69,6 +49,7 @@ export default React.createClass(assign({}, {
 				case 'email':
 					listInner.push(React.createElement(field, {
 						key,
+						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Email',
@@ -81,8 +62,8 @@ export default React.createClass(assign({}, {
 							name: key,
 							placeholders: ['Email'],
 							type: 'textInput',
-							values: this.state.fields[key].values ?
-								this.state.fields[key].values : []
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
 						},
 						help
 					}));
@@ -90,6 +71,7 @@ export default React.createClass(assign({}, {
 				case 'password':
 					listInner.push(React.createElement(field, {
 						key,
+						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Password',
@@ -102,8 +84,8 @@ export default React.createClass(assign({}, {
 							name: key,
 							placeholders: ['Password', 'Confirm'],
 							type: 'textInput',
-							values: this.state.fields[key].values ?
-								this.state.fields[key].values : []
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
 						},
 						help
 					}));
@@ -111,6 +93,7 @@ export default React.createClass(assign({}, {
 				case 'dob':
 					listInner.push(React.createElement(field, {
 						key,
+						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Date of Birth',
@@ -124,8 +107,8 @@ export default React.createClass(assign({}, {
 							name: key,
 							placeholders: ['MM', 'DD', 'YYYY'],
 							type: 'textInput',
-							values: this.state.fields[key].values ?
-								this.state.fields[key].values : []
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
 						},
 						help
 					}));
@@ -136,7 +119,7 @@ export default React.createClass(assign({}, {
 		// Make transition for waiting
 		let transitionInner = [];
 
-		if(this.state.isWaiting) {
+		if(this.props.isWaiting) {
 			transitionInner.push(React.DOM.div({
 				key: 0,
 				className: 'isWaiting'
@@ -155,8 +138,5 @@ export default React.createClass(assign({}, {
 		));
 
 		return React.DOM.div({className: 'details'}, inner);
-	},
-	_onChange: function() {
-		this.setState(getState());
 	}
 }));

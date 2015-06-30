@@ -17,6 +17,21 @@
 		font: normal normal 100 16px/#{$f-1-l-h} $f-1;
 	}
 
+	.container {
+		display: flex;
+		align-items: center;
+
+		.inputs {
+			flex: 1 1 auto;
+		}
+
+		aside {
+			flex: 0 0 auto;
+			padding: $g-2;
+			width: $g-4;
+		}
+	}
+
 	@media all and (max-width: $bp-2 - 1) {
 		flex-wrap: wrap;
 
