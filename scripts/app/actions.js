@@ -2,47 +2,11 @@ import Dispatcher from './dispatcher';
 import Constants from './constants';
 
 let Activate = {
-	activate: (jwt) => {
+	changeIsWaiting: value => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_ACTIVATE,
-			jwt
-		});
-	},
-	activateHandler: response => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_ACTIVATE_HANDLER,
-			response
-		});
-	},
-	hideAllHelp: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_HIDE_ALL_HELP
-		});
-	},
-	onFieldChange: (field, value) => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_ON_FIELD_CHANGE,
-			field,
+			actionType: Constants.Actions.ACTIVATE_CHANGE_IS_WAITING,
 			value
 		});
-	},
-	responseHandler: response => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_RESPONSE_HANDLER,
-			response
-		});
-	},
-	submit: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.ACTIVATE_SUBMIT});
-	},
-	toggleShowHelp: field => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.ACTIVATE_TOGGLE_SHOW_HELP,
-			field
-		});
-	},
-	validateAll: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.ACTIVATE_VALIDATE_ALL});
 	}
 };
 
@@ -67,16 +31,16 @@ let Create = {
 	}
 };
 
-let Details = {
+let Fields = {
 	changeShowHelp: object => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.DETAILS_CHANGE_SHOW_HELP,
+			actionType: Constants.Actions.FIELDS_CHANGE_SHOW_HELP,
 			object
 		});
 	},
 	onFieldChange: description => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.DETAILS_ON_FIELD_CHANGE,
+			actionType: Constants.Actions.FIELDS_ON_FIELD_CHANGE,
 			description
 		});
 	}
@@ -128,4 +92,4 @@ let Login = {
 	}
 };
 
-export default {Activate, Create, Details, Home, Login};
+export default {Activate, Create, Fields, Home, Login};

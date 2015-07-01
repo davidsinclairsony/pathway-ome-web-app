@@ -1,10 +1,9 @@
-import {assign, React} from '../../../libs';
-import Actions from '../../actions';
-import base from './../base';
-import textInput from './textInput';
+import {assign, React} from '../../../../libs';
+import Actions from '../../../actions';
+import base from './../../base';
 
 export default React.createClass(assign({}, base, {
-	displayName: 'Multiple Text Input',
+	displayName: 'Text Input',
 	render: function() {
 		let inner = [];
 
@@ -18,7 +17,7 @@ export default React.createClass(assign({}, base, {
 					this.props.characterLimiters[i] : '',
 				placeholder: this.props.placeholders[i],
 				onChange: event => {
-					Actions[this.props.store].onFieldChange({
+					Actions.Fields.onFieldChange({
 						name: this.props.name,
 						value: event.target.value,
 						vIndex: i

@@ -2,8 +2,8 @@ import {assign, React, ReactRouter} from '../../libs';
 import Actions from '../actions';
 import consent from '../components/consent';
 import CreateStore from '../stores/create';
-import details from '../components/details';
-import DetailsStore from '../stores/details';
+import fields from '../components/fields';
+import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
 import header from '../components/header';
 import logo from '../components/logo';
@@ -14,7 +14,7 @@ let getState = () => {
 		agreedToConsent: CreateStore.get(['agreedToConsent']),
 		showConsent: CreateStore.get(['showConsent']),
 		isWaiting: CreateStore.get(['isWaiting']),
-		detailsFields: DetailsStore.get(['fields'])
+		fields: FieldsStore.get(['fields'])
 	};
 };
 
@@ -22,15 +22,15 @@ export default React.createClass(assign({}, {
 	displayName: 'Create',
 	componentDidMount: function() {
 		CreateStore.addChangeListener(this._onChange);
-		DetailsStore.addChangeListener(this._onChange);
+		FieldsStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
 		CreateStore.removeChangeListener(this._onChange);
-		DetailsStore.removeChangeListener(this._onChange);
+		FieldsStore.removeChangeListener(this._onChange);
 	},
 	getInitialState: function() {
 		CreateStore.initialize();
-		DetailsStore.initialize(['name', 'email', 'password', 'dob']);
+		FieldsStore.initialize(['name', 'email', 'password', 'dob']);
 		return getState();
 	},
 	render: function() {
@@ -41,14 +41,14 @@ export default React.createClass(assign({}, {
 			React.createElement(logo, null)
 		));
 
-		wrapperInner.push(React.createElement(details, {
-			key: 1,
-			h2: 'Create an Account',
-			fields: this.state.detailsFields,
-			isWaiting: this.state.detailsIsWaiting
+		wrapperInner.push(React.DOM.h2({key: 1}, 'Create an Account'));
+
+		wrapperInner.push(React.createElement(fields, {
+			key: 2,
+			fields: this.state.fields
 		}));
 
-		wrapperInner.push(React.DOM.div({className: 'agreement', key: 2},
+		wrapperInner.push(React.DOM.div({className: 'agreement', key: 3},
 			React.DOM.input({
 				id: 'agreedToConsent',
 				type: 'checkbox',
@@ -67,7 +67,7 @@ export default React.createClass(assign({}, {
 
 		wrapperInner.push(React.DOM.button({
 			className: 'submit button medium positive',
-			key: 3,
+			key: 4,
 			onClick: this.submitHandler
 		}, 'Create'));
 
@@ -99,13 +99,13 @@ export default React.createClass(assign({}, {
 
 		if(this.state.isWaiting) {
 			transitionInner.push(React.DOM.div({
-				key: 0,
+				key: 1,
 				className: 'waiting'
 			}, null));
 		}
 
 		wrapperInner.push(React.createElement(TransitionGroup, {
-			key: 4,
+			key: 5,
 			transitionName: 'fade-fast',
 			transitionAppear: true
 		}, transitionInner));
@@ -120,8 +120,8 @@ export default React.createClass(assign({}, {
 		let allValid = true;
 
 		// Validate all fields
-		Object.keys(this.state.detailsFields).forEach(key => {
-			if(!this.state.detailsFields[key].isValid) {
+		Object.keys(this.state.fields).forEach(key => {
+			if(!this.state.fields[key].isValid) {
 				allValid = false;
 			}
 		});

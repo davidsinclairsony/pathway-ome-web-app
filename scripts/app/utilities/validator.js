@@ -11,9 +11,24 @@ export default {
 				return this.isDobValid(o.values);
 			case 'name':
 				return this.isNameValid(o.values);
+			case 'pin':
+				return this.isPinValid(o.values);
 			default:
 				return true;
 		}
+	},
+	isPinValid: pin => {
+		let pinString = pin[0] + pin[1] + pin[2] + pin[3];
+
+		// All numbers and length validation
+		if(
+			!/^\d+$/.test(pinString) ||
+			pinString.length < 4
+		) {
+			return false;
+		}
+
+		return true;
 	},
 	isDobValid: dob => {
 		let dobString = dob[0] + dob[1] + dob[2];

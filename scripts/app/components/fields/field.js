@@ -1,6 +1,6 @@
-import {assign, React} from '../../libs';
-import Actions from '../actions';
-import base from './base';
+import {assign, React} from '../../../libs';
+import Actions from '../../actions';
+import base from '.././base';
 import textInput from './field/textInput';
 
 export default React.createClass(assign({}, base, {
@@ -54,7 +54,7 @@ export default React.createClass(assign({}, base, {
 						key: 0,
 						className: 'icon-help circle negative small clickable',
 						onClick: () => {
-							Actions[this.props.store].changeShowHelp({
+							Actions.Fields.changeShowHelp({
 								field: this.props.classes,
 								value: !this.props.help.showHelp
 							});

@@ -10,7 +10,7 @@ import Actions from '../actions';
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
-		name: 'details',
+		name: 'fields',
 		fields: {},
 		isWaiting: false
 	};
@@ -84,11 +84,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.DETAILS_CHANGE_SHOW_HELP:
+		case Constants.Actions.FIELDS_CHANGE_SHOW_HELP:
 			Store.changeShowHelp(action.object);
 			Store.emitChange();
 			break;
-		case Constants.Actions.DETAILS_ON_FIELD_CHANGE:
+		case Constants.Actions.FIELDS_ON_FIELD_CHANGE:
 			Store.onFieldChange(action.description);
 			Store.emitChange();
 			break;

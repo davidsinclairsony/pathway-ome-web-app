@@ -12,6 +12,12 @@
 		}
 	}
 
+	h2 {
+		text-align: center;
+		font: normal normal 100 30px/#{$f-1-l-h} $f-1;
+		margin: 0 0 $g-3 0;
+	}
+
 	.agreement {
 		margin: $g-3 + $g-2 auto 0 auto;
 		width: $g-7 + $g-6 + $g-4;
@@ -51,21 +57,5 @@
 
 	.waiting {
 		background: linear-gradient(to bottom, #12204f 0%, #052a38 37%, #131933 100%);
-	}
-
-	@media all and (max-width: $bp-2 - 1) {
-
-	}
-
-	@media all and (min-width: $bp-2) {
-
-	}
-
-	@media all and (max-width: $bp-3 - 1 + $g-4) {
-
-	}
-
-	@media all and (min-width: $bp-3 + $g-4) {
-
 	}
 }

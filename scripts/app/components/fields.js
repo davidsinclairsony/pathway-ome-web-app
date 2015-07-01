@@ -1,18 +1,13 @@
 import {React, ReactRouter, Velocity, assign} from '../../libs';
 import Actions from '../actions';
 import base from './base';
-import field from './field';
+import field from './fields/field';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 export default React.createClass(assign({}, {
-	displayName: 'Details',
+	displayName: 'Fields',
 	render: function() {
 		let inner = [];
-
-		inner.push(React.DOM.h2({key: 0}, this.props.h2));
-
-		// Create list items
-		let listInner = [];
 
 		Object.keys(this.props.fields).forEach(key => {
 			let help = {
@@ -25,9 +20,8 @@ export default React.createClass(assign({}, {
 
 			switch(key) {
 				case 'name':
-					listInner.push(React.createElement(field, {
+					inner.push(React.createElement(field, {
 						key,
-						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Name',
@@ -47,9 +41,8 @@ export default React.createClass(assign({}, {
 					}));
 					break;
 				case 'email':
-					listInner.push(React.createElement(field, {
+					inner.push(React.createElement(field, {
 						key,
-						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Email',
@@ -69,9 +62,8 @@ export default React.createClass(assign({}, {
 					}));
 					break;
 				case 'password':
-					listInner.push(React.createElement(field, {
+					inner.push(React.createElement(field, {
 						key,
-						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Password',
@@ -91,9 +83,8 @@ export default React.createClass(assign({}, {
 					}));
 					break;
 				case 'dob':
-					listInner.push(React.createElement(field, {
+					inner.push(React.createElement(field, {
 						key,
-						store: 'Details',
 						classes: key,
 						label: {
 							content: 'Date of Birth',
@@ -113,30 +104,31 @@ export default React.createClass(assign({}, {
 						help
 					}));
 					break;
+				case 'pin':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Pin',
+							htmlFor: 'pin1'
+						},
+						input: {
+							characterLimiters: [1, 1, 1, 1],
+							count: 4,
+							htmlType: 'text',
+							ids: ['pin1', 'pin2', 'pin3', 'pin4'],
+							name: key,
+							placeholders: ['1', '2', '3', '4'],
+							type: 'textInput',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 			}
 		});
 
-		// Make transition for waiting
-		let transitionInner = [];
-
-		if(this.props.isWaiting) {
-			transitionInner.push(React.DOM.div({
-				key: 0,
-				className: 'isWaiting'
-			}, null));
-		}
-
-		inner.push(React.DOM.form({key: 2},
-			React.DOM.ul({key: 0}, listInner),
-			React.createElement(TransitionGroup,
-				{
-					transitionName: 'fade-slow',
-					transitionAppear: true
-				},
-				transitionInner
-			)
-		));
-
-		return React.DOM.div({className: 'details'}, inner);
+		return React.DOM.form({className: 'fields'}, React.DOM.ul(null, inner));
 	}
 }));

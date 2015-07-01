@@ -24,7 +24,7 @@ aside {
 		}
 	}
 
-	@media all and (max-width: $bp-3 - 1) {
+	@media all and (max-width: $bp-4 - 1) {
 		.help {
 			top: $g-4 + $g-2;
 			right: 0;
@@ -38,7 +38,7 @@ aside {
 		}
 	}
 
-	@media all and (min-width: $bp-3) {
+	@media all and (min-width: $bp-4) {
 		.help {
 			top: -$g-1;
 			left: $g-4 + $g-2;
