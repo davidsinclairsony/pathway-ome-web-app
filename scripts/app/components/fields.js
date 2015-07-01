@@ -32,7 +32,7 @@ export default React.createClass(assign({}, {
 							htmlType: 'email',
 							ids: ['firstName', 'lastName'],
 							name: key,
-							placeholders: ['First Name', 'Last Name'],
+							placeholders: ['First', 'Last'],
 							type: 'textInput',
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : []
@@ -61,7 +61,28 @@ export default React.createClass(assign({}, {
 						help
 					}));
 					break;
-				case 'password':
+				case 'singlePassword':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Password',
+							htmlFor: 'password'
+						},
+						input: {
+							count: 1,
+							htmlType: 'password',
+							ids: ['password'],
+							name: key,
+							placeholders: ['Password'],
+							type: 'textInput',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
+				case 'doublePassword':
 					inner.push(React.createElement(field, {
 						key,
 						classes: key,

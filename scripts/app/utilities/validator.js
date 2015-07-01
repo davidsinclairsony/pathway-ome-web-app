@@ -5,8 +5,10 @@ export default {
 		switch(o.name) {
 			case 'email':
 				return this.isEmailValid(o.values[0]);
-			case 'password':
-				return this.isPasswordValid(o.values);
+			case 'singlePassword':
+				return this.isSinglePasswordValid(o.values);
+			case 'doublePassword':
+				return this.isDoublePasswordValid(o.values);
 			case 'dob':
 				return this.isDobValid(o.values);
 			case 'name':
@@ -71,11 +73,7 @@ export default {
 
 		return true;
 	},
-	isPasswordValid: values => {
-		if(values[0] !== values[1]) {
-			return false;
-		}
-
+	isSinglePasswordValid: values => {
 		let password = values[0];
 
 		if(!password) {
@@ -97,5 +95,16 @@ export default {
 		} else {
 			return false;
 		}
+	},
+	isDoublePasswordValid: function(values) {
+		if(values[0] !== values[1]) {
+			return false;
+		}
+
+		if(!this.isSinglePasswordValid(values)) {
+			return false;
+		}
+
+		return true;
 	}
 };

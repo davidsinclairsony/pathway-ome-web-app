@@ -8,13 +8,8 @@ let Actions = keyMirror({
 	FIELDS_CHANGE_SHOW_HELP: null,
 	FIELDS_ON_FIELD_CHANGE: null,
 	HOME_TOGGLE_SHOW_MENU: null,
-	LOGIN_HIDE_ALL_HELP: null,
-	LOGIN_ON_FIELD_CHANGE: null,
-	LOGIN_RESPONSE_HANDLER: null,
-	LOGIN_SUBMIT: null,
-	LOGIN_TOGGLE_SHOW_HELP: null,
-	LOGIN_TOGGLE_STAY_LOGGED_IN: null,
-	LOGIN_VALIDATE_ALL: null,
+	LOGIN_CHANGE_IS_WAITING: null,
+	REACTIVATE_CHANGE_IS_WAITING: null
 });
 
 let BASE_URL = 'http://' + window.location.host + '/api/v1/';

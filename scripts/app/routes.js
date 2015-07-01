@@ -4,8 +4,8 @@ import activate from './views/activate';
 import create from './views/create';
 import error from './views/error';
 import home from './views/home';
-//import login from './views/login';
-//import reset from './views/activate';
+import login from './views/login';
+import reactivate from './views/reactivate';
 
 let DefaultRoute = ReactRouter.DefaultRoute;
 let NotFoundRoute = ReactRouter.NotFoundRoute;
@@ -16,7 +16,7 @@ export default React.createElement(Route, {handler: app, path: "/"},
 	React.createElement(NotFoundRoute, {name: 'error', handler: error}),
 	React.createElement(Route, {name: 'activate', handler: activate}),
 	React.createElement(Route, {name: 'create', handler: create}),
-	//React.createElement(Route, {name: 'login', handler: login}),
-	React.createElement(Route,{name: 'profile', handler: home})
-	//React.createElement(Route, {name: 'reset', handler: reset})
+	React.createElement(Route, {name: 'login', handler: login}),
+	React.createElement(Route,{name: 'profile', handler: home}),
+	React.createElement(Route, {name: 'reactivate', handler: reactivate})
 );

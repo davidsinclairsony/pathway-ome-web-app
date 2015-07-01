@@ -1,33 +1,33 @@
 import {assign, React, ReactRouter} from '../../libs';
 import Actions from '../actions';
-import ActivateStore from '../stores/activate';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
 import header from '../components/header';
+import ReactivateStore from '../stores/reactivate';
 import logo from '../components/logo';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
 	return {
-		isWaiting: ActivateStore.get(['isWaiting']),
+		isWaiting: ReactivateStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields'])
 	};
 };
 
 export default React.createClass(assign({}, {
-	displayName: 'Activate',
+	displayName: 'Reactivate',
 	componentDidMount: function() {
-		ActivateStore.addChangeListener(this._onChange);
+		ReactivateStore.addChangeListener(this._onChange);
 		FieldsStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		ActivateStore.removeChangeListener(this._onChange);
+		ReactivateStore.removeChangeListener(this._onChange);
 		FieldsStore.removeChangeListener(this._onChange);
 	},
 	getInitialState: function() {
-		ActivateStore.initialize();
-		FieldsStore.initialize(['email', 'pin']);
+		ReactivateStore.initialize();
+		FieldsStore.initialize(['email']);
 		return getState();
 	},
 	render: function() {
@@ -38,7 +38,7 @@ export default React.createClass(assign({}, {
 			React.createElement(logo, null)
 		));
 
-		wrapperInner.push(React.DOM.h2({key: 1}, 'Activate Your Device'));
+		wrapperInner.push(React.DOM.h2({key: 1}, 'Reactivate Your Device'));
 
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
@@ -49,7 +49,7 @@ export default React.createClass(assign({}, {
 			className: 'submit button medium positive',
 			key: 3,
 			onClick: this.submitHandler
-		}, 'Activate'));
+		}, 'Get a Pin'));
 
 		let transitionInner = [];
 
@@ -70,7 +70,7 @@ export default React.createClass(assign({}, {
 
 		inner.push(React.createElement(footer, {key: 1}));
 
-		return React.DOM.div({className: 'activate view'}, inner);
+		return React.DOM.div({className: 'reactivate view'}, inner);
 	},
 	submitHandler: function() {
 		let allValid = true;
@@ -89,7 +89,7 @@ export default React.createClass(assign({}, {
 		});
 
 		if(allValid) {
-			Actions.Activate.changeIsWaiting(true);
+			Actions.Reactivate.changeIsWaiting(true);
 			console.log("send to api");
 		}
 	},

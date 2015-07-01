@@ -1,36 +1,33 @@
 import {assign, React, ReactRouter} from '../../libs';
 import Actions from '../actions';
-import consent from '../components/consent';
-import CreateStore from '../stores/create';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
 import header from '../components/header';
+import LoginStore from '../stores/login';
 import logo from '../components/logo';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
 	return {
-		agreedToConsent: CreateStore.get(['agreedToConsent']),
-		showConsent: CreateStore.get(['showConsent']),
-		isWaiting: CreateStore.get(['isWaiting']),
+		isWaiting: LoginStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields'])
 	};
 };
 
 export default React.createClass(assign({}, {
-	displayName: 'Create',
+	displayName: 'Login',
 	componentDidMount: function() {
-		CreateStore.addChangeListener(this._onChange);
+		LoginStore.addChangeListener(this._onChange);
 		FieldsStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		CreateStore.removeChangeListener(this._onChange);
+		LoginStore.removeChangeListener(this._onChange);
 		FieldsStore.removeChangeListener(this._onChange);
 	},
 	getInitialState: function() {
-		CreateStore.initialize();
-		FieldsStore.initialize(['name', 'email', 'doublePassword', 'dob']);
+		LoginStore.initialize();
+		FieldsStore.initialize(['email', 'singlePassword']);
 		return getState();
 	},
 	render: function() {
@@ -41,86 +38,52 @@ export default React.createClass(assign({}, {
 			React.createElement(logo, null)
 		));
 
-		wrapperInner.push(React.DOM.h2({key: 1}, 'Create an Account'));
+		wrapperInner.push(React.DOM.h2({key: 1}, 'Login'));
 
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
 			fields: this.state.fields
 		}));
 
-		wrapperInner.push(React.DOM.div({className: 'agreement', key: 3},
-			React.DOM.input({
-				id: 'agreedToConsent',
-				type: 'checkbox',
-				checked: this.state.agreedToConsent,
-				onChange: () => {Actions.Create.changeAgreedToConsent(
-					!this.state.agreedToConsent
-				);}
-			}),
-			React.DOM.label(null,
-				'I have read and agree to the ',
-				React.DOM.a({
-					onClick: () => {Actions.Create.changeShowConsent(true);}
-				}, 'EULA & Privacy Policy')
-			)
-		));
-
 		wrapperInner.push(React.DOM.button({
 			className: 'submit button medium positive',
-			key: 4,
+			key: 3,
 			onClick: this.submitHandler
-		}, 'Create'));
+		}, 'Login'));
 
 		let transitionInner = [];
 
-		if(this.state.showConsent) {
-			transitionInner.push(React.DOM.div({
-				className: 'modal',
-				key: 0
-			},
-				React.DOM.div({className: 'content'},
-					React.createElement(consent, null)
-				),
-				React.DOM.div({className: 'controls'},
-					React.DOM.button({
-						className: 'button medium negative',
-						onClick: () => {Actions.Create.changeShowConsent(false);}
-					}, 'Close'),
-					React.DOM.button({
-						className: 'button medium positive',
-						onClick: () => {
-							Actions.Create.changeAgreedToConsent(true);
-							Actions.Create.changeShowConsent(false);
-						}
-					}, 'I Agree')
-				)
-			));
-		}
-
 		if(this.state.isWaiting) {
 			transitionInner.push(React.DOM.div({
-				key: 1,
+				key: 0,
 				className: 'waiting'
 			}, null));
 		}
 
 		wrapperInner.push(React.createElement(TransitionGroup, {
-			key: 5,
+			key: 4,
 			transitionName: 'fade-fast',
 			transitionAppear: true
 		}, transitionInner));
 
-		wrapperInner.push(React.DOM.p({key: 7},
+		wrapperInner.push(React.DOM.p({key: 5},
+			'Forgotten password or on a new device? ',
+			React.createElement(ReactRouter.Link,
+				{key: 1, to: "reactivate"}, "Click here"
+			)
+		));
+
+		wrapperInner.push(React.DOM.p({key: 6},
 			'Have a pin and need to activate? ',
 			React.createElement(ReactRouter.Link,
 				{key: 1, to: "activate"}, "Click here"
 			)
 		));
 
-		wrapperInner.push(React.DOM.p({key: 8},
-			'Need to login? ',
+		wrapperInner.push(React.DOM.p({key: 7},
+			'Need to create an account? ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "login"}, "Click here"
+				{key: 1, to: "create"}, "Click here"
 			)
 		));
 
@@ -128,7 +91,7 @@ export default React.createClass(assign({}, {
 
 		inner.push(React.createElement(footer, {key: 1}));
 
-		return React.DOM.div({className: 'create view'}, inner);
+		return React.DOM.div({className: 'login view'}, inner);
 	},
 	submitHandler: function() {
 		let allValid = true;
@@ -146,14 +109,8 @@ export default React.createClass(assign({}, {
 			}
 		});
 
-		// Ensure consent is agreed, otherwise show
-		if(allValid && !this.state.agreedToConsent) {
-			allValid = false;
-			Actions.Create.changeShowConsent(true);
-		}
-
 		if(allValid) {
-			Actions.Create.changeIsWaiting(true);
+			Actions.Login.changeIsWaiting(true);
 			console.log("send to api");
 		}
 	},

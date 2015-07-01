@@ -55,41 +55,21 @@ let Home = {
 };
 
 let Login = {
-	hideAllHelp: () => {
+	changeIsWaiting: value => {
 		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_HIDE_ALL_HELP
-		});
-	},
-	onFieldChange: (field, value) => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_ON_FIELD_CHANGE,
-			field,
+			actionType: Constants.Actions.LOGIN_CHANGE_IS_WAITING,
 			value
 		});
-	},
-	responseHandler: response => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_RESPONSE_HANDLER,
-			response
-		});
-	},
-	submit: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_SUBMIT});
-	},
-	toggleShowHelp: field => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_TOGGLE_SHOW_HELP,
-			field
-		});
-	},
-	toggleStayLoggedIn: () => {
-		Dispatcher.dispatch({
-			actionType: Constants.Actions.LOGIN_TOGGLE_STAY_LOGGED_IN
-		});
-	},
-	validateAll: () => {
-		Dispatcher.dispatch({actionType: Constants.Actions.LOGIN_VALIDATE_ALL});
 	}
 };
 
-export default {Activate, Create, Fields, Home, Login};
+let Reactivate = {
+	changeIsWaiting: value => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.REACTIVATE_CHANGE_IS_WAITING,
+			value
+		});
+	}
+};
+
+export default {Activate, Create, Fields, Home, Login, Reactivate};

@@ -35,7 +35,7 @@ export default React.createClass(assign({}, base, {
 				React.DOM.br({key: 1}, null),
 				React.DOM.button({
 					key: 2,
-					classes: 'button medium positive'
+					className: 'button medium positive'
 				}, 'Ask')
 			])
 		));
