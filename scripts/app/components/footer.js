@@ -1,4 +1,4 @@
-import {assign, React} from '../../libs';
+import {assign, React, ReactRouter} from '../../libs';
 import base from './base';
 
 export default React.createClass(assign({}, base, {
@@ -7,7 +7,11 @@ export default React.createClass(assign({}, base, {
 		let year = new Date().getFullYear();
 
 		return React.DOM.footer({className: 'global'},
-			React.DOM.p(null, 'Pathway Genomics ' + year)
+			React.DOM.span(null, 'Pathway Genomics ' + year),
+			' • ',
+			React.createElement(ReactRouter.Link,
+				{key: 1, to: "consent"}, "EULA & Privacy Policy"
+			)
 		);
 	}
 }));

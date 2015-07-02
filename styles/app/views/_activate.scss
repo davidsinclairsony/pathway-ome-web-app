@@ -1,29 +1,6 @@
 .activate.view {
-	h1 {
-		text-align: center;
-		padding: $g-4 $g-4 $g-4 - $g-2 $g-4;
-
-		svg {
-			height: $g-4;
-
-			path {
-				fill: white;
-			}
-		}
-	}
-
-	h2 {
-		text-align: center;
-		font: normal normal 100 30px/#{$f-1-l-h} $f-1;
-		margin: 0 0 $g-1 0;
-	}
-
 	button.submit {
 		margin: $g-2 auto 0 auto;
 		display: block;
-	}
-
-	.waiting {
-		background: linear-gradient(to bottom, #12204f 0%, #052a38 37%, #131933 100%);
 	}
 }

@@ -79,11 +79,11 @@ export default React.createClass(assign({}, base, {
 		}
 
 		// Return view, wrapping child and header for animations
-		return React.DOM.div({className: 'home view'}, [
+		return React.DOM.div({className: 'home view wide'}, [
 			React.createElement(nav, {key: 0}),
 			React.createElement(TransitionGroup,
 				{
-					transitionName: 'fade-slow',
+					transitionName: 'fade-fast',
 					transitionAppear: true,
 					component: 'main',
 					className: 'global',

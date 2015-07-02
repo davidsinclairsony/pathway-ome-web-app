@@ -17,13 +17,6 @@
 			overflow: auto;
 			-webkit-overflow-scrolling: touch;
 			z-index: 0;
-
-			> .wrapper {
-				> .content {
-					max-width: $bp-3;
-					margin: 0 auto;
-				}
-			}
 		}
 	}
 
@@ -32,9 +25,7 @@
 			border-right: 1px solid darken(mix(grey, #12204f, 40%), 25%);
 
 			> section {
-				.wrapper {
-					padding: $g-4 + $g-2 + $g-1 0 0 0;
-				}
+				padding-top: $g-4 + $g-2 + $g-1 ;
 			}
 		}
 	}
@@ -42,9 +33,7 @@
 	@media all and (min-width: $bp-2) {
 		main.global {
 			> section {
-				.wrapper {
-					padding: $g-5 + $g-1 0 0 0;
-				}
+				padding-top: $g-5 + $g-1;
 			}
 		}
 	}

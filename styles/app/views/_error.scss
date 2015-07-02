@@ -1,28 +1,5 @@
 .error.view {
-	h1 {
-		text-align: center;
-		padding: $g-4 $g-4 $g-4 - $g-2 $g-4;
-
-		svg {
-			height: $g-4;
-
-			path {
-				fill: white;
-			}
-		}
-	}
-
 	p {
 		text-align: center;
-
-		a {
-			color: $c-2;
-			cursor: pointer;
-			text-decoration: none;
-
-			&:hover {
-				color: lighten($c-2, 5%);
-			}
-		}
 	}
 }

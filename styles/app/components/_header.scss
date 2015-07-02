@@ -11,7 +11,8 @@ header.global {
 		justify-content: space-between;
 		align-items: center;
 		align-content: center;
-		max-width: $bp-3;
+		width: $bp-3 + $g-4;
+		max-width: 100%;
 		margin: 0 auto;
 
 		h1 {
@@ -87,11 +88,13 @@ header.global {
 
 	@media all and (min-width: $bp-2) {
 		.content {
+			height: $g-5 + $g-1;
+
 			h1 {
 				flex: 0 0 auto;
 
 				a {
-					padding: $g-3 + $g-2 $g-4;
+					padding: $g-3 + $g-2 $g-4 $g-3 + $g-2 $g-3;
 
 					svg {
 						height: $g-3 + $g-1;

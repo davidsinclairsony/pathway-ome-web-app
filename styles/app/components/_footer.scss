@@ -1,5 +1,25 @@
 footer.global {
-	text-align: center;
-	padding: $g-4 0 $g-3 0;
+	height: $g-5;
 	color: transparentize(white, .8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	span {
+		&:nth-child(2) {
+			margin: 0 $g-1;
+		}
+	}
+
+	a {
+		color: transparentize(white, .8) !important;
+		text-decoration: none;
+		border-bottom: 1px solid transparentize(white, .8);
+		cursor: pointer;
+
+		&:hover {
+			color: white !important;
+			border-bottom: 1px solid white;
+		}
+	}
 }

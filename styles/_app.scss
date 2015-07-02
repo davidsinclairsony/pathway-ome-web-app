@@ -5,7 +5,7 @@
 	top: 0;
 	left: 0;
 	background: linear-gradient(to bottom, #12204f 0%, #052a38 37%, #131933 100%);
-	color: white;
+	color: transparentize(white, .05);
 	font: normal normal normal 12px/#{$f-1-l-h} $f-1;
 
 	.view {
@@ -16,6 +16,92 @@
 		left: 0;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
+
+		.wrapper {
+			margin-bottom: -$g-5;
+			min-height: 100%;
+
+			&:after {
+				content: "";
+				display: block;
+				height: $g-5;
+			}
+		}
+
+		&.thin {
+			.wrapper {
+				padding: 0 $g-3;
+				width: $g-7 + $g-6 + $g-4;
+				max-width: 100%;
+				margin: 0 auto -1 * $g-5 auto;
+			}
+		}
+
+		&.wide {
+			.wrapper {
+				padding: 0 $g-3;
+				width: $bp-3 + $g-4;
+				max-width: 100%;
+				margin: 0 auto -1 * $g-5 auto;
+			}
+		}
+
+		&.standard {
+			a {
+				text-decoration: none;
+				color: transparentize(white, .05);
+				border-bottom: 1px solid transparentize(white, .8);
+				cursor: pointer;
+
+				&:hover {
+					border-bottom: 1px solid white;
+					color: white;
+				}
+			}
+
+			h1 {
+				text-align: center;
+				padding: $g-4 $g-4 $g-4 - $g-2 $g-4;
+
+				a {
+					display: inline-block;
+					border-bottom: none;
+
+					&:hover {
+						border-bottom: none;
+
+						svg {
+							path {
+								fill: white;
+							}
+						}
+					}
+
+					* {
+						cursor: pointer;
+					}
+
+					svg {
+						height: $g-4;
+
+						path {
+							fill: transparentize(white, .05);
+						}
+					}
+				}
+			}
+
+			h2 {
+				text-align: center;
+				font: normal normal 100 30px/#{$f-1-l-h} $f-1;
+				margin: 0 0 $g-1 0;
+				padding: 0 $g-3;
+			}
+
+			.waiting {
+				background: linear-gradient(to bottom, #12204f 0%, #052a38 37%, #131933 100%);
+			}
+		}
 	}
 
 	@import "app/components/button";
@@ -29,8 +115,8 @@
 	@import "app/components/nav";
 	@import "app/components/profile";
 	@import "app/components/waiting";
-	@import "app/components/wrapper";
 	@import "app/views/activate";
+	@import "app/views/consent";
 	@import "app/views/create";
 	@import "app/views/error";
 	@import "app/views/home";

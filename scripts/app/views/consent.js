@@ -1,10 +1,11 @@
 import {assign, React, ReactRouter} from '../../libs';
+import consent from '../components/consent';
 import logo from '../components/logo';
 import footer from '../components/footer';
 import base from '../components/base';
 
 export default React.createClass(assign({}, base, {
-	displayName: 'Error',
+	displayName: 'Consent',
 	render: function() {
 		let inner = [];
 
@@ -14,15 +15,16 @@ export default React.createClass(assign({}, base, {
 			)
 		));
 
-		inner.push(React.DOM.p({key: 1},
-			'Sorry, there was an error. ',
-			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, "Click here"
-			),
-			' to start over.'
+		inner.push(React.DOM.h2({key: 1}, 'EULA & Privacy Policy'));
+
+		inner.push(React.DOM.div({
+			key: 2,
+			className: 'container'
+		},
+			React.createElement(consent, null)
 		));
 
-		return React.DOM.div({className: 'error view standard thin'}, [
+		return React.DOM.div({className: 'consent view standard wide'}, [
 			React.DOM.div({className: 'wrapper', key: 0}, inner),
 			React.createElement(footer, {key: 1})
 		]);

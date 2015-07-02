@@ -32,9 +32,7 @@ export default React.createClass(assign({}, base, {
 		inner.push(React.DOM.p({key: 0}, 'Profile goes here'));
 
 		return React.DOM.section({className: 'profile'}, [
-			React.DOM.div({key: 0, className: 'wrapper'},
-				React.DOM.div({className: 'content'}, inner)
-			),
+			React.DOM.div({key: 0, className: 'wrapper'}, inner),
 			React.createElement(footer, {key: 1})
 		]);
 	},

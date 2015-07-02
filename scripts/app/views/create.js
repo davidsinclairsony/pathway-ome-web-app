@@ -38,7 +38,9 @@ export default React.createClass(assign({}, {
 		let wrapperInner = [];
 
 		wrapperInner.push(React.DOM.h1({key: 0},
-			React.createElement(logo, null)
+			React.createElement(ReactRouter.Link,
+				{key: 1, to: "home"}, React.createElement(logo, null)
+			)
 		));
 
 		wrapperInner.push(React.DOM.h2({key: 1}, 'Create an Account'));
@@ -128,7 +130,7 @@ export default React.createClass(assign({}, {
 
 		inner.push(React.createElement(footer, {key: 1}));
 
-		return React.DOM.div({className: 'create view'}, inner);
+		return React.DOM.div({className: 'create view standard thin'}, inner);
 	},
 	submitHandler: function() {
 		let allValid = true;
