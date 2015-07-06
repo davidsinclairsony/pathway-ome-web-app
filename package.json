@@ -7,12 +7,14 @@
 	"devDependencies": {
 		"autoprefixer": "latest",
 		"babelify": "latest",
+		"bcryptjs": "latest",
 		"browserify": "latest",
 		"es6-promise": "~2.1.1",
 		"fastclick": "latest",
 		"flux": "latest",
 		"joi": "latest",
 		"jshint": "latest",
+		"jshint-stylish": "latest",
 		"jwt-decode": "latest",
 		"keymirror": "latest",
 		"node-sass": "latest",
@@ -29,7 +31,7 @@
 		"when": "latest"
 	},
 	"scripts": {
-		"build:main:jshint": "jshint scripts/.",
+		"build:main:jshint": "jshint --reporter=node_modules/jshint-stylish scripts/.",
 		"build:main:bundle": "browserify scripts/main.js -o scripts/main.bundle.js -x ./scripts/libs.js -t strictify -t babelify",
 		"build:main:uglify": "uglifyjs scripts/main.bundle.js -c -o scripts/main.bundle.js",
 		"build:main": "npm run build:main:jshint && npm run build:main:bundle && npm run build:main:uglify",

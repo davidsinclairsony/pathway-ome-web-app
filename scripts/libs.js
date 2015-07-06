@@ -1,5 +1,6 @@
 module.exports = {
 	assign: require('object-assign'),
+	bcryptjs: require('bcryptjs'),
 	events: require('events'),
 	FastClick: require('fastclick'),
 	Flux: require('flux'),
