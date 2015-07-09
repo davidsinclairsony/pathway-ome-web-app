@@ -1,4 +1,4 @@
-import {assign, React, ReactRouter} from '../../libs';
+import {React, ReactRouter} from '../../libs';
 import Actions from '../actions';
 import ActivateStore from '../stores/activate';
 import fields from '../components/fields';
@@ -15,7 +15,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Activate',
 	componentDidMount: function() {
 		ActivateStore.addChangeListener(this._onChange);
@@ -98,4 +98,4 @@ export default React.createClass(assign({}, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});

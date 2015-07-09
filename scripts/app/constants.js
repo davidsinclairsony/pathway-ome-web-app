@@ -1,6 +1,6 @@
-import {keyMirror} from '../libs';
+import {keymirror, React, ReactRouter} from '../libs';
 
-let Actions = keyMirror({
+let Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,
 	CREATE_CHANGE_AGREED_TO_CONSENT: null,
 	CREATE_CHANGE_IS_WAITING: null,
@@ -15,6 +15,7 @@ let Actions = keyMirror({
 let BASE_URL = 'http://' + window.location.host + '/api/v1/';
 
 let Api = {
+	KEY: '$2y$10$GJLyasQ5wyKHx8VZ2T6BgOZPu7Y9Q5DSFLixqOygH8i1EI7NzDEJm',
 	BASE_URL: BASE_URL,
 	LOGIN_URL: BASE_URL + 'user/login',
 	CREATE_URL: BASE_URL + 'user/create',

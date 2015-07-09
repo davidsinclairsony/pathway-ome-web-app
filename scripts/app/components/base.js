@@ -1,4 +1,4 @@
-import {assign, React, ReactPureRender} from '../../libs';
+import {React, ReactPureRender} from '../../libs';
 
 export default {
 	shouldComponentUpdate(nextProps, nextState) {
@@ -22,6 +22,6 @@ export default {
 		return shouldUpdate;
 	},
 	contextTypes: {
-	  router: React.PropTypes.func
+		router: React.PropTypes.func
 	}
 };

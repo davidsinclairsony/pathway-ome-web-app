@@ -1,4 +1,4 @@
-import {React, ReactRouter, Velocity, assign} from '../../libs';
+import {assign, React, ReactRouter, Velocity} from '../../libs';
 import Actions from '../actions';
 //import CreateStore from '../stores/create';
 import base from './base';

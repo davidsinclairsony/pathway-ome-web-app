@@ -1,10 +1,10 @@
-import {React, ReactRouter, Velocity, assign} from '../../libs';
+import {React, ReactRouter, Velocity} from '../../libs';
 import Actions from '../actions';
 import base from './base';
 import field from './fields/field';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Fields',
 	render: function() {
 		let inner = [];
@@ -139,7 +139,7 @@ export default React.createClass(assign({}, {
 							htmlType: 'text',
 							ids: ['pin1', 'pin2', 'pin3', 'pin4'],
 							name: key,
-							placeholders: ['1', '2', '3', '4'],
+							placeholders: ['#', '#', '#', '#'],
 							type: 'textInput',
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : []
@@ -152,4 +152,4 @@ export default React.createClass(assign({}, {
 
 		return React.DOM.form({className: 'fields'}, React.DOM.ul(null, inner));
 	}
-}));
+});

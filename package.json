@@ -9,17 +9,16 @@
 		"babelify": "latest",
 		"bcryptjs": "latest",
 		"browserify": "latest",
-		"es6-promise": "~2.1.1",
+		"core-js": "latest",
 		"fastclick": "latest",
 		"flux": "latest",
 		"joi": "latest",
 		"jshint": "latest",
 		"jshint-stylish": "latest",
-		"jwt-decode": "latest",
 		"keymirror": "latest",
 		"node-sass": "latest",
 		"nodemon": "latest",
-		"object-assign": "^2.0.0",
+		"object-assign": "latest",
 		"postcss-cli": "latest",
 		"react": "latest",
 		"react-pure-render": "latest",
@@ -29,6 +28,9 @@
 		"uglify-js": "latest",
 		"velocity-animate": "latest",
 		"when": "latest"
+	},
+	"jshintConfig": {
+		"esnext": true
 	},
 	"scripts": {
 		"build:main:jshint": "jshint --reporter=node_modules/jshint-stylish scripts/.",
@@ -41,11 +43,6 @@
 		"build:libs": "npm run build:libs:jshint && npm run build:libs:bundle && npm run build:libs:uglify",
 		"build:styles": "node-sass --stdout --output-style compressed styles/styles.scss | postcss -u autoprefixer -o styles/styles.css",
 		"build": "npm run build:main && npm run build:libs && npm run build:styles",
-		"watch:main": "nodemon -e js -w scripts -i scripts/main.bundle.js -x 'npm run build:main:jshint && npm run build:main:bundle'",
-		"watch:styles": "nodemon -e scss -w styles -x 'npm run build:styles'",
-		"watch": "npm run watch:main & npm run watch:styles"
-	},
-	"jshintConfig": {
-		"esnext": true
+		"watch": "nodemon -e js,scss -w scripts -w styles -i scripts/main.bundle.js -x 'npm run build:main:jshint && npm run build:main:bundle && npm run build:styles'"
 	}
 }

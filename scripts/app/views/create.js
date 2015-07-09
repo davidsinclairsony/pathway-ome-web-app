@@ -1,4 +1,4 @@
-import {assign, React, ReactRouter} from '../../libs';
+import {React, ReactRouter} from '../../libs';
 import Actions from '../actions';
 import consent from '../components/consent';
 import CreateStore from '../stores/create';
@@ -18,7 +18,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Create',
 	componentDidMount: function() {
 		CreateStore.addChangeListener(this._onChange);
@@ -162,4 +162,4 @@ export default React.createClass(assign({}, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});
