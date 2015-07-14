@@ -5,18 +5,23 @@
 	"author": "David Sinclair",
 	"email": "david.sinclair@pathway.com",
 	"devDependencies": {
-		"autoprefixer": "latest",
+		"babel-core": "latest",
 		"babelify": "latest",
 		"bcryptjs": "latest",
 		"browserify": "latest",
-		"core-js": "latest",
 		"fastclick": "latest",
 		"flux": "latest",
+		"gulp": "latest",
+		"gulp-autoprefixer": "latest",
+		"gulp-babel": "latest",
+		"gulp-if": "latest",
+		"gulp-jshint": "latest",
+		"gulp-sass": "latest",
+		"gulp-uglify": "latest",
+		"gulp-util": "latest",
 		"joi": "latest",
-		"jshint": "latest",
 		"jshint-stylish": "latest",
 		"keymirror": "latest",
-		"node-sass": "latest",
 		"nodemon": "latest",
 		"object-assign": "latest",
 		"postcss-cli": "latest",
@@ -25,9 +30,12 @@
 		"react-router": "latest",
 		"reqwest": "latest",
 		"strictify": "latest",
-		"uglify-js": "latest",
 		"velocity-animate": "latest",
-		"when": "latest"
+		"vinyl-buffer": "latest",
+		"vinyl-source-stream": "latest",
+		"watchify": "latest",
+		"when": "latest",
+		"yargs": "latest"
 	},
 	"jshintConfig": {
 		"esnext": true
@@ -43,6 +51,7 @@
 		"build:libs": "npm run build:libs:jshint && npm run build:libs:bundle && npm run build:libs:uglify",
 		"build:styles": "node-sass --stdout --output-style compressed styles/styles.scss | postcss -u autoprefixer -o styles/styles.css",
 		"build": "npm run build:main && npm run build:libs && npm run build:styles",
-		"watch": "nodemon -e js,scss -w scripts -w styles -i scripts/main.bundle.js -x 'npm run build:main:jshint && npm run build:main:bundle && npm run build:styles'"
+		"watch": "nodemon -e js,scss -w scripts -w styles -i scripts/main.bundle.js -x 'npm run build:main:jshint && npm run build:main:bundle && npm run build:styles'",
+		"gulp": ""
 	}
 }
