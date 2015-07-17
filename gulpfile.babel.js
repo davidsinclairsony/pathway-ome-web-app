@@ -42,10 +42,11 @@ gulp.task('lint', () => {
 	;
 });
 
-gulp.task('main', () => {
-	return browserify(['./scripts/main.js'])
-		.transform(babelify)
-		.external(deps)
+// Main bundle
+let mainOptions = assign({entries: ['./scripts/main.js']}, watchify.args);
+let main = watchify(browserify(mainOptions)).transform(babelify).external(deps);
+let bundleMain = () => {
+	return main
 		.bundle()
 		.on("error", function(err) {
 			gutil.log(err.message);
@@ -56,11 +57,16 @@ gulp.task('main', () => {
 		.pipe(gulpIf(settings.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
-});
+};
 
-gulp.task('libs', () => {
-	return browserify()
-		.require(deps)
+gulp.task('main', bundleMain);
+main.on('update', bundleMain);
+main.on('log', gutil.log);
+
+// Libs bundle
+let libs = watchify(browserify(assign({}, watchify.args))).require(deps);
+let bundleLibs = () => {
+	return libs
 		.bundle()
 		.on("error", function(err) {
 			gutil.log(err.message);
@@ -71,7 +77,11 @@ gulp.task('libs', () => {
 		.pipe(gulpIf(settings.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
-});
+};
+
+gulp.task('libs', bundleLibs);
+libs.on('update', bundleLibs);
+libs.on('log', gutil.log);
 
 gulp.task('scripts', ['lint', 'main', 'libs']);
 
