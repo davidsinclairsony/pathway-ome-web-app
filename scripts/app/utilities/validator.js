@@ -1,4 +1,4 @@
-import {Joi} from '../../libs';
+import Joi from 'joi';
 
 export default {
 	validate: function(o) {

@@ -1,10 +1,11 @@
-import {assign, events} from '../../libs';
-import router from '../router';
-import Dispatcher from '../dispatcher';
-import Constants from '../constants';
-import Validator from '../utilities/validator';
-import Help from '../data/help';
+import assign from 'object-assign';
 import Authenticator from '../utilities/authenticator';
+import Constants from '../constants';
+import Dispatcher from '../dispatcher';
+import events from 'events';
+import Help from '../data/help';
+import router from '../router';
+import Validator from '../utilities/validator';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {

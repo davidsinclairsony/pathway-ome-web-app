@@ -1,7 +1,9 @@
 // Credit to https://gist.github.com/tkafka/0d94c6ec94297bb67091
 
-import {React, Velocity} from '../../libs';
+import React from 'react';
+import ReactAddons from 'react-addons';
 import transitions from '../data/transitions';
+import Velocity from 'velocity-animate';
 
 let VelocityTransitionGroupChild = React.createClass({
 	displayName: "VelocityTransitionGroupChild",
@@ -60,7 +62,7 @@ let VelocityTransitionGroup = React.createClass({
 	},
 	render: function() {
 		return (React.createElement(
-			React.addons.TransitionGroup, React.__spread({}, this.props,
+			ReactAddons.TransitionGroup, React.__spread({}, this.props,
 				{childFactory: this._wrapChild})
 			)
 		);

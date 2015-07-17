@@ -1,4 +1,6 @@
-import {keymirror, React, ReactRouter} from '../libs';
+import keymirror from 'keymirror';
+import React from 'react';
+import ReactRouter from 'react-router';
 
 let Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,

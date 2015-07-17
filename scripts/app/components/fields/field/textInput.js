@@ -1,6 +1,7 @@
-import {assign, React} from '../../../../libs';
 import Actions from '../../../actions';
+import assign from 'object-assign';
 import base from './../../base';
+import React from 'react';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Text Input',

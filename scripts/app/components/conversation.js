@@ -1,9 +1,12 @@
-import {assign, React, ReactRouter, Velocity} from '../../libs';
 import Actions from '../actions';
-//import CreateStore from '../stores/create';
+import assign from 'object-assign';
 import base from './base';
+//import CreateStore from '../stores/create';
 import footer from './footer';
+import React from 'react';
+import ReactRouter from 'react-router';
 //import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import Velocity from 'velocity-animate';
 
 let getState = () => {
 	return {

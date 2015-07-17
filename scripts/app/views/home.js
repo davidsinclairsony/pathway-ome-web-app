@@ -1,11 +1,13 @@
-import {assign, React, ReactRouter} from '../../libs';
-import header from '../components/header';
+import assign from 'object-assign';
 import base from '../components/base';
+import conversation from '../components/conversation';
+import header from '../components/header';
+import HomeStore from '../stores/home';
 import nav from '../components/nav';
 import profile from '../components/profile';
-import conversation from '../components/conversation';
+import React from 'react';
+import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
-import HomeStore from '../stores/home';
 import WindowStore from '../stores/window';
 
 let getState = () => {

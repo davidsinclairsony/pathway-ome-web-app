@@ -1,11 +1,12 @@
-import {React, ReactRouter} from '../../libs';
 import Actions from '../actions';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
 import header from '../components/header';
-import ReactivateStore from '../stores/reactivate';
 import logo from '../components/logo';
+import React from 'react';
+import ReactivateStore from '../stores/reactivate';
+import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {

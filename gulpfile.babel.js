@@ -3,6 +3,7 @@ import autoprefixer from 'gulp-autoprefixer';
 import babelify from 'babelify';
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
+import collapse from 'bundle-collapser';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import jshint from 'gulp-jshint';
@@ -12,7 +13,9 @@ import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
 import watchify from 'watchify';
 import yargs from 'yargs';
+import packageJson from './package.json';
 
+let dependencies = Object.keys(packageJson.dependencies);
 let settings = {};
 
 if(yargs.argv.p) {
@@ -28,16 +31,16 @@ if(yargs.argv.p) {
 }
 
 gulp.task('lint', () => {
-	return gulp.src('scripts/*.js')
+	return gulp.src(['gulpfile.babel.js', 'scripts/**/*.js'])
 		.pipe(jshint({esnext: true}))
 		.pipe(jshint.reporter(jshintStylish))
 	;
 });
 
 gulp.task('main', () => {
-	return browserify({entries: './scripts/main.js'})
+	return browserify(['./scripts/main.js'])
 		.transform(babelify)
-		.external('./scripts/libs.js')
+		.external(dependencies)
 		.bundle()
 		.pipe(source('./scripts/main.bundle.js'))
 		.pipe(buffer())
@@ -47,8 +50,8 @@ gulp.task('main', () => {
 });
 
 gulp.task('libs', () => {
-	return browserify({entries: './scripts/libs.js'})
-		.require('./scripts/libs.js', {expose: 'libs'})
+	return browserify()
+		.require(dependencies)
 		.bundle()
 		.pipe(source('./scripts/libs.bundle.js'))
 		.pipe(buffer())
@@ -71,12 +74,12 @@ gulp.task('styles', () => {
 });
 
 gulp.task('watch', () => {
-	gulp.watch('styles/*.scss', ['styles']);
+	gulp.watch('styles/**/*.scss', ['styles']);
 	gulp.watch('scripts/libs.js', ['lint', 'libs']);
 	gulp.watch([
 		'scripts/main.js',
 		'scripts/app.js',
-		'scripts/app/*.js'
+		'scripts/app/**/*.js'
 	], ['lint', 'main']);
 });
 

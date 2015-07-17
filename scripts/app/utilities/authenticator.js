@@ -1,6 +1,7 @@
-import {when, reqwest} from '../../libs';
 import {Api} from '../constants';
 import Actions from '../actions';
+import reqwest from 'reqwest';
+import when from 'when';
 
 export default {
 	create: function(data) {

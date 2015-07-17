@@ -1,8 +1,10 @@
-import {assign, React, ReactRouter} from '../../libs';
-import consent from '../components/consent';
-import logo from '../components/logo';
-import footer from '../components/footer';
+import assign from 'object-assign';
 import base from '../components/base';
+import consent from '../components/consent';
+import footer from '../components/footer';
+import logo from '../components/logo';
+import React from 'react';
+import ReactRouter from 'react-router';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Consent',

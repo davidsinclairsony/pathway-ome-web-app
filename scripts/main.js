@@ -1,4 +1,5 @@
-import {FastClick, React} from './libs';
+import FastClick from 'fastclick';
+import React from 'react';
 import router from './app/router';
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,4 +1,5 @@
-import {React, ReactPureRender} from '../../libs';
+import React from 'react';
+import ReactPureRender from 'react-pure-render';
 
 export default {
 	shouldComponentUpdate(nextProps, nextState) {

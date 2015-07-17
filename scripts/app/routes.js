@@ -1,4 +1,3 @@
-import {React, ReactRouter} from './../libs';
 import app from '../app';
 import activate from './views/activate';
 import consent from './views/consent';
@@ -6,7 +5,9 @@ import create from './views/create';
 import error from './views/error';
 import home from './views/home';
 import login from './views/login';
+import React from 'react';
 import reactivate from './views/reactivate';
+import ReactRouter from 'react-router';
 
 let DefaultRoute = ReactRouter.DefaultRoute;
 let NotFoundRoute = ReactRouter.NotFoundRoute;
