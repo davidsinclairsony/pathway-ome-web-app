@@ -1,5 +1,5 @@
 import keymirror from 'keymirror';
-import React from 'react';
+import React from 'react/addons';
 import ReactRouter from 'react-router';
 
 let Actions = keymirror({

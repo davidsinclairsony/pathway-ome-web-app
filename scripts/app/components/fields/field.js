@@ -1,7 +1,7 @@
 import Actions from '../../actions';
 import assign from 'object-assign';
 import base from './../base';
-import React from 'react';
+import React from 'react/addons';
 import textInput from './field/textInput';
 
 export default React.createClass(assign({}, base, {

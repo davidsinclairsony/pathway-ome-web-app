@@ -5,7 +5,7 @@ import create from './views/create';
 import error from './views/error';
 import home from './views/home';
 import login from './views/login';
-import React from 'react';
+import React from 'react/addons';
 import reactivate from './views/reactivate';
 import ReactRouter from 'react-router';
 

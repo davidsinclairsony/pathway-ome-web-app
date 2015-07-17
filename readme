@@ -1,22 +1,11 @@
-Alpha
+OME Web App
 
-Technologies
-	Nginx
-	NPM
-	Browserify
-	Strictify
-	Flux
-	React
-	FastClick
-	TweenMax
-	Sass
-	Autoprefixer
-	UglifyJS
-	Nodemon
-	es6-promise
-	object-assign
+Built for testing the OME backend. Compatible with all newer devices.
+
+Front End built using Sass, Babel, React, Flux, and many other Node modules.
+Bundling by Browserify and orchestrated through Gulp.
 
 Commands
 	npm install
-	npm run watch
-	npm run build
+	npm start
+	npm start -- -d

@@ -3,9 +3,9 @@ import autoprefixer from 'gulp-autoprefixer';
 import babelify from 'babelify';
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
-import collapse from 'bundle-collapser';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
+import gutil from 'gulp-util';
 import jshint from 'gulp-jshint';
 import jshintStylish from 'jshint-stylish';
 import sass from 'gulp-sass';
@@ -15,18 +15,23 @@ import watchify from 'watchify';
 import yargs from 'yargs';
 import packageJson from './package.json';
 
-let dependencies = Object.keys(packageJson.dependencies);
+let deps = Object.keys(packageJson.dependencies);
+
+// Adjust for slash modules
+deps[deps.indexOf('react')] = 'react/addons';
+deps[deps.indexOf('react-pure-render')] = 'react-pure-render/function';
+
 let settings = {};
 
-if(yargs.argv.p) {
-	settings = {
-		uglify: true,
-		styles: 'compressed'
-	};
-} else {
+if(yargs.argv.d) {
 	settings = {
 		uglify: false,
 		styles: 'nested'
+	};
+} else {
+	settings = {
+		uglify: true,
+		styles: 'compressed'
 	};
 }
 
@@ -40,8 +45,12 @@ gulp.task('lint', () => {
 gulp.task('main', () => {
 	return browserify(['./scripts/main.js'])
 		.transform(babelify)
-		.external(dependencies)
+		.external(deps)
 		.bundle()
+		.on("error", function(err) {
+			gutil.log(err.message);
+			this.emit('end');
+		})
 		.pipe(source('./scripts/main.bundle.js'))
 		.pipe(buffer())
 		.pipe(gulpIf(settings.uglify, uglify()))
@@ -51,8 +60,12 @@ gulp.task('main', () => {
 
 gulp.task('libs', () => {
 	return browserify()
-		.require(dependencies)
+		.require(deps)
 		.bundle()
+		.on("error", function(err) {
+			gutil.log(err.message);
+			this.emit('end');
+		})
 		.pipe(source('./scripts/libs.bundle.js'))
 		.pipe(buffer())
 		.pipe(gulpIf(settings.uglify, uglify()))

@@ -1,6 +1,6 @@
 import assign from 'object-assign';
 import base from './app/components/base';
-import React from 'react';
+import React from 'react/addons';
 import ReactRouter from 'react-router';
 import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 

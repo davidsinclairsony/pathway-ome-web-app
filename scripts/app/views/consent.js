@@ -3,7 +3,7 @@ import base from '../components/base';
 import consent from '../components/consent';
 import footer from '../components/footer';
 import logo from '../components/logo';
-import React from 'react';
+import React from 'react/addons';
 import ReactRouter from 'react-router';
 
 export default React.createClass(assign({}, base, {
