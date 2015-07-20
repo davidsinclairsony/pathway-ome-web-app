@@ -4,7 +4,8 @@ import React from 'react/addons';
 import ReactRouter from 'react-router';
 import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 
-export default React.createClass(assign({}, base, {
+export default React.createClass(assign({}, {
+	contextTypes: {router: React.PropTypes.func},
 	displayName: 'App',
 	render: function() {
 		let path = this.context.router.getCurrentPath();
