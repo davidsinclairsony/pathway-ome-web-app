@@ -1,43 +1,71 @@
 import Actions from '../actions';
 import assign from 'object-assign';
 import base from './base';
-//import CreateStore from '../stores/create';
+import ProfileStore from '../stores/profile';
+import fields from './fields';
+import FieldsStore from '../stores/fields';
 import footer from './footer';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
-//import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import Velocity from 'velocity-animate';
 
 let getState = () => {
 	return {
-
+		isWaiting: ProfileStore.get(['isWaiting']),
+		fields: FieldsStore.get(['fields'])
 	};
 };
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Profile',
 	getInitialState: function() {
-		// Reset the store
-		//CreateStore.initialize();
-
+		ProfileStore.initialize();
+		FieldsStore.initialize(['name', 'email', 'dob', 'securityAnswer']);
 		return getState();
 	},
 	componentDidMount: function() {
-		//CreateStore.addChangeListener(this._onChange);
+		ProfileStore.addChangeListener(this._onChange);
+		FieldsStore.addChangeListener(this._onChange);
 	},
 	componentWillUnmount: function() {
-		//CreateStore.removeChangeListener(this._onChange);
+		ProfileStore.removeChangeListener(this._onChange);
+		FieldsStore.removeChangeListener(this._onChange);
 	},
 	render: function() {
 		let inner = [];
+		let wrapperInner = [];
 
-		// Add form
-		inner.push(React.DOM.p({key: 0}, 'Profile goes here'));
+		inner.push(React.createElement(fields, {
+			key: 'fields',
+			fields: this.state.fields
+		}));
 
-		return React.DOM.section({className: 'profile'}, [
-			React.DOM.div({key: 0, className: 'wrapper'}, inner),
-			React.createElement(footer, {key: 1})
-		]);
+		inner.push(React.DOM.button({
+			className: 'submit button medium positive',
+			key: 'save',
+			onClick: this.submitHandler
+		}, 'Save'));
+
+		if(this.state.isWaiting) {
+			let transitionInner = [];
+
+			transitionInner.push(React.DOM.div({
+				key: 1,
+				className: 'waiting'
+			}, null));
+
+			inner.push(React.createElement(TransitionGroup, {
+				key: 5,
+				transitionName: 'fade-fast',
+				transitionAppear: true
+			}, transitionInner));
+		}
+
+		return React.DOM.section({className: 'profile'},
+			React.DOM.div({className: 'wrapper thin'}, inner),
+			React.createElement(footer)
+		);
 	},
 	_onChange: function() {
 		this.setState(getState());

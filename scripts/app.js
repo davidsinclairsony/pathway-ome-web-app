@@ -1,10 +1,8 @@
-import assign from 'object-assign';
-import base from './app/components/base';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
 import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	contextTypes: {router: React.PropTypes.func},
 	displayName: 'App',
 	render: function() {
@@ -26,4 +24,4 @@ export default React.createClass(assign({}, {
 			}, React.createElement(ReactRouter.RouteHandler, {key, path}))
 		);
 	}
-}));
+});

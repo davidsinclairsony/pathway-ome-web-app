@@ -63,6 +63,15 @@ let Login = {
 	}
 };
 
+let Profile = {
+	changeIsWaiting: value => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.PROFILE_CHANGE_IS_WAITING,
+			value
+		});
+	}
+};
+
 let Reactivate = {
 	changeIsWaiting: value => {
 		Dispatcher.dispatch({
@@ -72,4 +81,4 @@ let Reactivate = {
 	}
 };
 
-export default {Activate, Create, Fields, Home, Login, Reactivate};
+export default {Activate, Create, Fields, Home, Login, Profile, Reactivate};

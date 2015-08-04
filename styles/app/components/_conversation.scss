@@ -37,7 +37,7 @@
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
-		.wrapper {
+		.wraper {
 			> * {
 				&:nth-child(n + 1) {
 					max-width: 90%;
@@ -47,7 +47,7 @@
 	}
 
 	@media all and (min-width: $bp-2) {
-		.wrapper {
+		.wraper {
 			> * {
 				&:nth-child(n + 1) {
 					max-width: 70%;

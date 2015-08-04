@@ -9,6 +9,7 @@ import logo from '../components/logo';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import test from '../utilities/test';
 
 let getState = () => {
 	return {

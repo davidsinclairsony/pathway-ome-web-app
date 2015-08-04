@@ -150,6 +150,27 @@ export default React.createClass({
 						help
 					}));
 					break;
+				case 'securityAnswer':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Security Answer',
+							htmlFor: 'securityAnswer'
+						},
+						input: {
+							count: 1,
+							htmlType: 'text',
+							ids: ['securityAnswer'],
+							name: key,
+							placeholders: ['Security Answer'],
+							type: 'textInput',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 			}
 		});
 

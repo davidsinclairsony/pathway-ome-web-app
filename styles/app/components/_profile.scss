@@ -1,17 +1,26 @@
 .profile {
-	.wrapper {
+	.wrapper.thin {
+		width: $g-7 + $g-6 + $g-4;
 
+		form.fields {
+			margin-top: $g-3;
+		}
+
+		button.submit {
+			margin: $g-3 auto;
+			display: block;
+		}
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
-		.wrapper {
+		.innerWrapper {
 
 		}
 
 	}
 
 	@media all and (min-width: $bp-2) {
-		.wrapper {
+		.innerWrapper {
 
 		}
 	}

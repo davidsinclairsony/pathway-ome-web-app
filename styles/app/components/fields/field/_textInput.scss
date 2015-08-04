@@ -16,6 +16,7 @@
 				background: transparent;
 				padding: $g-2 $g-3;
 				outline: none;
+				width: 100%;
 
 				&:nth-child(n + 2) {
 					border-left: 1px solid transparentize(black, .5);
