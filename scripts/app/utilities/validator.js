@@ -55,7 +55,7 @@ export default {
 
 		// Age validation
 		let today = new Date();
-		let birthDate = new Date(dob[2], dob[0], dob[1]);
+		let birthDate = new Date(dob[2] + '-' + dob[0] + '-' +  dob[1]);
 		let age = today.getFullYear() - birthDate.getFullYear();
 		let m = today.getMonth() - birthDate.getMonth();
 
