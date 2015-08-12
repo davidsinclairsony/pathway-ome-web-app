@@ -43,6 +43,16 @@ export default {
 			return false;
 		}
 
+		// Valid month range
+		if(dob[0] < 0 || dob[0] > 12) {
+			return false;
+		}
+
+		// Valid day range
+		if(dob[1] < 1 || dob[1] > 31) {
+			return false;
+		}
+
 		// Age validation
 		let today = new Date();
 		let birthDate = new Date(dob[2], dob[0], dob[1]);
@@ -53,7 +63,7 @@ export default {
 			age--;
 		}
 
-		if(age < 18) {
+		if(age < 18 || age > 120) {
 			return false;
 		}
 
