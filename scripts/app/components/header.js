@@ -4,7 +4,7 @@ import base from './base';
 import logo from './logo';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
-import router from '../router';
+//import router from '../router';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Header',

@@ -2,7 +2,7 @@ import Actions from '../actions';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
-import header from '../components/header';
+//import header from '../components/header';
 import logo from '../components/logo';
 import React from 'react/addons';
 import ReactivateStore from '../stores/reactivate';

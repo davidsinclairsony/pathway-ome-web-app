@@ -1,5 +1,5 @@
 import assign from 'object-assign';
-import Constants from '../constants';
+//import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 

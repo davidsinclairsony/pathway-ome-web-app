@@ -1,5 +1,5 @@
 import Actions from '../actions';
-import base from '../components/base';
+//import base from '../components/base';
 import consent from '../components/consent';
 import CreateStore from '../stores/create';
 import fields from '../components/fields';
@@ -9,12 +9,13 @@ import logo from '../components/logo';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
-import test from '../utilities/test';
 
 let getState = () => {
 	return {
 		agreedToConsent: CreateStore.get(['agreedToConsent']),
+		message: CreateStore.get(['message']),
 		showConsent: CreateStore.get(['showConsent']),
+		showMessage: CreateStore.get(['showMessage']),
 		isWaiting: CreateStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields'])
 	};
@@ -79,8 +80,8 @@ export default React.createClass({
 
 		if(this.state.showConsent) {
 			transitionInner.push(React.DOM.div({
-				className: 'modal',
-				key: 0
+				className: 'consent modal',
+				key: 'consent'
 			},
 				React.DOM.div({className: 'content'},
 					React.createElement(consent, null)
@@ -101,9 +102,26 @@ export default React.createClass({
 			));
 		}
 
+		if(this.state.showMessage) {
+			transitionInner.push(React.DOM.div({
+				className: 'message modal',
+				key: 'message'
+			},
+				React.DOM.div({className: 'content centered'},
+					React.DOM.h2(null, this.state.message)
+				),
+				React.DOM.div({className: 'controls'},
+					React.DOM.button({
+						className: 'button medium neutral',
+						onClick: () => {Actions.Create.changeShowMessage(false);}
+					}, 'Close')
+				)
+			));
+		}
+
 		if(this.state.isWaiting) {
 			transitionInner.push(React.DOM.div({
-				key: 1,
+				key: 'waiting',
 				className: 'waiting'
 			}, null));
 		}
@@ -157,8 +175,7 @@ export default React.createClass({
 		}
 
 		if(allValid) {
-			Actions.Create.changeIsWaiting(true);
-			console.log("send to api");
+			Actions.Create.submit(this.state.fields);
 		}
 	},
 	_onChange: function() {

@@ -1,62 +1,107 @@
+import _ from 'lodash';
 import {Api} from '../constants';
-import Actions from '../actions';
+import assign from 'object-assign';
+import {Buffer} from 'buffer';
+import crypto from 'crypto';
 import reqwest from 'reqwest';
-import when from 'when';
+import uuid from 'node-uuid';
 
 export default {
-	create: function(data) {
-		return this.handleCreate(when(reqwest({
-			url: Api.CREATE_URL,
-			method: 'POST',
-			type: 'json',
-			data: data
-		})));
+	create: function(data, callback) {
+		sessionStorage.clear();
+		localStorage.clear();
+
+		let deviceID = this.getDeviceID();
+
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			url: Api.USER_REGISTER,
+			data: JSON.stringify({deviceID}),
+			contentType: 'application/json'
+		}).then(response => {
+			let decryptedResponse = this.decrypt(response);
+
+			this.save(sessionStorage, 'sessionID', decryptedResponse.sessionID);
+			this.save(sessionStorage, 'userKey', decryptedResponse.userKey);
+
+			this.request({
+				method: 'post',
+				url: Api.USER_CREATE,
+				data: data,
+				complete: callback
+			});
+		}).fail(callback);
 	},
-	handleCreate: function(promise) {
-		return promise.then(function(response) {
-			Actions.Create.responseHandler(response);
-			return true;
+	decrypt: function(response) {
+		const ivBuf = new Buffer(response.iv, 'base64');
+		const dataBuf = new Buffer(response.encryptedPayload, 'base64');
+		const keyBuf = new Buffer(Api.KEY, 'base64');
+		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
+
+		decipher.setAutoPadding(false);
+
+		let dec = decipher.update(dataBuf, 'base64', 'utf-8');
+		dec += decipher.final('utf-8');
+
+		return JSON.parse(_.trim(dec, '\0'));
+	},
+	encrypt: function(payload, keyBuf, ivBuf) {
+		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
+		let encoded = cipher.update(JSON.stringify(payload), 'utf-8', 'base64');
+
+		encoded += cipher.final('base64');
+
+		return encoded;
+	},
+	get: function(storage, key) {
+		if(storage.authentication) {
+			return JSON.parse(storage.authentication)[key];
+		} else {
+			return undefined;
+		}
+	},
+	getDeviceID: function() {
+		let deviceID = this.get(localStorage, 'deviceID');
+
+		if(!deviceID) {
+			this.save(localStorage, 'deviceID', uuid.v4());
+			deviceID = this.get(localStorage, 'deviceID');
+		}
+
+		return deviceID;
+	},
+	request: function(options) {
+		let ivBuf = new Buffer(crypto.randomBytes(16));
+		let userKeyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
+		let data = assign({}, options.data, {
+			tcpVersion: '0.0.1',
+			tcppDateSigned: '07-20-2015',
+			deviceID: this.get(localStorage, 'deviceID')
+		});
+
+		reqwest({
+			method: options.method,
+			crossOrigin: true,
+			url: options.url,
+			contentType: 'application/json',
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			data: JSON.stringify({
+				iv: ivBuf.toString('base64'),
+				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
+			}),
+			complete: options.complete
 		});
 	},
-	login: function(data) {
-		return this.handleLogin(when(reqwest({
-			url: Api.LOGIN_URL,
-			method: 'PUT',
-			type: 'json',
-			data: data
-		})));
-	},
-	handleLogin: function(promise) {
-		return promise.then(function(response) {
-			Actions.Login.responseHandler(response);
-			return true;
-		});
-	},
-	getActivationLink: function(data) {
-		return this.handleGetActivationLink(when(reqwest({
-			url: Api.GET_ACTIVATION_LINK_URL,
-			method: 'POST',
-			type: 'json',
-			data: data
-		})));
-	},
-	handleGetActivationLink: function(promise) {
-		return promise.then(function(response) {
-			Actions.Activate.responseHandler(response);
-			return true;
-		});
-	},
-	activate: function(data) {
-		return this.handleActivate(when(reqwest({
-			url: Api.ACTIVATE_URL + '/' + data,
-			method: 'PUT',
-			type: 'json'
-		})));
-	},
-	handleActivate: function(promise) {
-		return promise.then(function(response) {
-			Actions.Activate.activateHandler(response);
-			return true;
-		});
+	save: function(storage, key, value) {
+		let data = {};
+
+		if(storage.authentication) {
+			data = JSON.parse(storage.authentication);
+		}
+
+		data[key] = value;
+
+		storage.authentication = JSON.stringify(data);
 	}
 };

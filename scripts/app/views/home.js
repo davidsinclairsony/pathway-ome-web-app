@@ -6,7 +6,7 @@ import HomeStore from '../stores/home';
 import nav from '../components/nav';
 import profile from '../components/profile';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+//import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import WindowStore from '../stores/window';
 

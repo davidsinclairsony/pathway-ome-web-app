@@ -28,6 +28,19 @@ let Create = {
 			actionType: Constants.Actions.CREATE_CHANGE_SHOW_CONSENT,
 			value
 		});
+	},
+	changeShowMessage: (value, message) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_CHANGE_SHOW_MESSAGE,
+			value,
+			message
+		});
+	},
+	submit: fields => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CREATE_SUBMIT,
+			fields
+		});
 	}
 };
 

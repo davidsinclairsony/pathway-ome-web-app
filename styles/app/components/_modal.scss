@@ -11,6 +11,19 @@
 		height: 100%;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
+
+		&.centered {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			max-width: $bp-3 + $g-4;
+			margin: 0 auto;
+
+			> * {
+				margin: auto;
+				padding: $g-2 $g-3;
+			}
+		}
 	}
 
 	.controls {

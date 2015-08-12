@@ -1,4 +1,4 @@
-import Actions from '../actions';
+//import Actions from '../actions';
 import assign from 'object-assign';
 import base from './base';
 import ProfileStore from '../stores/profile';
@@ -6,9 +6,9 @@ import fields from './fields';
 import FieldsStore from '../stores/fields';
 import footer from './footer';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+//import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
-import Velocity from 'velocity-animate';
+//import Velocity from 'velocity-animate';
 
 let getState = () => {
 	return {
@@ -34,7 +34,6 @@ export default React.createClass(assign({}, base, {
 	},
 	render: function() {
 		let inner = [];
-		let wrapperInner = [];
 
 		inner.push(React.createElement(fields, {
 			key: 'fields',
