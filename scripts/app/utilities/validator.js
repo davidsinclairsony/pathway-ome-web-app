@@ -20,13 +20,8 @@ export default {
 		}
 	},
 	isPinValid: pin => {
-		let pinString = pin[0] + pin[1] + pin[2] + pin[3];
-
 		// All numbers and length validation
-		if(
-			!/^\d+$/.test(pinString) ||
-			pinString.length < 4
-		) {
+		if(!/^\d+$/.test(pin[0]) || pin[0].length < 4) {
 			return false;
 		}
 

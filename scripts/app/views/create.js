@@ -1,5 +1,4 @@
 import Actions from '../actions';
-//import base from '../components/base';
 import consent from '../components/consent';
 import CreateStore from '../stores/create';
 import fields from '../components/fields';

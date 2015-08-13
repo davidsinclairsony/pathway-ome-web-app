@@ -4,9 +4,7 @@ import Authenticator from '../utilities/authenticator';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-//import Help from '../data/help';
 import router from '../router';
-//import Validator from '../utilities/validator';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -55,6 +53,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	initialize: function() {
 		storage = defaults();
+//		this.submit();
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
@@ -62,15 +61,29 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	submit: function(fields) {
 		storage.isWaiting = true;
 
+		let today = new Date();
 		let data = {
 			firstName: fields.name.values[0],
 			lastName: fields.name.values[1],
 			email: fields.email.values[0],
 			dateOfBirth: fields.dob.values[0] + '/' + fields.dob.values[1] + '/' +
 				fields.dob.values[2],
-			password: fields.doublePassword.values[0]
+			password: fields.doublePassword.values[0],
+			tcppVersion: '0.0.1',
+			tcppDateSigned: today.getMonth() + '-' + today.getDay() + '-' +
+				today.getFullYear()
 		};
-
+/*		let data = {
+			firstName: 'David',
+			lastName: 'Sinclair',
+			email: 'oooooooo@mailinator.com',
+			dateOfBirth: '08/01/1985',
+			password: 'T0dyrb!2',
+			tcppVersion: '0.0.1',
+			tcppDateSigned: today.getMonth() + '-' + today.getDay() + '-' +
+				today.getFullYear()
+		};
+*/
 		Authenticator.create(data, this.submitHandler);
 	},
 	submitHandler: function(response) {

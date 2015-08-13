@@ -1,5 +1,4 @@
 node_modules
 npm-debug.log
-scripts/libs.bundle.js
-scripts/main.bundle.js
-styles/styles.css
+public/scripts
+public/styles

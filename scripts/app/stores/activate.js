@@ -1,16 +1,17 @@
+import Actions from '../actions';
 import assign from 'object-assign';
-//import Authenticator from '../utilities/authenticator';
+import Authenticator from '../utilities/authenticator';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-//import Help from '../data/help';
-//import router from '../router';
-//import Validator from '../utilities/validator';
+import router from '../router';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
 		name: 'activate',
+		message: undefined,
+		showMessage: false,
 		isWaiting: false
 	};
 };
@@ -22,6 +23,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
+	},
+	changeShowMessage: function(value, message) {
+		storage.showMessage = value;
+
+		if(message) {
+			storage.message = message;
+		}
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -40,6 +48,24 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
+	},
+	submit: function(fields) {
+		storage.isWaiting = true;
+		Authenticator.activate({pin: fields.pin.values[0]}, this.submitHandler);
+	},
+	submitHandler: function(response) {
+		if(
+			response.status &&
+			(response.status !== 200 || response.status !== 204)
+		) {
+			storage.isWaiting = false;
+			Actions.Activate.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		} else {
+			router.transitionTo('login');
+		}
 	}
 });
 
@@ -47,6 +73,14 @@ Dispatcher.register(function(action) {
 	switch(action.actionType) {
 		case Constants.Actions.ACTIVATE_CHANGE_IS_WAITING:
 			Store.changeIsWaiting(action.value);
+			Store.emitChange();
+			break;
+		case Constants.Actions.ACTIVATE_CHANGE_SHOW_MESSAGE:
+			Store.changeShowMessage(action.value, action.message);
+			Store.emitChange();
+			break;
+		case Constants.Actions.ACTIVATE_SUBMIT:
+			Store.submit(action.fields);
 			Store.emitChange();
 			break;
 	}

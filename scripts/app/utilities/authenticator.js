@@ -7,10 +7,16 @@ import reqwest from 'reqwest';
 import uuid from 'node-uuid';
 
 export default {
+	activate: function(data, callback) {
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			url: Api.USER_ACTIVATE,
+			data: JSON.stringify({data}),
+			contentType: 'application/json'
+		}).fail(callback);
+	},
 	create: function(data, callback) {
-		sessionStorage.clear();
-		localStorage.clear();
-
 		let deviceID = this.getDeviceID();
 
 		reqwest({
@@ -75,8 +81,6 @@ export default {
 		let ivBuf = new Buffer(crypto.randomBytes(16));
 		let userKeyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
 		let data = assign({}, options.data, {
-			tcpVersion: '0.0.1',
-			tcppDateSigned: '07-20-2015',
 			deviceID: this.get(localStorage, 'deviceID')
 		});
 

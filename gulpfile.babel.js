@@ -52,7 +52,7 @@ let bundleMain = () => {
 			gutil.log(err.message);
 			this.emit('end');
 		})
-		.pipe(source('./scripts/main.bundle.js'))
+		.pipe(source('./public/scripts/main.bundle.js'))
 		.pipe(buffer())
 		.pipe(gulpIf(settings.uglify, uglify()))
 		.pipe(gulp.dest(''))
@@ -72,7 +72,7 @@ let bundleLibs = () => {
 			gutil.log(err.message);
 			this.emit('end');
 		})
-		.pipe(source('./scripts/libs.bundle.js'))
+		.pipe(source('./public/scripts/libs.bundle.js'))
 		.pipe(buffer())
 		.pipe(gulpIf(settings.uglify, uglify()))
 		.pipe(gulp.dest(''))
@@ -92,18 +92,13 @@ gulp.task('styles', () => {
 			browsers: ['last 2 versions'],
 			cascade: false
 		}))
-		.pipe(gulp.dest('styles'))
+		.pipe(gulp.dest('public/styles'))
 	;
 });
 
 gulp.task('watch', () => {
 	gulp.watch('styles/**/*.scss', ['styles']);
-	gulp.watch('scripts/libs.js', ['lint', 'libs']);
-	gulp.watch([
-		'scripts/main.js',
-		'scripts/app.js',
-		'scripts/app/**/*.js'
-	], ['lint', 'main']);
+	gulp.watch(['scripts/**/*.js'], ['lint', 'main']);
 });
 
 gulp.task('default', ['styles', 'scripts', 'watch']);

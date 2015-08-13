@@ -3,7 +3,6 @@ import ActivateStore from '../stores/activate';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
-//import header from '../components/header';
 import logo from '../components/logo';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
@@ -11,6 +10,8 @@ import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
 	return {
+		message: ActivateStore.get(['message']),
+		showMessage: ActivateStore.get(['showMessage']),
 		isWaiting: ActivateStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields'])
 	};
@@ -28,7 +29,7 @@ export default React.createClass({
 	},
 	getInitialState: function() {
 		ActivateStore.initialize();
-		FieldsStore.initialize(['email', 'pin']);
+		FieldsStore.initialize(['pin']);
 		return getState();
 	},
 	render: function() {
@@ -56,9 +57,26 @@ export default React.createClass({
 
 		let transitionInner = [];
 
+		if(this.state.showMessage) {
+			transitionInner.push(React.DOM.div({
+				className: 'message modal',
+				key: 'message'
+			},
+				React.DOM.div({className: 'content centered'},
+					React.DOM.h2(null, this.state.message)
+				),
+				React.DOM.div({className: 'controls'},
+					React.DOM.button({
+						className: 'button medium neutral',
+						onClick: () => {Actions.Activate.changeShowMessage(false);}
+					}, 'Close')
+				)
+			));
+		}
+
 		if(this.state.isWaiting) {
 			transitionInner.push(React.DOM.div({
-				key: 0,
+				key: 'waiting',
 				className: 'waiting'
 			}, null));
 		}
@@ -92,8 +110,7 @@ export default React.createClass({
 		});
 
 		if(allValid) {
-			Actions.Activate.changeIsWaiting(true);
-			console.log("send to api");
+			Actions.Activate.submit(this.state.fields);
 		}
 	},
 	_onChange: function() {

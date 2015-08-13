@@ -137,12 +137,12 @@ export default React.createClass({
 							htmlFor: 'pin1'
 						},
 						input: {
-							characterLimiters: [1, 1, 1, 1],
-							count: 4,
+							characterLimiters: [4],
+							count: 1,
 							htmlType: 'text',
-							ids: ['pin1', 'pin2', 'pin3', 'pin4'],
+							ids: ['pin'],
 							name: key,
-							placeholders: ['#', '#', '#', '#'],
+							placeholders: ['# # # #'],
 							type: 'textInput',
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : []

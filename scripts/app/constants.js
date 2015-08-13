@@ -2,6 +2,8 @@ import keymirror from 'keymirror';
 
 const Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,
+	ACTIVATE_CHANGE_SHOW_MESSAGE: null,
+	ACTIVATE_SUBMIT: null,
 	CREATE_CHANGE_AGREED_TO_CONSENT: null,
 	CREATE_CHANGE_IS_WAITING: null,
 	CREATE_CHANGE_SHOW_CONSENT: null,
