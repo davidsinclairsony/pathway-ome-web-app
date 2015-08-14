@@ -14,14 +14,16 @@ export default {
 			case 'name':
 				return this.isNameValid(o.values);
 			case 'pin':
-				return this.isPinValid(o.values);
+				return this.isPinValid(o.values[0]);
+			case 'nutritionGoal':
+				return this.isNutritionGoalValid(o.values[0]);
 			default:
 				return true;
 		}
 	},
 	isPinValid: pin => {
 		// All numbers and length validation
-		if(!/^\d+$/.test(pin[0]) || pin[0].length < 4) {
+		if(!/^\d+$/.test(pin) || pin.length < 4) {
 			return false;
 		}
 
@@ -111,5 +113,13 @@ export default {
 		}
 
 		return true;
-	}
+	},
+	isNutritionGoalValid: value => {
+		// Something and not 'none'
+		if(value === '' || value === 'none') {
+			return false;
+		}
+
+		return true;
+	},
 };

@@ -1,7 +1,9 @@
 .conversation {
 	.wrapper {
+		padding-top: $g-3 !important;
+
 		> * {
-			&:nth-child(n + 1) {
+			&:nth-child(n + 2) {
 				margin-top: $g-3;
 			}
 

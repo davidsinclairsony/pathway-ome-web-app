@@ -150,6 +150,27 @@ export default React.createClass({
 						help
 					}));
 					break;
+				case 'securityQuestion':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Security Question',
+							htmlFor: 'securityQuestion'
+						},
+						input: {
+							count: 1,
+							htmlType: 'text',
+							ids: ['securityQuestion'],
+							name: key,
+							placeholders: ['Security Question'],
+							type: 'textInput',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 				case 'securityAnswer':
 					inner.push(React.createElement(field, {
 						key,
@@ -171,6 +192,31 @@ export default React.createClass({
 						help
 					}));
 					break;
+				case 'nutritionGoal':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Nutrition Goal',
+							htmlFor: 'nutritionGoal'
+						},
+						input: {
+							ids: ['nutritionGoal'],
+							name: key,
+							type: 'dropDown',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							options: [
+								['none', ''],
+								['lose', 'Lose Weight'],
+								['maintain', 'Maintain Weight'],
+								['gain', 'Gain Weight']
+							]
+						},
+						help
+					}));
+					break;
+
 			}
 		});
 

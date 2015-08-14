@@ -1,7 +1,9 @@
 import Actions from '../actions';
 import assign from 'object-assign';
 import Authenticator from '../utilities/authenticator';
+import {Buffer} from 'buffer';
 import Constants from '../constants';
+import crypto from 'crypto';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 import router from '../router';
@@ -62,29 +64,27 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.isWaiting = true;
 
 		let today = new Date();
+		let password;
+		let salt = new Buffer(Constants.Security.PW_SALT).toString('base64');
 		let data = {
 			firstName: fields.name.values[0],
 			lastName: fields.name.values[1],
 			email: fields.email.values[0],
 			dateOfBirth: fields.dob.values[0] + '/' + fields.dob.values[1] + '/' +
 				fields.dob.values[2],
-			password: fields.doublePassword.values[0],
+			password,
 			tcppVersion: '0.0.1',
 			tcppDateSigned: today.getMonth() + '-' + today.getDay() + '-' +
 				today.getFullYear()
 		};
-/*		let data = {
-			firstName: 'David',
-			lastName: 'Sinclair',
-			email: 'oooooooo@mailinator.com',
-			dateOfBirth: '08/01/1985',
-			password: 'T0dyrb!2',
-			tcppVersion: '0.0.1',
-			tcppDateSigned: today.getMonth() + '-' + today.getDay() + '-' +
-				today.getFullYear()
-		};
-*/
-		Authenticator.create(data, this.submitHandler);
+
+		crypto.pbkdf2(
+			fields.doublePassword.values[0], salt, 1000, 512,
+			(err, derivedKey) => {
+				data.password = derivedKey;
+				Authenticator.create(data, this.submitHandler);
+			}
+		);
 	},
 	submitHandler: function(response) {
 		if(

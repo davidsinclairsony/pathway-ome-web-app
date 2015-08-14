@@ -1,0 +1,15 @@
+&.dropDown {
+	.container {
+		background: transparentize(white, .9);
+		flex: 1 1 auto;
+		padding: 0 $g-3;
+
+		select {
+			font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+			cursor: pointer;
+			outline: none;
+			width: 100%;
+			height: $g-3 + $g-2;
+		}
+	}
+}

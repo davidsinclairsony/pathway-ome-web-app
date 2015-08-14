@@ -1,6 +1,5 @@
 //import Actions from '../actions';
 import assign from 'object-assign';
-import base from './base';
 import ProfileStore from '../stores/profile';
 import fields from './fields';
 import FieldsStore from '../stores/fields';
@@ -17,11 +16,19 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, base, {
+export default React.createClass(assign({}, {
 	displayName: 'Profile',
 	getInitialState: function() {
 		ProfileStore.initialize();
-		FieldsStore.initialize(['name', 'email', 'dob', 'securityAnswer']);
+		FieldsStore.initialize([
+			'name',
+			'email',
+			'doublePassword',
+			'dob',
+			'securityQuestion',
+			'securityAnswer',
+			'nutritionGoal'
+		]);
 		return getState();
 	},
 	componentDidMount: function() {

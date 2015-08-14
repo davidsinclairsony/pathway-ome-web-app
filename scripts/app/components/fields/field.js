@@ -1,6 +1,7 @@
 import Actions from '../../actions';
 import assign from 'object-assign';
 import base from './../base';
+import dropDown from './field/dropDown';
 import React from 'react/addons';
 import textInput from './field/textInput';
 
@@ -29,7 +30,11 @@ export default React.createClass(assign({}, base, {
 						store: this.props.store
 				}, this.props.input)));
 				break;
-			case 'dropdown':
+			case 'dropDown':
+				containerInner.push(React.createElement(dropDown, assign({}, {
+						key: this.props.input.type,
+						store: this.props.store
+				}, this.props.input)));
 				break;
 			case 'radio':
 				break;

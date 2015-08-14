@@ -55,7 +55,7 @@
 	@media all and (min-width: $bp-2) {
 		label {
 			padding: $g-2 $g-3;
-			width: $g-5 + $g-4 + $g-3;
+			width: $g-6 + $g-2;
 			background: transparentize(white, .7);
 		}
 
@@ -88,10 +88,7 @@
 		}
 	}
 
+	@import "field/dropDown";
 	@import "field/textInput";
 	@import "field/help";
 }
-
-
-
-

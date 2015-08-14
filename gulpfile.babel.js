@@ -88,6 +88,7 @@ gulp.task('scripts', ['lint', 'main', 'libs']);
 gulp.task('styles', () => {
 	return gulp.src('styles/styles.scss')
 		.pipe(sass({outputStyle: settings.styles}))
+		.on('error', sass.logError)
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions'],
 			cascade: false

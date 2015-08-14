@@ -28,4 +28,9 @@ const Api = {
 	USER_ACTIVATE: BASE_URL + 'user/activate'
 };
 
-export default {Actions, Api};
+const Security = {
+	PW_SALT: 'You cant stop the signal, Mal. ' +
+		'Everything goes somewhere, and I go everywhere.'
+};
+
+export default {Actions, Api, Security};
