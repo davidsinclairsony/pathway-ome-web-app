@@ -2,6 +2,7 @@ import Actions from '../../actions';
 import assign from 'object-assign';
 import base from './../base';
 import dropDown from './field/dropDown';
+import heightSlider from './field/heightSlider';
 import React from 'react/addons';
 import textInput from './field/textInput';
 
@@ -26,14 +27,20 @@ export default React.createClass(assign({}, base, {
 		switch(this.props.input.type) {
 			case 'textInput':
 				containerInner.push(React.createElement(textInput, assign({}, {
-						key: this.props.input.type,
-						store: this.props.store
+					key: this.props.input.type,
+					store: this.props.store
 				}, this.props.input)));
 				break;
 			case 'dropDown':
 				containerInner.push(React.createElement(dropDown, assign({}, {
-						key: this.props.input.type,
-						store: this.props.store
+					key: this.props.input.type,
+					store: this.props.store
+				}, this.props.input)));
+				break;
+			case 'heightSlider':
+				containerInner.push(React.createElement(heightSlider, assign({}, {
+					key: this.props.input.type,
+					store: this.props.store
 				}, this.props.input)));
 				break;
 			case 'radio':

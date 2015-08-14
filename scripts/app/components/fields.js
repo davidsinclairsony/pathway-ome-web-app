@@ -216,7 +216,49 @@ export default React.createClass({
 						help
 					}));
 					break;
-
+				case 'gender':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Gender',
+							htmlFor: 'gender'
+						},
+						input: {
+							ids: ['gender'],
+							name: key,
+							type: 'dropDown',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							options: [
+								['none', ''],
+								['female', 'Female'],
+								['male', 'Male'],
+								['other', 'Other'],
+								['private', 'Prefer Not to Say'],
+							]
+						},
+						help
+					}));
+					break;
+				case 'height':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Height',
+							htmlFor: 'height'
+						},
+						input: {
+							ids: ['height'],
+							name: key,
+							type: 'heightSlider',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 			}
 		});
 

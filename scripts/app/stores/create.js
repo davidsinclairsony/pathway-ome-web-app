@@ -55,7 +55,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	initialize: function() {
 		storage = defaults();
-//		this.submit();
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);

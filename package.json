@@ -19,6 +19,7 @@
 		"react": "latest",
 		"react-pure-render": "latest",
 		"react-router": "latest",
+		"react-slider": "latest",
 		"request": "latest",
 		"reqwest": "latest",
 		"velocity-animate": "latest",

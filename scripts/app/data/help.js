@@ -4,5 +4,10 @@ export default {
 	email: 'Please enter your email address. A valid email address contains an \'@\' symbol and does not have any spaces.',
 	name: 'Please enter your first and last name.',
 	dob: 'Please enter your date of birth. Users must be over 18 years of age to create an account.',
-	pin: 'Please enter the four (4) digit pin you should have received in an email after you created an account.'
+	pin: 'Please enter the four (4) digit pin you should have received in an email after you created an account.',
+	securityQuestion: 'Please enter at least 8 characters.',
+	securityAnswer: 'Please enter at least 4 characters.',
+	nutritionGoal: 'Please select a goal.',
+	gender: 'Please select a gender.',
+	height: 'Please mmove the slider to your height.'
 };

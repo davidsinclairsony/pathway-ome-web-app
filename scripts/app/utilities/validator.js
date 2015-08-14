@@ -15,15 +15,23 @@ export default {
 				return this.isNameValid(o.values);
 			case 'pin':
 				return this.isPinValid(o.values[0]);
+			case 'securityQuestion':
+				return this.isSecurityQuestionValid(o.values[0]);
+			case 'securityAnswer':
+				return this.isSecurityAnswerValid(o.values[0]);
 			case 'nutritionGoal':
 				return this.isNutritionGoalValid(o.values[0]);
+			case 'gender':
+				return this.isGenderValid(o.values[0]);
+			case 'height':
+				return this.isHeightValid(o.values[0]);
 			default:
 				return true;
 		}
 	},
-	isPinValid: pin => {
+	isPinValid: value => {
 		// All numbers and length validation
-		if(!/^\d+$/.test(pin) || pin.length < 4) {
+		if(!/^\d+$/.test(value) || value.length < 4) {
 			return false;
 		}
 
@@ -114,6 +122,20 @@ export default {
 
 		return true;
 	},
+	isSecurityQuestionValid: value => {
+		if(value.length < 8) {
+			return false;
+		}
+
+		return true;
+	},
+	isSecurityAnswerValid: value => {
+		if(value.length < 4) {
+			return false;
+		}
+
+		return true;
+	},
 	isNutritionGoalValid: value => {
 		// Something and not 'none'
 		if(value === '' || value === 'none') {
@@ -122,4 +144,20 @@ export default {
 
 		return true;
 	},
+	isGenderValid: value => {
+		// Something and not 'none'
+		if(value === '' || value === 'none') {
+			return false;
+		}
+
+		return true;
+	},
+	isHeightValid: value => {
+		// 2 to 9 feet tall
+		if(value < 12 || value > 108) {
+			return false;
+		}
+
+		return true;
+	}
 };

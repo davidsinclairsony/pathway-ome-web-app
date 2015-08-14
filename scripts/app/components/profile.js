@@ -27,7 +27,9 @@ export default React.createClass(assign({}, {
 			'dob',
 			'securityQuestion',
 			'securityAnswer',
-			'nutritionGoal'
+			'nutritionGoal',
+			'gender',
+			'height'
 		]);
 		return getState();
 	},
