@@ -154,7 +154,7 @@ export default {
 	},
 	isHeightValid: value => {
 		// 2 to 9 feet tall
-		if(value < 12 || value > 108) {
+		if(value < 24 || value > 96) {
 			return false;
 		}
 

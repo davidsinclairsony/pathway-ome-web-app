@@ -8,22 +8,38 @@ export default React.createClass(assign({}, base, {
 	displayName: 'Height Slider',
 	render: function() {
 		let inner = [];
+		let inchesToString = inches => {
+			if(!inches) {
+				inches = 0;
+			}
 
-		inner.push(React.createElement(Slider, {withBars: true},
-    React.createElement("div", {className: "my-handle"}, "1"),
-    React.createElement("div", {className: "my-handle"}, "2"),
-    React.createElement("div", {className: "my-handle"}, "3")
-  ));
+			let feet = Math.floor(inches / 12);
+			inches %= 12;
 
-		return React.DOM.div({
+			return feet + '\' ' + inches + '"';
+		};
+
+		inner.push(React.createElement(Slider, {
+			key: 'slider',
 			id: this.props.ids[0],
-			onChange: event => {
+			withBars: true,
+			min: 24,
+			max: 96,
+			value: this.props.values[0],
+			onChange: value => {
 				Actions.Fields.onFieldChange({
 					name: this.props.name,
-					value: event.target.value,
+					value,
 					vIndex: 0
 				});
 			}
-		}, inner);
+		}));
+
+		inner.push(React.DOM.div({
+			className: 'display',
+			key: 'display'
+		}, inchesToString(this.props.values[0])));
+
+		return React.DOM.div({className: 'inputs'}, inner);
 	}
 }));

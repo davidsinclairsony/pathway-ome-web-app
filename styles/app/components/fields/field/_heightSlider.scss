@@ -1,0 +1,41 @@
+&.height {
+	.container {
+		background: transparentize(white, .9);
+		flex: 1 1 auto;
+		padding: 0 0 0 $g-3;
+
+		.inputs {
+			display: flex;
+			align-items: center;
+
+			.slider {
+				flex: 1 1 auto;
+
+				.handle {
+					background: darken(white, 5%);
+					border-radius: 2em;
+					cursor: pointer;
+					top: -1 * ($g-2 + ($g-1 / 2));
+					width: $g-3 + $g-1;
+					height: $g-3 + $g-1;
+
+					&.active, &:hover {
+						background: white;
+					}
+				}
+
+				.bar {
+					background: transparentize(white, .8);
+					height: 2px;
+				}
+			}
+
+			.display {
+				flex: 0 0 auto;
+				width: $g-4 + $g-3 + $g-2;
+				padding: 0 0 0 $g-3;
+				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+			}
+		}
+	}
+}
