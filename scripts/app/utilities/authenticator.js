@@ -13,7 +13,8 @@ export default {
 			crossOrigin: true,
 			url: Api.USER_ACTIVATE,
 			data: JSON.stringify({data}),
-			contentType: 'application/json'
+			contentType: 'application/json',
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
 		}).fail(callback);
 	},
 	create: function(data, callback) {

@@ -329,7 +329,7 @@ export default React.createClass({
 								{id: 1, name: 'Yes'}
 							]
 						},
-						help
+						help: {validate: false}
 					}));
 					break;
 				case 'highCholesterol':
@@ -352,7 +352,7 @@ export default React.createClass({
 								{id: 1, name: 'Yes'}
 							]
 						},
-						help
+						help: {validate: false}
 					}));
 					break;
 				case 'allergies':
@@ -383,7 +383,7 @@ export default React.createClass({
 								{id: 'alcohol', name: 'Alcohol'}
 							]
 						},
-						help
+						help: {validate: false}
 					}));
 					break;
 			}

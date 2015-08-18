@@ -29,10 +29,6 @@ export default {
 				return this.isNotNone(o.values[0]);
 			case 'dietType':
 				return this.isNotNone(o.values[0]);
-			case 'diabetic':
-				return o.values[0]? true : false;
-			case 'highCholesterol':
-				return o.values[0]? true : false;
 			default:
 				return true;
 		}

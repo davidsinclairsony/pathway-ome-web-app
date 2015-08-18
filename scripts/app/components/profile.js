@@ -76,9 +76,38 @@ export default React.createClass(assign({}, {
 		}
 
 		return React.DOM.section({className: 'profile'},
-			React.DOM.div({className: 'wrapper thin'}, inner),
+			React.DOM.div({className: 'wrapper medium'}, inner),
 			React.createElement(footer)
 		);
+	},
+	submitHandler: function() {
+		let allValid = true;
+
+		// Validate all fields
+		Object.keys(this.state.fields).forEach(key => {
+			if(
+				this.state.fields[key].validate &&
+				!this.state.fields[key].isValid
+			) {
+				Actions.Fields.onFieldChange({
+					name: this.state.fields[key].name,
+					value: this.state.fields[key].value,
+					vIndex: 0
+				});
+
+				allValid = false;
+			}
+		});
+
+		// Ensure consent is agreed, otherwise show
+		if(allValid && !this.state.agreedToConsent) {
+			allValid = false;
+			Actions.Create.changeShowConsent(true);
+		}
+
+		if(allValid) {
+			Actions.Create.submit(this.state.fields);
+		}
 	},
 	_onChange: function() {
 		this.setState(getState());
