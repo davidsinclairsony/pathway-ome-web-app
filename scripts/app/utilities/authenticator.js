@@ -12,7 +12,7 @@ export default {
 			method: 'post',
 			crossOrigin: true,
 			url: Api.USER_ACTIVATE,
-			data: JSON.stringify({data}),
+			data: JSON.stringify(data),
 			contentType: 'application/json',
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
 		}).fail(callback);
