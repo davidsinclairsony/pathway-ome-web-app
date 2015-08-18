@@ -12,4 +12,10 @@
 			height: $g-3 + $g-2;
 		}
 	}
+
+	@media all and (max-width: $bp-2 - 1) {
+		.container {
+			padding: 0 0 0 $g-1;
+		}
+	}
 }

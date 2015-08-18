@@ -9,5 +9,11 @@ export default {
 	securityAnswer: 'Please enter at least 4 characters.',
 	nutritionGoal: 'Please select a goal.',
 	gender: 'Please select a gender.',
-	height: 'Please mmove the slider to your height.'
+	height: 'Please mmove the slider to your height.',
+	activityLevel: 'Please select your activity level.',
+	dietType: 'Please select your diet type.',
+	diabetic: 'Please indicate whether you are diabetic.',
+	highCholesterol: 'Please indicate if you have high cholesterol.',
+	foodAllergyList: 'Please indicate any allergies you are aware of.',
+	dietPrefs: 'Please indicate any dietary preferences.',
 };

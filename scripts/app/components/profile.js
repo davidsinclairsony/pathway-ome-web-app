@@ -29,7 +29,12 @@ export default React.createClass(assign({}, {
 			'securityAnswer',
 			'nutritionGoal',
 			'gender',
-			'height'
+			'height',
+			'activityLevel',
+			'dietType',
+			'diabetic',
+			'highCholesterol',
+			'allergies'
 		]);
 		return getState();
 	},

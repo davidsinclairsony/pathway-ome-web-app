@@ -208,9 +208,9 @@ export default React.createClass({
 								this.props.fields[key].values : [],
 							options: [
 								['none', ''],
-								['lose', 'Lose Weight'],
-								['maintain', 'Maintain Weight'],
-								['gain', 'Gain Weight']
+								['lose_weight', 'Lose Weight'],
+								['maintain_weight', 'Maintain Weight'],
+								['gain_weight', 'Gain Weight']
 							]
 						},
 						help
@@ -234,8 +234,7 @@ export default React.createClass({
 								['none', ''],
 								['female', 'Female'],
 								['male', 'Male'],
-								['other', 'Other'],
-								['private', 'Prefer Not to Say'],
+								['other', 'Other']
 							]
 						},
 						help
@@ -255,6 +254,134 @@ export default React.createClass({
 							type: 'heightSlider',
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
+				case 'activityLevel':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Activity Level',
+							htmlFor: 'activityLevel'
+						},
+						input: {
+							ids: ['activityLevel'],
+							name: key,
+							type: 'dropDown',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							options: [
+								['none', ''],
+								['sedentary', 'Sedentary'],
+								['lightly_active', 'Lightly Active'],
+								['moderately_active', 'Moderately Active'],
+								['very_active', 'Very Active'],
+								['extra_active', 'Moderately Active']
+							]
+						},
+						help
+					}));
+					break;
+				case 'dietType':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Diet Type',
+							htmlFor: 'dietType'
+						},
+						input: {
+							ids: ['dietType'],
+							name: key,
+							type: 'dropDown',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							options: [
+								['none', ''],
+								['low_carb', 'Low Card'],
+								['low_fat', 'Low Fat'],
+								['balanced', 'Balanced'],
+								['mediterranean', 'Mediterranean']
+							]
+						},
+						help
+					}));
+					break;
+				case 'diabetic':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Diabetic',
+							htmlFor: 'diabeticNo'
+						},
+						input: {
+							className: 'short boolean',
+							name: key,
+							multiple: false,
+							type: 'checkList',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							data: [
+								{id: 0, name: 'No'},
+								{id: 1, name: 'Yes'}
+							]
+						},
+						help
+					}));
+					break;
+				case 'highCholesterol':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'High Cholesterol',
+							htmlFor: 'highCholesterolNo'
+						},
+						input: {
+							className: 'short boolean',
+							name: key,
+							multiple: false,
+							type: 'checkList',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							data: [
+								{id: 0, name: 'No'},
+								{id: 1, name: 'Yes'}
+							]
+						},
+						help
+					}));
+					break;
+				case 'allergies':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Allergies',
+							htmlFor: 'allergies'
+						},
+						input: {
+							className: 'short',
+							name: key,
+							multiple: true,
+							type: 'checkList',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							data: [
+								{id: 'wheat', name: 'Wheat'},
+								{id: 'gluten', name: 'Gluten'},
+								{id: 'milk', name: 'Milk'},
+								{id: 'soy', name: 'Soy'},
+								{id: 'egg', name: 'Egg'},
+								{id: 'fish', name: 'Fish'},
+								{id: 'shellfish', name: 'Shellfish'},
+								{id: 'peanut', name: 'Peanut'},
+								{id: 'treenut', name: 'Treenut'},
+								{id: 'alcohol', name: 'Alcohol'}
+							]
 						},
 						help
 					}));

@@ -5,6 +5,7 @@ import dropDown from './field/dropDown';
 import heightSlider from './field/heightSlider';
 import React from 'react/addons';
 import textInput from './field/textInput';
+import checkList from './field/checkList';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Field',
@@ -43,7 +44,11 @@ export default React.createClass(assign({}, base, {
 					store: this.props.store
 				}, this.props.input)));
 				break;
-			case 'radio':
+			case 'checkList':
+				containerInner.push(React.createElement(checkList, assign({}, {
+					key: this.props.input.type,
+					store: this.props.store
+				}, this.props.input)));
 				break;
 			case 'checkbox':
 				break;

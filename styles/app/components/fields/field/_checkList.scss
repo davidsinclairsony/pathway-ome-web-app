@@ -1,0 +1,77 @@
+&.checkList {
+	.container {
+		background: transparentize(white, .9);
+		flex: 1 1 auto;
+
+		.inputs {
+			padding: 0 $g-3;
+
+			&.short {
+				ul {
+					flex-wrap: wrap;
+
+					li {
+						width: 50%;
+
+						&:nth-child(1),
+						&:nth-child(2), {
+							label {
+								padding-top: $g-2;
+							}
+						}
+
+						&:nth-last-child(1),
+						&:nth-last-child(2), {
+							label {
+								padding-bottom: $g-2;
+							}
+						}
+					}
+				}
+			}
+
+			&.long {
+				ul {
+					flex-direction: wrap;
+
+					li {
+						&:first-child {
+							label {
+								padding-top: $g-2;
+							}
+						}
+
+						&:last-child {
+							label {
+								padding-bottom: $g-2;
+							}
+						}
+					}
+				}
+			}
+
+			ul {
+				width: 100%;
+				display: flex;
+				outline: none;
+
+				li {
+
+
+					label {
+						background: none;
+						padding: $g-1 0;
+						display: block;
+
+						span {
+							position: relative;
+							top: 1px;
+							padding: 0 0 0 $g-2;
+							display: inline-block;
+						}
+					}
+				}
+			}
+		}
+	}
+}

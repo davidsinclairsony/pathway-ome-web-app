@@ -20,11 +20,19 @@ export default {
 			case 'securityAnswer':
 				return this.isSecurityAnswerValid(o.values[0]);
 			case 'nutritionGoal':
-				return this.isNutritionGoalValid(o.values[0]);
+				return this.isNotNone(o.values[0]);
 			case 'gender':
-				return this.isGenderValid(o.values[0]);
+				return this.isNotNone(o.values[0]);
 			case 'height':
 				return this.isHeightValid(o.values[0]);
+			case 'activityLevel':
+				return this.isNotNone(o.values[0]);
+			case 'dietType':
+				return this.isNotNone(o.values[0]);
+			case 'diabetic':
+				return o.values[0]? true : false;
+			case 'highCholesterol':
+				return o.values[0]? true : false;
 			default:
 				return true;
 		}
@@ -98,13 +106,13 @@ export default {
 		let hasUpperCase = /[A-Z]/g;
 		let hasLowerCase = /[a-z]/g;
 		let hasNumber = /[0-9]/g;
-		let hasSpecialCharacter = /[`~!@#$%^&*()_\-+={}[\]\|:;"'<>,.?\/]/g;
 
 		if(
 			hasUpperCase.test(password) &&
 			hasLowerCase.test(password) &&
-			(hasNumber.test(password) || hasSpecialCharacter.test(password)) &&
-			password.length >= 8
+			hasNumber.test(password) &&
+			password.length >= 8 &&
+			password.length <= 64
 		) {
 			return true;
 		} else {
@@ -136,15 +144,7 @@ export default {
 
 		return true;
 	},
-	isNutritionGoalValid: value => {
-		// Something and not 'none'
-		if(value === '' || value === 'none') {
-			return false;
-		}
-
-		return true;
-	},
-	isGenderValid: value => {
+	isNotNone: value => {
 		// Something and not 'none'
 		if(value === '' || value === 'none') {
 			return false;

@@ -1,0 +1,21 @@
+.consent {
+	.container {
+		p, ul {
+			margin-top: $g-2;
+			text-align: left !important;
+		}
+
+		ul {
+			margin: 0 0 0 $g-3;
+		}
+	}
+
+	&.modal {
+		.component {
+			padding: $g-3 $g-3 $g-1 $g-3;
+			width: $bp-3 + $g-4;
+			max-width: 100%;
+			margin: 0 auto;
+		}
+	}
+}

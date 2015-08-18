@@ -20,6 +20,7 @@
 		"react-pure-render": "latest",
 		"react-router": "latest",
 		"react-slider": "latest",
+		"react-widgets": "2.8.0",
 		"request": "latest",
 		"reqwest": "latest",
 		"velocity-animate": "latest",
