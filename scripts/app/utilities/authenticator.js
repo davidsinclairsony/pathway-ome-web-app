@@ -62,6 +62,20 @@ console.log(decryptedResponse);
 		dec += decipher.final('utf-8');
 console.log("dec:");
 console.log(dec);
+console.log(typeof(dec));
+		return JSON.parse(_.trim(dec, '\0'));
+	},
+	decryptUser: function(response) {
+		const ivBuf = new Buffer(response.iv, 'base64');
+		const dataBuf = new Buffer(response.encryptedPayload, 'base64');
+		const keyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
+		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
+
+		decipher.setAutoPadding(false);
+
+		let dec = decipher.update(dataBuf, 'base64', 'utf-8');
+		dec += decipher.final('utf-8');
+
 		return JSON.parse(_.trim(dec, '\0'));
 	},
 	get: function(storage, key) {
@@ -104,12 +118,10 @@ console.log(dec);
 		});
 
 console.log("Decrypted:");
-console.log(
-	this.decrypt({
-		iv: ivBuf.toString('base64'),
-		encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
-	})
-);
+console.log(this.decryptUser({
+	iv: ivBuf.toString('base64'),
+	encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
+}));
 	},
 	save: function(storage, key, value) {
 		let data = {};

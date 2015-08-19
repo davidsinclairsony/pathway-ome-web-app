@@ -80,7 +80,8 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		crypto.pbkdf2(
 			fields.doublePassword.values[0], salt, 1000, 512,
 			(err, derivedKey) => {
-				data.password = derivedKey;
+				let password = new Buffer(derivedKey);
+				data.password = password.toString('base64');
 				Authenticator.create(data, this.submitHandler);
 			}
 		);
