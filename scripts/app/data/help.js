@@ -9,7 +9,7 @@ export default {
 	securityAnswer: 'Please enter at least 4 characters.',
 	nutritionGoal: 'Please select a goal.',
 	gender: 'Please select a gender.',
-	height: 'Please mmove the slider to your height.',
+	height: 'Please move the slider to your height.',
 	activityLevel: 'Please select your activity level.',
 	dietType: 'Please select your diet type.',
 	diabetic: 'Please indicate whether you are diabetic.',

@@ -1,4 +1,4 @@
-//import Actions from '../actions';
+import Actions from '../actions';
 import assign from 'object-assign';
 import ProfileStore from '../stores/profile';
 import fields from './fields';
@@ -82,7 +82,7 @@ export default React.createClass(assign({}, {
 	},
 	submitHandler: function() {
 		let allValid = true;
-
+console.log(this.state.fields);
 		// Validate all fields
 		Object.keys(this.state.fields).forEach(key => {
 			if(
@@ -99,14 +99,11 @@ export default React.createClass(assign({}, {
 			}
 		});
 
-		// Ensure consent is agreed, otherwise show
-		if(allValid && !this.state.agreedToConsent) {
-			allValid = false;
-			Actions.Create.changeShowConsent(true);
-		}
-
 		if(allValid) {
-			Actions.Create.submit(this.state.fields);
+			//Actions.Create.submit(this.state.fields);
+			console.log("all valid");
+		} else {
+			console.log("not valid");
 		}
 	},
 	_onChange: function() {

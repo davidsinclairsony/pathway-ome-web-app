@@ -127,14 +127,14 @@ export default {
 		return true;
 	},
 	isSecurityQuestionValid: value => {
-		if(value.length < 8) {
+		if(!value || value.length < 8) {
 			return false;
 		}
 
 		return true;
 	},
 	isSecurityAnswerValid: value => {
-		if(value.length < 4) {
+		if(!value|| value.length < 4) {
 			return false;
 		}
 
@@ -142,7 +142,7 @@ export default {
 	},
 	isNotNone: value => {
 		// Something and not 'none'
-		if(value === '' || value === 'none') {
+		if(!value || value === '' || value === 'none') {
 			return false;
 		}
 
@@ -150,7 +150,7 @@ export default {
 	},
 	isHeightValid: value => {
 		// 2 to 9 feet tall
-		if(value < 24 || value > 96) {
+		if(!value || value < 24 || value > 96) {
 			return false;
 		}
 
