@@ -44,7 +44,7 @@ console.log(decryptedResponse);
 	},
 	encrypt: function(payload, keyBuf, ivBuf) {
 		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
-		let encoded = cipher.update(JSON.stringify(payload), 'utf-8', 'base64');
+		let encoded = cipher.update(JSON.stringify(_.trim(payload, '\0')), 'utf8', 'base64');
 
 		encoded += cipher.final('base64');
 
@@ -58,11 +58,9 @@ console.log(decryptedResponse);
 
 		decipher.setAutoPadding(false);
 
-		let dec = decipher.update(dataBuf, 'base64', 'utf-8');
+		let dec = decipher.update(dataBuf, 'base64', 'utf8');
 		dec += decipher.final('utf-8');
-console.log("dec:");
-console.log(dec);
-console.log(typeof(dec));
+
 		return JSON.parse(_.trim(dec, '\0'));
 	},
 	decryptUser: function(response) {
@@ -71,12 +69,10 @@ console.log(typeof(dec));
 		const keyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
 		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
 
-		decipher.setAutoPadding(false);
-
 		let dec = decipher.update(dataBuf, 'base64', 'utf-8');
 		dec += decipher.final('utf-8');
 
-		return JSON.parse(_.trim(dec, '\0'));
+		return JSON.parse(dec);
 	},
 	get: function(storage, key) {
 		if(storage.authentication) {
@@ -103,17 +99,23 @@ console.log(typeof(dec));
 		let data = assign({}, options.data, {
 			deviceID: this.get(localStorage, 'deviceID')
 		});
-
+var string = JSON.stringify({
+				iv: ivBuf.toString('base64'),
+				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
+			});
+console.log("string, data, userKeyBuf, ivBuf");
+console.log(string);
+console.log(data);
+console.log(userKeyBuf.toString('base64'));
+console.log(ivBuf.toString('base64'));
+console.log("--------------");
 		reqwest({
 			method: options.method,
 			crossOrigin: true,
 			url: options.url,
 			contentType: 'application/json',
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			data: JSON.stringify({
-				iv: ivBuf.toString('base64'),
-				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
-			}),
+			data: string,
 			complete: options.complete
 		});
 
@@ -122,6 +124,7 @@ console.log(this.decryptUser({
 	iv: ivBuf.toString('base64'),
 	encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
 }));
+
 	},
 	save: function(storage, key, value) {
 		let data = {};

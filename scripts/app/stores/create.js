@@ -78,7 +78,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		};
 
 		crypto.pbkdf2(
-			fields.doublePassword.values[0], salt, 1000, 512,
+			fields.doublePassword.values[0], salt, 1000, 128,
 			(err, derivedKey) => {
 				let password = new Buffer(derivedKey);
 				data.password = password.toString('base64');
