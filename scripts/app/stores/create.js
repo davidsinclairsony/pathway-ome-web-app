@@ -87,10 +87,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		);
 	},
 	submitHandler: function(response) {
-		if(
-			response.status &&
-			(response.status !== 200 || response.status !== 204)
-		) {
+		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
 			Actions.Create.changeShowMessage(true,
 				'Sorry, there was an error: ' +

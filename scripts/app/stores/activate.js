@@ -54,10 +54,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		Authenticator.activate({pin: fields.pin.values[0]}, this.submitHandler);
 	},
 	submitHandler: function(response) {
-		if(
-			response.status &&
-			(response.status !== 200 || response.status !== 204)
-		) {
+		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
 			Actions.Activate.changeShowMessage(true,
 				'Sorry, there was an error: ' +

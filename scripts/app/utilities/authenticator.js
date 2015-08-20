@@ -29,8 +29,7 @@ export default {
 			contentType: 'application/json'
 		}).then(response => {
 			let decryptedResponse = this.decrypt(response);
-console.log("decryptedResponse:");
-console.log(decryptedResponse);
+
 			this.save(sessionStorage, 'sessionID', decryptedResponse.sessionID);
 			this.save(sessionStorage, 'userKey', decryptedResponse.userKey);
 
@@ -38,13 +37,13 @@ console.log(decryptedResponse);
 				method: 'post',
 				url: Api.USER_CREATE,
 				data,
-				complete: callback
+				callback
 			});
 		}).fail(callback);
 	},
 	encrypt: function(payload, keyBuf, ivBuf) {
 		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
-		let encoded = cipher.update(JSON.stringify(_.trim(payload, '\0')), 'utf8', 'base64');
+		let encoded = cipher.update(JSON.stringify(payload), 'utf8', 'base64');
 
 		encoded += cipher.final('base64');
 
@@ -99,32 +98,19 @@ console.log(decryptedResponse);
 		let data = assign({}, options.data, {
 			deviceID: this.get(localStorage, 'deviceID')
 		});
-var string = JSON.stringify({
-				iv: ivBuf.toString('base64'),
-				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
-			});
-console.log("string, data, userKeyBuf, ivBuf");
-console.log(string);
-console.log(data);
-console.log(userKeyBuf.toString('base64'));
-console.log(ivBuf.toString('base64'));
-console.log("--------------");
+
 		reqwest({
 			method: options.method,
 			crossOrigin: true,
 			url: options.url,
 			contentType: 'application/json',
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			data: string,
-			complete: options.complete
+			data: JSON.stringify({
+				iv: ivBuf.toString('base64'),
+				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
+			}),
+			complete: options.callback
 		});
-
-console.log("Decrypted:");
-console.log(this.decryptUser({
-	iv: ivBuf.toString('base64'),
-	encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
-}));
-
 	},
 	save: function(storage, key, value) {
 		let data = {};
