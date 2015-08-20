@@ -19,16 +19,22 @@ export default {
 		});
 	},
 	create: function(data, callback) {
-		let deviceID = this.getDeviceID();
+		let deviceID, register, create;
 
-		reqwest({
-			method: 'post',
-			crossOrigin: true,
-			url: Api.USER_REGISTER,
-			data: JSON.stringify({deviceID}),
-			contentType: 'application/json'
-		}).then(response => {
-			let decryptedResponse = this.decrypt(response);
+		deviceID = this.getDeviceID();
+		register = () => {
+			reqwest({
+				method: 'post',
+				crossOrigin: true,
+				url: Api.USER_REGISTER,
+				data: JSON.stringify({deviceID}),
+				contentType: 'application/json'
+			}).then(create).fail(callback);
+		};
+		create = response => {
+			let decryptedResponse = this.decrypt(
+				response.encryptedPayload, Api.KEY, response.iv
+			);
 
 			this.save(sessionStorage, 'sessionID', decryptedResponse.sessionID);
 			this.save(sessionStorage, 'userKey', decryptedResponse.userKey);
@@ -37,22 +43,18 @@ export default {
 				method: 'post',
 				url: Api.USER_CREATE,
 				data,
-				callback
+				callback,
+				key: this.get(sessionStorage, 'userKey'),
+				headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
 			});
-		}).fail(callback);
-	},
-	encrypt: function(payload, keyBuf, ivBuf) {
-		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
-		let encoded = cipher.update(JSON.stringify(payload), 'utf8', 'base64');
+		};
 
-		encoded += cipher.final('base64');
-
-		return encoded;
+		register();
 	},
-	decrypt: function(response) {
-		const ivBuf = new Buffer(response.iv, 'base64');
-		const dataBuf = new Buffer(response.encryptedPayload, 'base64');
-		const keyBuf = new Buffer(Api.KEY, 'base64');
+	decrypt: function(encryptedData, key, iv) {
+		const ivBuf = new Buffer(iv, 'base64');
+		const dataBuf = new Buffer(encryptedData, 'base64');
+		const keyBuf = new Buffer(key, 'base64');
 		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
 
 		decipher.setAutoPadding(false);
@@ -62,16 +64,13 @@ export default {
 
 		return JSON.parse(_.trim(dec, '\0'));
 	},
-	decryptUser: function(response) {
-		const ivBuf = new Buffer(response.iv, 'base64');
-		const dataBuf = new Buffer(response.encryptedPayload, 'base64');
-		const keyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
-		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
+	encrypt: function(data, keyBuf, ivBuf) {
+		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
+		let encoded = cipher.update(JSON.stringify(data), 'utf8', 'base64');
 
-		let dec = decipher.update(dataBuf, 'base64', 'utf-8');
-		dec += decipher.final('utf-8');
+		encoded += cipher.final('base64');
 
-		return JSON.parse(dec);
+		return encoded;
 	},
 	get: function(storage, key) {
 		if(storage.authentication) {
@@ -90,11 +89,40 @@ export default {
 
 		return deviceID;
 	},
+	login: function(data, callback) {
+		let deviceID, session, login;
+
+		deviceID = this.getDeviceID();
+		session = () => {
+			reqwest({
+				method: 'post',
+				crossOrigin: true,
+				url: Api.USER_SESSION,
+				data: JSON.stringify({deviceID}),
+				contentType: 'application/json'
+			}).then(login).fail(callback);
+		};
+		login = response => {
+			this.save(sessionStorage, 'sessionID', response.sessionToken);
+
+			this.request({
+				method: 'post',
+				url: Api.USER_LOGIN,
+				data,
+				callback,
+				key: Api.KEY,
+				headers: {
+					'X-Session-Token': this.get(sessionStorage, 'sessionID'),
+					'X-Device-ID': this.getDeviceID()
+				}
+			});
+		};
+
+		session();
+	},
 	request: function(options) {
 		let ivBuf = new Buffer(crypto.randomBytes(16));
-		let userKeyBuf = new Buffer(
-			this.get(sessionStorage, 'userKey'), 'base64'
-		);
+		let keyBuf = new Buffer(options.key, 'base64');
 		let data = assign({}, options.data, {
 			deviceID: this.get(localStorage, 'deviceID')
 		});
@@ -104,10 +132,10 @@ export default {
 			crossOrigin: true,
 			url: options.url,
 			contentType: 'application/json',
-			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			headers: options.headers,
 			data: JSON.stringify({
 				iv: ivBuf.toString('base64'),
-				encryptedPayload: this.encrypt(data, userKeyBuf, ivBuf)
+				encryptedPayload: this.encrypt(data, keyBuf, ivBuf)
 			}),
 			complete: options.callback
 		});

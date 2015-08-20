@@ -61,7 +61,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				JSON.parse(response.response).message
 			);
 		} else {
-			router.transitionTo('login');
+			router.transitionTo('home');
 		}
 	}
 });

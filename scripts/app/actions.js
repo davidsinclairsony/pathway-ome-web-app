@@ -86,6 +86,19 @@ let Login = {
 			actionType: Constants.Actions.LOGIN_CHANGE_IS_WAITING,
 			value
 		});
+	},
+	changeShowMessage: (value, message) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_CHANGE_SHOW_MESSAGE,
+			value,
+			message
+		});
+	},
+	submit: fields => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.LOGIN_SUBMIT,
+			fields
+		});
 	}
 };
 
