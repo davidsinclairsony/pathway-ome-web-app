@@ -59,7 +59,10 @@ export default React.createClass(assign({}, base, {
 			props.className += ' validating';
 			let asideInner = [];
 
-			if(typeof(this.props.help.isValid) !== 'undefined') {
+			if(
+				typeof(this.props.help.isValid) !== 'undefined' &&
+				this.props.help.isValid != 2
+			) {
 				if(this.props.help.isValid) {
 					// Add success icon
 					asideInner.push(React.DOM.div({

@@ -23,7 +23,7 @@ export default React.createClass(assign({}, {
 		FieldsStore.initialize([
 			'name',
 			'email',
-			'doublePassword',
+			'newPassword',
 			'dob',
 			'securityQuestion',
 			'securityAnswer',
@@ -34,9 +34,13 @@ export default React.createClass(assign({}, {
 			'dietType',
 			'diabetic',
 			'highCholesterol',
-			'allergies'
+			'allergies',
+			'diet'
 		]);
 		return getState();
+	},
+	closeHandler: function() {
+		console.log("close account");
 	},
 	componentDidMount: function() {
 		ProfileStore.addChangeListener(this._onChange);
@@ -54,11 +58,22 @@ export default React.createClass(assign({}, {
 			fields: this.state.fields
 		}));
 
-		inner.push(React.DOM.button({
-			className: 'submit button medium positive',
-			key: 'save',
-			onClick: this.submitHandler
-		}, 'Save'));
+		inner.push(React.DOM.div(
+			{
+				className: 'buttons',
+				key: 'buttons'
+			},
+			React.DOM.button({
+				className: 'close button medium negative',
+				key: 'close',
+				onClick: this.closeHandler
+			}, 'Close Account'),
+			React.DOM.button({
+				className: 'submit button medium positive',
+				key: 'save',
+				onClick: this.submitHandler
+			}, 'Save')
+		 ));
 
 		if(this.state.isWaiting) {
 			let transitionInner = [];

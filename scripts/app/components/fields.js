@@ -106,6 +106,27 @@ export default React.createClass({
 						help
 					}));
 					break;
+				case 'newPassword':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'New Password',
+							htmlFor: 'newPassword'
+						},
+						input: {
+							count: 2,
+							htmlType: 'password',
+							ids: ['newPassword', 'repeatPassword'],
+							name: key,
+							placeholders: ['Password', 'Confirm'],
+							type: 'textInput',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 				case 'dob':
 					inner.push(React.createElement(field, {
 						key,
@@ -381,6 +402,32 @@ export default React.createClass({
 								{id: 'peanut', name: 'Peanut'},
 								{id: 'treenut', name: 'Treenut'},
 								{id: 'alcohol', name: 'Alcohol'}
+							]
+						},
+						help: {validate: false}
+					}));
+					break;
+				case 'diet':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Diet',
+							htmlFor: 'diet'
+						},
+						input: {
+							className: 'short',
+							name: key,
+							multiple: true,
+							type: 'checkList',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : [],
+							data: [
+								{id: 'vegetarian', name: 'Vegetarian'},
+								{id: 'vegan', name: 'Vegan'},
+								{id: 'kosher', name: 'Kosher'},
+								{id: 'halal', name: 'Halal'},
+								{id: 'paleo', name: 'Paleo'}
 							]
 						},
 						help: {validate: false}

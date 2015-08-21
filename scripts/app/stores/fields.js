@@ -68,13 +68,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		// Save value
 		storage.fields[o.name].values[o.vIndex] = o.value;
 
-		// Validate
-		if(Validator.validate(storage.fields[o.name])) {
-			storage.fields[o.name].isValid = true;
-		} else {
-			storage.fields[o.name].isValid = false;
+		storage.fields[o.name].isValid =
+			Validator.validate(storage.fields[o.name]);
 
-			// Set help
+		if(storage.fields[o.name].isValid === false) {
 			storage.fields[o.name].help = Help[o.name];
 		}
 	},

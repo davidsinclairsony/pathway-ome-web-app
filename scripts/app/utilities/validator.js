@@ -1,3 +1,10 @@
+/*
+	Legend
+	0 or false	invalid	it fails to validate
+	1 or true	valid		values are present and they are valid
+	2				passed	no values, but so not valid, but it's not invalid
+*/
+
 import Joi from 'joi';
 
 export default {
@@ -9,6 +16,8 @@ export default {
 				return this.isSinglePasswordValid(o.values);
 			case 'doublePassword':
 				return this.isDoublePasswordValid(o.values);
+			case 'newPassword':
+				return this.isNewPasswordValid(o.values);
 			case 'dob':
 				return this.isDobValid(o.values);
 			case 'name':
@@ -125,6 +134,13 @@ export default {
 		}
 
 		return true;
+	},
+	isProfilePasswordValid: function(values) {
+		if(!values[0] && !values[1]) {
+			return 2;
+		}
+
+		return this.isDoublePasswordValid(values);
 	},
 	isSecurityQuestionValid: value => {
 		if(!value || value.length < 8) {
