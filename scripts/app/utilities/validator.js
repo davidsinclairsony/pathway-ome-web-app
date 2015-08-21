@@ -125,17 +125,16 @@ export default {
 		}
 	},
 	isDoublePasswordValid: function(values) {
-		if(values[0] !== values[1]) {
-			return false;
-		}
-
-		if(!this.isSinglePasswordValid(values)) {
+		if(
+			values[0] !== values[1] ||
+			!this.isSinglePasswordValid(values)
+		) {
 			return false;
 		}
 
 		return true;
 	},
-	isProfilePasswordValid: function(values) {
+	isNewPasswordValid: function(values) {
 		if(!values[0] && !values[1]) {
 			return 2;
 		}

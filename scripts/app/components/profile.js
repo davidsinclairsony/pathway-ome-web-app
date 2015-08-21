@@ -5,14 +5,13 @@ import fields from './fields';
 import FieldsStore from '../stores/fields';
 import footer from './footer';
 import React from 'react/addons';
-//import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
-//import Velocity from 'velocity-animate';
 
 let getState = () => {
 	return {
 		isWaiting: ProfileStore.get(['isWaiting']),
-		fields: FieldsStore.get(['fields'])
+		fields: FieldsStore.get(['fields']),
+		showForm: ProfileStore.get(['showForm'])
 	};
 };
 
@@ -51,47 +50,54 @@ export default React.createClass(assign({}, {
 		FieldsStore.removeChangeListener(this._onChange);
 	},
 	render: function() {
-		let inner = [];
+		let transitionInner = [];
 
-		inner.push(React.createElement(fields, {
-			key: 'fields',
-			fields: this.state.fields
-		}));
+		if(this.state.showForm) {
+			let loadedInner = [];
 
-		inner.push(React.DOM.div(
-			{
-				className: 'buttons',
-				key: 'buttons'
-			},
-			React.DOM.button({
-				className: 'close button medium negative',
-				key: 'close',
-				onClick: this.closeHandler
-			}, 'Close Account'),
-			React.DOM.button({
-				className: 'submit button medium positive',
-				key: 'save',
-				onClick: this.submitHandler
-			}, 'Save')
-		 ));
+			loadedInner.push(React.createElement(fields, {
+				key: 'fields',
+				fields: this.state.fields
+			}));
 
-		if(this.state.isWaiting) {
-			let transitionInner = [];
+			loadedInner.push(React.DOM.div(
+				{
+					className: 'buttons',
+					key: 'buttons'
+				},
+				React.DOM.button({
+					className: 'close button medium negative',
+					key: 'close',
+					onClick: this.closeHandler
+				}, 'Close Account'),
+				React.DOM.button({
+					className: 'submit button medium positive',
+					key: 'save',
+					onClick: this.submitHandler
+				}, 'Save')
+			 ));
 
 			transitionInner.push(React.DOM.div({
-				key: 1,
+				className: 'loaded',
+				key: 'loaded'
+			}, loadedInner));
+		}
+
+		if(this.state.isWaiting) {
+			transitionInner.push(React.DOM.div({
+				key: 'waiting',
 				className: 'waiting'
 			}, null));
-
-			inner.push(React.createElement(TransitionGroup, {
-				key: 5,
-				transitionName: 'fade-fast',
-				transitionAppear: true
-			}, transitionInner));
 		}
 
 		return React.DOM.section({className: 'profile'},
-			React.DOM.div({className: 'wrapper medium'}, inner),
+			React.createElement(TransitionGroup, {
+				key: 'transition',
+				className: 'wrapper medium',
+				transitionName: 'fade-fast',
+				transitionAppear: true,
+				component: 'div'
+			}, transitionInner),
 			React.createElement(footer)
 		);
 	},

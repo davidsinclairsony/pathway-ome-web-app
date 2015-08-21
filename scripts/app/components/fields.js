@@ -1,11 +1,5 @@
-//import Actions from '../actions';
-//import assign from 'object-assign';
-//import base from './base';
 import field from './fields/field';
 import React from 'react/addons';
-//import ReactRouter from 'react-router';
-//import TransitionGroup from '../utilities/velocityTransitionGroup.js';
-//import Velocity from 'velocity-animate';
 
 export default React.createClass({
 	displayName: 'Fields',
@@ -346,8 +340,8 @@ export default React.createClass({
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : [],
 							data: [
-								{id: 0, name: 'No'},
-								{id: 1, name: 'Yes'}
+								{id: false, name: 'No'},
+								{id: true, name: 'Yes'}
 							]
 						},
 						help: {validate: false}
@@ -369,8 +363,8 @@ export default React.createClass({
 							values: this.props.fields[key].values ?
 								this.props.fields[key].values : [],
 							data: [
-								{id: 0, name: 'No'},
-								{id: 1, name: 'Yes'}
+								{id: false, name: 'No'},
+								{id: true, name: 'Yes'}
 							]
 						},
 						help: {validate: false}

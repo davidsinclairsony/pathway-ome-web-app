@@ -1,20 +1,19 @@
 import assign from 'object-assign';
-//import Authenticator from '../utilities/authenticator';
+import Authenticator from '../utilities/authenticator';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-//import Help from '../data/help';
-//import router from '../router';
-//import Validator from '../utilities/validator';
+import reqwest from 'reqwest';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
-		name: 'profile',
+		name: 'conversation',
 		message: undefined,
 		showMessage: false,
 		isWaiting: true,
-		showForm: false
+		showQuestions: false,
+		questions: undefined
 	};
 };
 let storage;
@@ -23,14 +22,15 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
-	changeAgreedToConsent: function(value) {
-		storage.agreedToConsent = value;
-	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
 	},
-	changeShowConsent: function(value) {
-		storage.showConsent = value;
+	changeShowMessage: function(value, message) {
+		storage.showMessage = value;
+
+		if(message) {
+			storage.message = message;
+		}
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -47,7 +47,28 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	initialize: function() {
 		storage = defaults();
 
-		console.log('get data via function and emit change');
+		reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Constants.Api.USER_SUGGESTIONS,
+			contentType: 'application/json',
+			headers: {'X-Session-Token': Authenticator.get(sessionStorage, 'sessionID')},
+			complete: response => {
+				if(response.status && response.status !== 200) {
+					storage.showQuestions = true;
+					this.changeShowMessage(true,
+						'Sorry, there was an error: ' +
+						JSON.parse(response.response).message
+					);
+				} else {
+					storage.showQuestions = true;
+					storage.questions = response;
+				}
+
+				storage.isWaiting = false;
+				this.emitChange();
+			}
+		});
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
@@ -56,20 +77,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
-		case Constants.Actions.PROFILE_CHANGE_IS_WAITING:
+		case Constants.Actions.CONVERSATION_CHANGE_IS_WAITING:
 			Store.changeIsWaiting(action.value);
 			Store.emitChange();
 			break;
-		case Constants.Actions.PROFILE_CHANGE_SHOW_MESSAGE:
+		case Constants.Actions.CONVERSATION_CHANGE_SHOW_MESSAGE:
 			Store.changeShowMessage(action.value, action.message);
-			Store.emitChange();
-			break;
-		case Constants.Actions.PROFILE_CLOSE:
-			Store.close();
-			Store.emitChange();
-			break;
-		case Constants.Actions.PROFILE_SUBMIT:
-			Store.submit(action.fields);
 			Store.emitChange();
 			break;
 	}

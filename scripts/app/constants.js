@@ -4,6 +4,8 @@ const Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,
 	ACTIVATE_CHANGE_SHOW_MESSAGE: null,
 	ACTIVATE_SUBMIT: null,
+	CONVERSATION_CHANGE_IS_WAITING: null,
+	CONVERSATION_CHANGE_SHOW_MESSAGE: null,
 	CREATE_CHANGE_AGREED_TO_CONSENT: null,
 	CREATE_CHANGE_IS_WAITING: null,
 	CREATE_CHANGE_SHOW_CONSENT: null,
@@ -28,7 +30,8 @@ const Api = {
 	USER_CREATE: BASE_URL + 'user',
 	USER_SESSION: BASE_URL + 'user/session',
 	USER_LOGIN: BASE_URL + 'user/login',
-	USER_ACTIVATE: BASE_URL + 'user/activate'
+	USER_ACTIVATE: BASE_URL + 'user/activate',
+	USER_SUGGESTIONS: BASE_URL + 'suggestions'
 };
 
 const Security = {

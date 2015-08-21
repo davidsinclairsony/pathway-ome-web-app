@@ -23,6 +23,22 @@ let Activate = {
 	}
 };
 
+let Conversation = {
+	changeIsWaiting: value => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_CHANGE_IS_WAITING,
+			value
+		});
+	},
+	changeShowMessage: (value, message) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_CHANGE_SHOW_MESSAGE,
+			value,
+			message
+		});
+	}
+};
+
 let Create = {
 	changeAgreedToConsent: value => {
 		Dispatcher.dispatch({
@@ -120,4 +136,6 @@ let Reactivate = {
 	}
 };
 
-export default {Activate, Create, Fields, Home, Login, Profile, Reactivate};
+export default {
+	Activate, Conversation, Create, Fields, Home, Login, Profile, Reactivate
+};

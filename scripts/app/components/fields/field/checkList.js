@@ -13,7 +13,19 @@ export default React.createClass(assign({}, base, {
 			valueField: 'id',
 			textField: 'name',
 			data: this.props.data,
-			onChange: value => {
+			value: this.props.values[0],
+			onChange: data => {
+				let value;
+
+				if(this.props.multiple) {
+					value = data.map(function(o) {return o.id;});
+				} else {
+					value = data.id;
+				}
+
+				console.log(value);
+				console.log(data);
+
 				Actions.Fields.onFieldChange({
 					name: this.props.name,
 					value,
