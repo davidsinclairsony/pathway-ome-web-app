@@ -12,7 +12,9 @@ let getState = () => {
 		isWaiting: ProfileStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields']),
 		showForm: ProfileStore.get(['showForm']),
-		fetchedHci: ProfileStore.get(['fetchedHci'])
+		fetchedHci: ProfileStore.get(['fetchedHci']),
+		message: ProfileStore.get(['message']),
+		showMessage: ProfileStore.get(['showMessage']),
 	};
 };
 
@@ -91,6 +93,23 @@ export default React.createClass(assign({}, {
 				key: 'waiting',
 				className: 'waiting'
 			}, null));
+		}
+
+		if(this.state.showMessage) {
+			transitionInner.push(React.DOM.div({
+				className: 'message modal',
+				key: 'message'
+			},
+				React.DOM.div({className: 'content centered'},
+					React.DOM.h2(null, this.state.message)
+				),
+				React.DOM.div({className: 'controls'},
+					React.DOM.button({
+						className: 'button medium neutral',
+						onClick: () => {Actions.Profile.changeShowMessage(false);}
+					}, 'Close')
+				)
+			));
 		}
 
 		return React.DOM.section({className: 'profile'},

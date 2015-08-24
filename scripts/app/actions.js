@@ -130,7 +130,14 @@ let Profile = {
 			actionType: Constants.Actions.PROFILE_CHANGE_IS_WAITING,
 			value
 		});
-	}
+	},
+	changeShowMessage: (value, message) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.PROFILE_CHANGE_SHOW_MESSAGE,
+			value,
+			message
+		});
+	},
 };
 
 let Reactivate = {

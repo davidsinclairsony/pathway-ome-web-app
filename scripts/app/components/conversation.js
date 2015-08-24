@@ -9,7 +9,9 @@ let getState = () => {
 	return {
 		isWaiting: ConversationStore.get(['isWaiting']),
 		showQuestions: ConversationStore.get(['showQuestions']),
-		questions: ConversationStore.get(['questions'])
+		questions: ConversationStore.get(['questions']),
+		message: ConversationStore.get(['message']),
+		showMessage: ConversationStore.get(['showMessage'])
 	};
 };
 

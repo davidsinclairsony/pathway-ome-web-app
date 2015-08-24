@@ -50,9 +50,8 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			return apiRecord;
 		};
 console.log(data);
-console.log(storage);
 		Object.keys(data).forEach(v => {
-			if(data[v]) {
+			if(typeof(data[v]) !== 'undefined') {
 				console.log(getMappedRecord(v));
 				storage.fields[getMappedRecord(v)].values[0] = data[v];
 			}

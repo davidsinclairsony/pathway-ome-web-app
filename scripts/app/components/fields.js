@@ -413,7 +413,9 @@ export default React.createClass({
 								{id: 'shellfish', name: 'Shellfish'},
 								{id: 'peanut', name: 'Peanut'},
 								{id: 'treenut', name: 'Treenut'},
-								{id: 'alcohol', name: 'Alcohol'}
+								{id: 'alcohol', name: 'Alcohol'},
+								{id: 'nuts', name: 'Eggs'},
+								{id: 'nuts', name: 'Nuts'}
 							]
 						},
 						help: {validate: false}

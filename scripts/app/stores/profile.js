@@ -22,14 +22,15 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
-	changeAgreedToConsent: function(value) {
-		storage.agreedToConsent = value;
-	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
 	},
-	changeShowConsent: function(value) {
-		storage.showConsent = value;
+	changeShowMessage: function(value, message) {
+		storage.showMessage = value;
+
+		if(message) {
+			storage.message = message;
+		}
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -44,6 +45,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		return value;
 	},
 	fetchHciHandler: function(response) {
+		console.log(response);
 		if(response.status && response.status !== 200) {
 			storage.showForm = true;
 			this.changeShowMessage(true,
@@ -52,6 +54,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			);
 		} else {
 			storage.showForm = true;
+
 			Actions.Fields.fill(response);
 		}
 
