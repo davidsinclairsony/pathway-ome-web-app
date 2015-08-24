@@ -1,5 +1,5 @@
 import assign from 'object-assign';
-//import Authenticator from '../utilities/authenticator';
+//import User from '../utilities/user';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';

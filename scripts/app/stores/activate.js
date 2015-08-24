@@ -1,6 +1,6 @@
 import Actions from '../actions';
 import assign from 'object-assign';
-import Authenticator from '../utilities/authenticator';
+import User from '../utilities/user';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
@@ -51,7 +51,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	submit: function(fields) {
 		storage.isWaiting = true;
-		Authenticator.activate({pin: fields.pin.values[0]}, this.submitHandler);
+		User.activate({pin: fields.pin.values[0]}, this.submitHandler);
 	},
 	submitHandler: function(response) {
 		if(response.status && response.status !== 204) {

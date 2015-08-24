@@ -1,11 +1,9 @@
+import Actions from '../actions';
 import assign from 'object-assign';
-//import Authenticator from '../utilities/authenticator';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-//import Help from '../data/help';
-//import router from '../router';
-//import Validator from '../utilities/validator';
+import User from '../utilities/user';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -14,7 +12,8 @@ let defaults = () => {
 		message: undefined,
 		showMessage: false,
 		isWaiting: true,
-		showForm: false
+		showForm: false,
+		fetchedHci: undefined
 	};
 };
 let storage;
@@ -44,10 +43,24 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
+	fetchHciHandler: function(response) {
+		if(response.status && response.status !== 200) {
+			storage.showForm = true;
+			this.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		} else {
+			storage.showForm = true;
+			Actions.Fields.fill(response);
+		}
+
+		storage.isWaiting = false;
+		this.emitChange();
+	},
 	initialize: function() {
 		storage = defaults();
-
-		console.log('get data via function and emit change');
+		User.fetchHci(reponse => {this.fetchHciHandler(reponse);});
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);

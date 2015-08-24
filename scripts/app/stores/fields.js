@@ -1,6 +1,6 @@
 //import Actions from '../actions';
 import assign from 'object-assign';
-//import Authenticator from '../utilities/authenticator';
+//import User from '../utilities/user';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
@@ -31,6 +31,33 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
+	},
+	fill: function(data) {
+		let apiToStoreHciMap = {
+			nutritionalGoal: 'nutritionGoal',
+			activityRating: 'activityLevel',
+			pgDietType: 'dietType',
+			hasDiabetes: 'diabetic',
+			hasHighCholesterol: 'highCholesterol',
+			foodAllergyList: 'allergies',
+			dietPrefs: 'diet'
+		};
+		let getMappedRecord = apiRecord => {
+			if(apiToStoreHciMap[apiRecord]) {
+				return apiToStoreHciMap[apiRecord];
+			}
+
+			return apiRecord;
+		};
+console.log(data);
+console.log(storage);
+		Object.keys(data).forEach(v => {
+			if(data[v]) {
+				console.log(getMappedRecord(v));
+				storage.fields[getMappedRecord(v)].values[0] = data[v];
+			}
+		});
+console.log(storage);
 	},
 	get: function(keys) {
 		let value = storage;
@@ -84,6 +111,10 @@ Dispatcher.register(function(action) {
 	switch(action.actionType) {
 		case Constants.Actions.FIELDS_CHANGE_SHOW_HELP:
 			Store.changeShowHelp(action.object);
+			Store.emitChange();
+			break;
+		case Constants.Actions.FIELDS_FILL:
+			Store.fill(action.data);
 			Store.emitChange();
 			break;
 		case Constants.Actions.FIELDS_ON_FIELD_CHANGE:

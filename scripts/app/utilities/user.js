@@ -72,6 +72,16 @@ export default {
 
 		return encoded;
 	},
+	fetchHci: function(callback) {
+		reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Api.USER_HCI,
+			contentType: 'application/json',
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			complete: callback
+		});
+	},
 	get: function(storage, key) {
 		if(storage.authentication) {
 			return JSON.parse(storage.authentication)[key];

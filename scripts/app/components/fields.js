@@ -273,6 +273,24 @@ export default React.createClass({
 						help
 					}));
 					break;
+				case 'weight':
+					inner.push(React.createElement(field, {
+						key,
+						classes: key,
+						label: {
+							content: 'Weight',
+							htmlFor: 'weight'
+						},
+						input: {
+							ids: ['weight'],
+							name: key,
+							type: 'weightSlider',
+							values: this.props.fields[key].values ?
+								this.props.fields[key].values : []
+						},
+						help
+					}));
+					break;
 				case 'activityLevel':
 					inner.push(React.createElement(field, {
 						key,

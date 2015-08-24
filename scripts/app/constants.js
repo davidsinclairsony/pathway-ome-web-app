@@ -12,6 +12,7 @@ const Actions = keymirror({
 	CREATE_CHANGE_SHOW_MESSAGE: null,
 	CREATE_SUBMIT: null,
 	FIELDS_CHANGE_SHOW_HELP: null,
+	FIELDS_FILL: null,
 	FIELDS_ON_FIELD_CHANGE: null,
 	HOME_TOGGLE_SHOW_MENU: null,
 	LOGIN_CHANGE_IS_WAITING: null,
@@ -31,7 +32,8 @@ const Api = {
 	USER_SESSION: BASE_URL + 'user/session',
 	USER_LOGIN: BASE_URL + 'user/login',
 	USER_ACTIVATE: BASE_URL + 'user/activate',
-	USER_SUGGESTIONS: BASE_URL + 'suggestions'
+	USER_HCI: BASE_URL + 'user/hci',
+	SUGGESTIONS: BASE_URL + 'suggestions'
 };
 
 const Security = {

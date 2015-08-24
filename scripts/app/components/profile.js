@@ -11,7 +11,8 @@ let getState = () => {
 	return {
 		isWaiting: ProfileStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields']),
-		showForm: ProfileStore.get(['showForm'])
+		showForm: ProfileStore.get(['showForm']),
+		fetchedHci: ProfileStore.get(['fetchedHci'])
 	};
 };
 
@@ -28,6 +29,7 @@ export default React.createClass(assign({}, {
 			'securityAnswer',
 			'nutritionGoal',
 			'gender',
+			'weight',
 			'height',
 			'activityLevel',
 			'dietType',
@@ -36,6 +38,7 @@ export default React.createClass(assign({}, {
 			'allergies',
 			'diet'
 		]);
+
 		return getState();
 	},
 	closeHandler: function() {

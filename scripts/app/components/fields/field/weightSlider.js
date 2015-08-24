@@ -5,31 +5,29 @@ import React from 'react/addons';
 import Slider from 'react-slider';
 
 export default React.createClass(assign({}, base, {
-	displayName: 'Height Slider',
+	displayName: 'Weight Slider',
 	render: function() {
 		let inner = [];
-		let inchesToString = inches => {
-			if(!inches) {
-				inches = 0;
+
+		let formatPounds = pounds => {
+			if(!pounds) {
+				return pounds;
 			}
 
-			let feet = Math.floor(inches / 12);
-			inches %= 12;
-
-			return feet + '\' ' + inches + '"';
+			return pounds + ' lb';
 		};
 
 		inner.push(React.DOM.div({
 			className: 'display',
 			key: 'display'
-		}, inchesToString(this.props.values[0])));
+		}, formatPounds(this.props.values[0])));
 
 		inner.push(React.createElement(Slider, {
 			key: 'slider',
 			id: this.props.ids[0],
 			withBars: true,
-			min: 24,
-			max: 96,
+			min: 50,
+			max: 400,
 			value: this.props.values[0],
 			onChange: value => {
 				Actions.Fields.onFieldChange({

@@ -80,6 +80,12 @@ let Fields = {
 			object
 		});
 	},
+	fill: data => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.FIELDS_FILL,
+			data
+		});
+	},
 	onFieldChange: description => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.FIELDS_ON_FIELD_CHANGE,

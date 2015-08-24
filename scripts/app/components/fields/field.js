@@ -6,6 +6,7 @@ import heightSlider from './field/heightSlider';
 import React from 'react/addons';
 import textInput from './field/textInput';
 import checkList from './field/checkList';
+import weightSlider from './field/weightSlider';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Field',
@@ -40,6 +41,12 @@ export default React.createClass(assign({}, base, {
 				break;
 			case 'heightSlider':
 				containerInner.push(React.createElement(heightSlider, assign({}, {
+					key: this.props.input.type,
+					store: this.props.store
+				}, this.props.input)));
+				break;
+			case 'weightSlider':
+				containerInner.push(React.createElement(weightSlider, assign({}, {
 					key: this.props.input.type,
 					store: this.props.store
 				}, this.props.input)));

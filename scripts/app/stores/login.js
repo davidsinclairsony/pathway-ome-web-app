@@ -1,6 +1,6 @@
 import Actions from '../actions';
 import assign from 'object-assign';
-import Authenticator from '../utilities/authenticator';
+import User from '../utilities/user';
 import {Buffer} from 'buffer';
 import Constants from '../constants';
 import crypto from 'crypto';
@@ -66,7 +66,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			(err, derivedKey) => {
 				password = new Buffer(derivedKey);
 				data.password = password.toString('base64');
-				Authenticator.login(data, this.submitHandler);
+				User.login(data, this.submitHandler);
 			}
 		);
 	},

@@ -1,6 +1,4 @@
 import assign from 'object-assign';
-//import Constants from '../constants';
-//import Dispatcher from '../dispatcher';
 import events from 'events';
 
 let CHANGE_EVENT = 'change';
