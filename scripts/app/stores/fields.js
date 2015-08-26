@@ -49,14 +49,14 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 			return apiRecord;
 		};
-console.log(data);
+
 		Object.keys(data).forEach(v => {
 			if(typeof(data[v]) !== 'undefined') {
-				console.log(getMappedRecord(v));
 				storage.fields[getMappedRecord(v)].values[0] = data[v];
 			}
 		});
-console.log(storage);
+
+		//this.emitChange();
 	},
 	get: function(keys) {
 		let value = storage;
@@ -72,21 +72,40 @@ console.log(storage);
 
 		// Create fields object in storage
 		fields.forEach(field => {
-			storage.fields[field] = {
+			let defaults = {
 				name: field,
 				values: [],
 				isValid: undefined,
 				help: undefined,
 				showHelp: false,
-				validate: true,
+				required: true,
 				showIcon: false
 			};
+			let custom = {};
+
+			switch(field) {
+				case 'newPassword':
+				case 'securityQuestion':
+				case 'securityAnswer':
+				case 'diabetic':
+				case 'highCholesterol':
+				case 'allergies':
+				case 'diet':
+				case 'highCholesterol':
+					custom.required = false;
+					break;
+			}
+
+			storage.fields[field] = assign({}, defaults, custom);
 		});
 	},
 	onFieldChange: function(o) {
 		// Make sure previous array values already exist
 		for(let i = 0; i < o.vIndex; i++) {
-			if(!storage.fields[o.name].values[i] && storage.fields[o.name].values[i] !== '') {
+			if(
+				!storage.fields[o.name].values[i] &&
+				storage.fields[o.name].values[i] !== ''
+			) {
 				storage.fields[o.name].values.push('');
 			}
 		}
@@ -94,9 +113,11 @@ console.log(storage);
 		// Save value
 		storage.fields[o.name].values[o.vIndex] = o.value;
 
+		// Validate
 		storage.fields[o.name].isValid =
 			Validator.validate(storage.fields[o.name]);
 
+		// Set help
 		if(storage.fields[o.name].isValid === false) {
 			storage.fields[o.name].help = Help[o.name];
 		}

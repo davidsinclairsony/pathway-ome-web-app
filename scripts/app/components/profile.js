@@ -6,6 +6,7 @@ import FieldsStore from '../stores/fields';
 import footer from './footer';
 import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import Validator from '../utilities/validator';
 
 let getState = () => {
 	return {
@@ -23,12 +24,12 @@ export default React.createClass(assign({}, {
 	getInitialState: function() {
 		ProfileStore.initialize();
 		FieldsStore.initialize([
-			'name',
+/*			'name',
 			'email',
 			'newPassword',
 			'dob',
 			'securityQuestion',
-			'securityAnswer',
+			'securityAnswer',*/
 			'nutritionGoal',
 			'gender',
 			'weight',
@@ -44,7 +45,7 @@ export default React.createClass(assign({}, {
 		return getState();
 	},
 	closeHandler: function() {
-		console.log("close account");
+		console.log('close account');
 	},
 	componentDidMount: function() {
 		ProfileStore.addChangeListener(this._onChange);
@@ -125,16 +126,18 @@ export default React.createClass(assign({}, {
 	},
 	submitHandler: function() {
 		let allValid = true;
-console.log(this.state.fields);
+
 		// Validate all fields
 		Object.keys(this.state.fields).forEach(key => {
 			if(
-				this.state.fields[key].validate &&
-				!this.state.fields[key].isValid
+				this.state.fields[key].required &&
+				!this.state.fields[key].isValid &&
+				!Validator.validate(this.state.fields[key])
 			) {
+				// Set validity in store by sending first value
 				Actions.Fields.onFieldChange({
 					name: this.state.fields[key].name,
-					value: this.state.fields[key].value,
+					value: this.state.fields[key].values[0],
 					vIndex: 0
 				});
 
@@ -143,10 +146,7 @@ console.log(this.state.fields);
 		});
 
 		if(allValid) {
-			//Actions.Create.submit(this.state.fields);
-			console.log("all valid");
-		} else {
-			console.log("not valid");
+			Actions.Profile.submit(this.state.fields);
 		}
 	},
 	_onChange: function() {

@@ -3,11 +3,10 @@ import autoprefixer from 'gulp-autoprefixer';
 import babelify from 'babelify';
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
+import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
-import jshint from 'gulp-jshint';
-import jshintStylish from 'jshint-stylish';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
@@ -37,8 +36,8 @@ if(yargs.argv.d) {
 
 gulp.task('lint', () => {
 	return gulp.src(['gulpfile.babel.js', 'scripts/**/*.js'])
-		.pipe(jshint({esnext: true}))
-		.pipe(jshint.reporter(jshintStylish))
+		.pipe(eslint({quiet: true}))
+		.pipe(eslint.format())
 	;
 });
 
@@ -48,7 +47,7 @@ let main = watchify(browserify(mainOptions)).transform(babelify).external(deps);
 let bundleMain = () => {
 	return main
 		.bundle()
-		.on("error", function(err) {
+			.on('error', function(err) {
 			gutil.log(err.message);
 			this.emit('end');
 		})
@@ -68,7 +67,7 @@ let libs = watchify(browserify(assign({}, watchify.args))).require(deps);
 let bundleLibs = () => {
 	return libs
 		.bundle()
-		.on("error", function(err) {
+		.on('error', function(err) {
 			gutil.log(err.message);
 			this.emit('end');
 		})

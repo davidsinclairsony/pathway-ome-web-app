@@ -1,6 +1,8 @@
 import Actions from '../actions';
 import assign from 'object-assign';
+import {Buffer} from 'buffer';
 import Constants from '../constants';
+import crypto from 'crypto';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 import User from '../utilities/user';
@@ -44,29 +46,85 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
-	fetchHciHandler: function(response) {
-		console.log(response);
+	fetchHandler: function(response) {
 		if(response.status && response.status !== 200) {
-			storage.showForm = true;
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
 		} else {
-			storage.showForm = true;
-
-			Actions.Fields.fill(response);
+			// Check to see if data is present
+			if(response.status !== 200) {
+				Actions.Fields.fill(response);
+			}
 		}
 
+		storage.showForm = true;
 		storage.isWaiting = false;
 		this.emitChange();
 	},
 	initialize: function() {
 		storage = defaults();
-		User.fetchHci(reponse => {this.fetchHciHandler(reponse);});
+		User.fetchProfile(reponse => {this.fetchHandler(reponse);});
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
+	},
+	submit: function(fields) {
+		storage.isWaiting = true;
+		storage.showForm = false;
+
+		let protectedData = {
+			/*firstName: fields.name.values[0],
+			lastName: fields.name.values[1],
+			email: fields.email.values[0],
+			dateOfBirth: fields.dob.values[0] + '/' + fields.dob.values[1] + '/' +
+				fields.dob.values[2]*/
+		};
+		let hciData = {
+			gender: fields.gender.values[0],
+			height: fields.height.values[0],
+			weight: fields.weight.values[0],
+			nutritionalGoal: fields.nutritionGoal.values[0],
+			activityRating: fields.activityLevel.values[0],
+			pgDietType: fields.dietType.values[0],
+			hasDiabetes: fields.diabetic.values[0],
+			hasHighCholesterol: fields.highCholesterol.values[0],
+			foodAllergyList: fields.allergies.values[0],
+			dietPrefs: fields.diet.values[0]
+		};
+
+		if(false) {//fields.newPassword.values[0]) {
+			let password;
+			let salt = new Buffer(Constants.Security.PW_SALT).toString('base64');
+
+			crypto.pbkdf2(
+				fields.newPassword.values[0], salt, 1000, 128,
+				(err, derivedKey) => {
+					password = new Buffer(derivedKey);
+					protectedData.password = password.toString('base64');
+					User.update(protectedData, hciData, this.submitHandler);
+				}
+			);
+		} else {
+			User.update(protectedData, hciData, response => {
+				this.submitHandler(response);
+			});
+		}
+
+	},
+	submitHandler: function(response) {
+		if(response.status && response.status !== 204) {
+			storage.isWaiting = false;
+			Actions.Profile.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		}
+
+		storage.isWaiting = false;
+		storage.showForm = true;
+		this.emitChange();
 	}
 });
 

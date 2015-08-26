@@ -38,7 +38,7 @@ export default React.createClass({
 
 		wrapperInner.push(React.DOM.h1({key: 0},
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, React.createElement(logo, null)
+				{key: 1, to: 'home'}, React.createElement(logo, null)
 			)
 		));
 
@@ -73,21 +73,21 @@ export default React.createClass({
 		wrapperInner.push(React.DOM.p({key: 5},
 			'Forgotten password or on a new device? ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "reactivate"}, "Click here"
+				{key: 1, to: 'reactivate'}, 'Click here'
 			)
 		));
 
 		wrapperInner.push(React.DOM.p({key: 6},
 			'Have a pin and need to activate? ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "activate"}, "Click here"
+				{key: 1, to: 'activate'}, 'Click here'
 			)
 		));
 
 		wrapperInner.push(React.DOM.p({key: 7},
 			'Need to create an account? ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "create"}, "Click here"
+				{key: 1, to: 'create'}, 'Click here'
 			)
 		));
 

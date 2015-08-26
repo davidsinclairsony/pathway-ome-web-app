@@ -37,7 +37,7 @@ export default React.createClass({
 
 		wrapperInner.push(React.DOM.h1({key: 0},
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, React.createElement(logo, null)
+				{key: 1, to: 'home'}, React.createElement(logo, null)
 			)
 		));
 
@@ -93,7 +93,7 @@ export default React.createClass({
 
 		if(allValid) {
 			Actions.Reactivate.changeIsWaiting(true);
-			console.log("send to api");
+			console.log('send to api');
 		}
 	},
 	_onChange: function() {

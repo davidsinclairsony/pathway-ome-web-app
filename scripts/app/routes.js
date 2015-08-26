@@ -13,7 +13,7 @@ let DefaultRoute = ReactRouter.DefaultRoute;
 let NotFoundRoute = ReactRouter.NotFoundRoute;
 let Route = ReactRouter.Route;
 
-export default React.createElement(Route, {handler: app, path: "/"},
+export default React.createElement(Route, {handler: app, path: '/'},
 	React.createElement(DefaultRoute, {name: 'home', handler: home}),
 	React.createElement(NotFoundRoute, {name: 'error', handler: error}),
 	React.createElement(Route, {name: 'activate', handler: activate}),

@@ -11,7 +11,7 @@ export default React.createClass(assign({}, base, {
 
 		let formatPounds = pounds => {
 			if(!pounds) {
-				return pounds;
+				return '0 lb';
 			}
 
 			return pounds + ' lb';

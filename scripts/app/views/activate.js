@@ -38,7 +38,7 @@ export default React.createClass({
 
 		wrapperInner.push(React.DOM.h1({key: 0},
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, React.createElement(logo, null)
+				{key: 1, to: 'home'}, React.createElement(logo, null)
 			)
 		));
 

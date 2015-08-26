@@ -12,14 +12,14 @@ export default React.createClass(assign({}, base, {
 
 		inner.push(React.DOM.h1({key: 0},
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, React.createElement(logo, null)
+				{key: 1, to: 'home'}, React.createElement(logo, null)
 			)
 		));
 
 		inner.push(React.DOM.p({key: 1},
 			'Sorry, there was an error. ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "home"}, "Click here"
+				{key: 1, to: 'home'}, 'Click here'
 			),
 			' to start over.'
 		));

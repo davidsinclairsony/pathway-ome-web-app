@@ -1,0 +1,17 @@
+{
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"parser": "babel-eslint",
+	"rules": {
+		"eol-last": 0,
+		"no-debugger": 1,
+		"no-underscore-dangle": 0,
+		"no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
+		"quotes": [1, "single", "avoid-escape"],
+		"semi": [2, "always"],
+		"semi-spacing": 0,
+		"strict": [0, "never"]
+	}
+}

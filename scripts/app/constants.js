@@ -4,6 +4,7 @@ const Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,
 	ACTIVATE_CHANGE_SHOW_MESSAGE: null,
 	ACTIVATE_SUBMIT: null,
+	CONVERSATION_ASK: null,
 	CONVERSATION_CHANGE_IS_WAITING: null,
 	CONVERSATION_CHANGE_SHOW_MESSAGE: null,
 	CREATE_CHANGE_AGREED_TO_CONSENT: null,
@@ -19,6 +20,7 @@ const Actions = keymirror({
 	LOGIN_CHANGE_SHOW_MESSAGE: null,
 	LOGIN_SUBMIT: null,
 	PROFILE_CHANGE_SHOW_MESSAGE: null,
+	PROFILE_SUBMIT: null,
 	REACTIVATE_CHANGE_IS_WAITING: null
 });
 
@@ -34,7 +36,9 @@ const Api = {
 	USER_LOGIN: BASE_URL + 'user/login',
 	USER_ACTIVATE: BASE_URL + 'user/activate',
 	USER_HCI: BASE_URL + 'user/hci',
-	SUGGESTIONS: BASE_URL + 'suggestions'
+	USER_GET: BASE_URL + 'user',
+	SUGGESTIONS: BASE_URL + 'suggestions',
+	ANSWER: BASE_URL + 'answer'
 };
 
 const Security = {

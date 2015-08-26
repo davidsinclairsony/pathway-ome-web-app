@@ -72,15 +72,23 @@ export default {
 
 		return encoded;
 	},
-	fetchHci: function(callback) {
+	fetchProfile: function(callback) {
 		reqwest({
 			method: 'get',
 			crossOrigin: true,
 			url: Api.USER_HCI,
-			contentType: 'application/json',
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
 			complete: callback
 		});
+
+		/*
+		reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Api.USER_GET,
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			complete: callback
+		});*/
 	},
 	get: function(storage, key) {
 		if(storage.authentication) {
@@ -160,5 +168,27 @@ export default {
 		data[key] = value;
 
 		storage.authentication = JSON.stringify(data);
+	},
+	update: function(protectedData, hciData, callback) {
+		console.log(hciData);
+		console.log(protectedData);
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			contentType: 'application/json',
+			url: Api.USER_HCI,
+			data: JSON.stringify(hciData),
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			complete: callback
+		});
+
+		/*
+		reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Api.USER_GET,
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			complete: callback
+		});*/
 	}
 };

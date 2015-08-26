@@ -11,7 +11,7 @@ export default React.createClass({
 				isValid: this.props.fields[key].isValid,
 				content: this.props.fields[key].help,
 				showHelp: this.props.fields[key].showHelp,
-				validate: this.props.fields[key].validate,
+				required: this.props.fields[key].required,
 				showIcon: this.props.fields[key].showIcon
 			};
 
@@ -362,7 +362,7 @@ export default React.createClass({
 								{id: true, name: 'Yes'}
 							]
 						},
-						help: {validate: false}
+						help
 					}));
 					break;
 				case 'highCholesterol':
@@ -385,7 +385,7 @@ export default React.createClass({
 								{id: true, name: 'Yes'}
 							]
 						},
-						help: {validate: false}
+						help
 					}));
 					break;
 				case 'allergies':
@@ -413,12 +413,10 @@ export default React.createClass({
 								{id: 'shellfish', name: 'Shellfish'},
 								{id: 'peanut', name: 'Peanut'},
 								{id: 'treenut', name: 'Treenut'},
-								{id: 'alcohol', name: 'Alcohol'},
-								{id: 'nuts', name: 'Eggs'},
-								{id: 'nuts', name: 'Nuts'}
+								{id: 'alcohol', name: 'Alcohol'}
 							]
 						},
-						help: {validate: false}
+						help
 					}));
 					break;
 				case 'diet':
@@ -444,7 +442,7 @@ export default React.createClass({
 								{id: 'paleo', name: 'Paleo'}
 							]
 						},
-						help: {validate: false}
+						help
 					}));
 					break;
 			}

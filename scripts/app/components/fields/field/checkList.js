@@ -23,9 +23,6 @@ export default React.createClass(assign({}, base, {
 					value = data.id;
 				}
 
-				console.log(value);
-				console.log(data);
-
 				Actions.Fields.onFieldChange({
 					name: this.props.name,
 					value,

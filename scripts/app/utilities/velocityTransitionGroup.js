@@ -5,7 +5,7 @@ import transitions from '../data/transitions';
 import Velocity from 'velocity-animate';
 
 let VelocityTransitionGroupChild = React.createClass({
-	displayName: "VelocityTransitionGroupChild",
+	displayName: 'VelocityTransitionGroupChild',
 	propTypes: {transitionName: React.PropTypes.string.isRequired},
 	_getTransition: function() {
 		if (!transitions[this.props.transitionName]) {
@@ -48,7 +48,7 @@ let VelocityTransitionGroupChild = React.createClass({
 });
 
 let VelocityTransitionGroup = React.createClass({
-	displayName: "VelocityTransitionGroup",
+	displayName: 'VelocityTransitionGroup',
 	propTypes: {transitionName: React.PropTypes.string.isRequired},
 	_wrapChild: function(child) {
 		return (

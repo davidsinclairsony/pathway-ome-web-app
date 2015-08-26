@@ -13,7 +13,7 @@ export default React.createClass(assign({}, base, {
 			React.DOM.span(null, 'Pathway Genomics ' + year),
 			' • ',
 			React.createElement(ReactRouter.Link,
-				{key: 1, to: "consent"}, "EULA & Privacy Policy"
+				{key: 1, to: 'consent'}, 'EULA & Privacy Policy'
 			)
 		);
 	}

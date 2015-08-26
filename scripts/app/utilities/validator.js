@@ -88,9 +88,15 @@ export default {
 		return true;
 	},
 	isEmailValid: email => {
-		return email && Joi.string().email({errorLevel: 2}).validate(email, error => {
-			return error === null;
-		});
+		if(!email) {
+			return false;
+		}
+
+		return email && Joi.string().email({errorLevel: 2}).validate(
+			email, error => {
+				return error === null;
+			}
+		);
 	},
 	isNameValid: values => {
 		for(let i = 0; i < 2; i++) {

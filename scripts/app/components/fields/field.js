@@ -61,46 +61,42 @@ export default React.createClass(assign({}, base, {
 				break;
 		}
 
-		// Prepare aside if verification is desired
-		if(this.props.help.validate) {
-			props.className += ' validating';
-			let asideInner = [];
+		let asideInner = [];
 
-			if(
-				typeof(this.props.help.isValid) !== 'undefined' &&
-				this.props.help.isValid != 2
-			) {
-				if(this.props.help.isValid) {
-					// Add success icon
-					asideInner.push(React.DOM.div({
-						key: 0,
-						className: 'icon-check circle positive small'
-					}));
-				} else {
-					// Add help icon
-					asideInner.push(React.DOM.div({
-						key: 0,
-						className: 'icon-help circle negative small clickable',
-						onClick: () => {
-							Actions.Fields.changeShowHelp({
-								field: this.props.classes,
-								value: !this.props.help.showHelp
-							});
-						}
-					}));
-
-					// Show help content if clicked
-					if(this.props.help.showHelp) {
-						asideInner.push(React.DOM.div({
-							key: 1,
-							className: 'help'
-						}, this.props.help.content));
+		if(
+			typeof(this.props.help.isValid) !== 'undefined' &&
+			this.props.help.isValid !== 2
+		) {
+			if(this.props.help.isValid) {
+				// Add success icon
+				asideInner.push(React.DOM.div({
+					key: 0,
+					className: 'icon-check circle positive small'
+				}));
+			} else {
+				// Add help icon
+				asideInner.push(React.DOM.div({
+					key: 0,
+					className: 'icon-help circle negative small clickable',
+					onClick: () => {
+						Actions.Fields.changeShowHelp({
+							field: this.props.classes,
+							value: !this.props.help.showHelp
+						});
 					}
+				}));
+
+				// Show help content if clicked
+				if(this.props.help.showHelp) {
+					asideInner.push(React.DOM.div({
+						key: 1,
+						className: 'help'
+					}, this.props.help.content));
 				}
 			}
-
-			containerInner.push(React.DOM.aside({key: 1}, asideInner));
 		}
+
+		containerInner.push(React.DOM.aside({key: 1}, asideInner));
 
 		// Add container
 		inner.push(React.DOM.div({

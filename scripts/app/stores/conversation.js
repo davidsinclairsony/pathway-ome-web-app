@@ -1,5 +1,5 @@
 import assign from 'object-assign';
-import Requests from '../utilities/requests';
+import Talk from '../utilities/talk';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
@@ -12,7 +12,9 @@ let defaults = () => {
 		showMessage: false,
 		isWaiting: true,
 		showQuestions: false,
-		questions: undefined
+		questions: undefined,
+		answer: undefined,
+		showAnswer: false
 	};
 };
 let storage;
@@ -20,6 +22,27 @@ let storage;
 let Store = assign({}, events.EventEmitter.prototype, {
 	addChangeListener: function(callback) {
 		this.on(CHANGE_EVENT, callback);
+	},
+	ask: function(question) {
+		storage.showQuestions = false;
+		storage.isWaiting = true;
+		Talk.ask(question, response => {this.askHandler(response);});
+	},
+	askHandler: function(response) {
+		if(response.status && response.status !== 200) {
+			storage.showQuestions = true;
+			this.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		} else {
+			storage.showAnswer = true;
+			storage.answer = response;
+		}
+
+		storage.isWaiting = false;
+		this.emitChange();
+
 	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
@@ -45,7 +68,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	initialize: function() {
 		storage = defaults();
-		Requests.suggestions(reponse => {this.suggestionsHandler(reponse);});
+		Talk.suggestions(reponse => {this.suggestionsHandler(reponse);});
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
@@ -69,6 +92,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 Dispatcher.register(function(action) {
 	switch(action.actionType) {
+		case Constants.Actions.CONVERSATION_ASK:
+			Store.ask(action.question);
+			Store.emitChange();
+			break;
 		case Constants.Actions.CONVERSATION_CHANGE_IS_WAITING:
 			Store.changeIsWaiting(action.value);
 			Store.emitChange();

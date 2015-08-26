@@ -10,6 +10,8 @@ let getState = () => {
 		isWaiting: ConversationStore.get(['isWaiting']),
 		showQuestions: ConversationStore.get(['showQuestions']),
 		questions: ConversationStore.get(['questions']),
+		showAnswer: ConversationStore.get(['showAnswer']),
+		answer: ConversationStore.get(['answer']),
 		message: ConversationStore.get(['message']),
 		showMessage: ConversationStore.get(['showMessage'])
 	};
@@ -39,14 +41,16 @@ export default React.createClass(assign({}, {
 						key: o.questionId,
 						className: 'question'
 					},
-					React.DOM.span({key: 0}, [
+					React.DOM.span(null,
 						o.questionText,
-						React.DOM.br({key: 1}, null),
+						React.DOM.br(),
 						React.DOM.button({
-							key: 2,
-							className: 'button medium positive'
+							className: 'button medium positive',
+							onClick:() => {
+								Actions.Conversation.ask({questionId: o.questionId});
+							}
 						}, 'Ask')
-					])
+					)
 				));
 			});
 
@@ -57,6 +61,15 @@ export default React.createClass(assign({}, {
 				},
 				questionsInner
 			));
+		}
+
+		if(this.state.showAnswer) {
+
+			console.log(this.state.answer);
+			transitionInner.push(React.DOM.div({
+				key: 'answer',
+				className: 'answer'
+			}, this.state.answer.text));
 		}
 
 		if(this.state.isWaiting) {

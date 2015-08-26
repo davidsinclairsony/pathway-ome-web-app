@@ -24,6 +24,12 @@ let Activate = {
 };
 
 let Conversation = {
+	ask: question => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ASK,
+			question
+		});
+	},
 	changeIsWaiting: value => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CONVERSATION_CHANGE_IS_WAITING,
@@ -138,6 +144,12 @@ let Profile = {
 			message
 		});
 	},
+	submit: fields => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.PROFILE_SUBMIT,
+			fields
+		});
+	}
 };
 
 let Reactivate = {
