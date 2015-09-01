@@ -14,7 +14,7 @@ let getState = () => {
 		showQuestions: ConversationStore.get(['showQuestions']),
 		questions: ConversationStore.get(['questions']),
 		showAnswer: ConversationStore.get(['showAnswer']),
-		answer: ConversationStore.get(['answer']),
+		chat: ConversationStore.get(['chat']),
 		message: ConversationStore.get(['message']),
 		showMessage: ConversationStore.get(['showMessage'])
 	};
@@ -70,7 +70,10 @@ export default React.createClass(assign({}, {
 				<li
 					key={o.questionId}
 					onClick={() => {
-						Actions.Conversation.ask({questionId: o.questionId});
+						Actions.Conversation.ask({
+							questionId: o.questionId,
+							question: o.questionText
+						});
 					}}
 				>{o.questionText}</li>
 			);
@@ -103,12 +106,22 @@ export default React.createClass(assign({}, {
 			</Spring>
 		);
 
-		if(this.state.showAnswer) {
-			transitionInner.push(React.DOM.div({
-				key: 'answer',
-				className: 'answer'
-			}, this.state.answer.text));
-		}
+		transitionInner.push(
+			<div
+				className='chat'
+				key='chat'
+			>
+				<div
+					className='container' key='container'
+				>{this.state.chat.text}</div>
+				<footer>
+					<button
+						className='button medium neutral'
+						onClick={Actions.Conversation.askAnother}
+					>Ask Another Question</button>
+				</footer>
+			</div>
+		);
 
 		if(this.state.isWaiting) {
 			transitionInner.push(React.DOM.div({

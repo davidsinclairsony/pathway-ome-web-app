@@ -30,6 +30,11 @@ let Conversation = {
 			question
 		});
 	},
+	askAnother: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ASK_ANOTHER
+		});
+	},
 	changeIsWaiting: value => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CONVERSATION_CHANGE_IS_WAITING,

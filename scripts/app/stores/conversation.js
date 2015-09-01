@@ -13,8 +13,7 @@ let defaults = () => {
 		isWaiting: true,
 		showQuestions: 0,
 		questions: [],
-		answer: undefined,
-		showAnswer: false,
+		chat: [],
 		customQuestion: undefined
 	};
 };
@@ -25,25 +24,49 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.on(CHANGE_EVENT, callback);
 	},
 	ask: function(question) {
-		console.log(question);
+		let internalQuestionId = storage.chat.length;
+
+		storage.chat.push(
+			{
+				type: 'question',
+				data: question,
+				internalId: internalQuestionId
+			},
+			{
+				type: 'answer',
+				status: 'pending',
+				internalQuestionId
+			}
+		);
+
+		// Groom data
+		let data;
+
+		if(question.questionId) {
+			data = {questionId: question.questionId};
+		} else {
+			data = question;
+		}
+
 		this.changeShowQuestions('down');
-		storage.isWaiting = true;
-		Talk.ask(question, response => {this.askHandler(response);});
+		Talk.ask(
+			data, response => {this.askHandler(internalQuestionId, response);}
+		);
 	},
-	askHandler: function(response) {
+	askAnother: function() {
+		this.changeShowQuestions('partial');
+	},
+	askHandler: function(internalQuestionId, response) {
 		if(response.status && response.status !== 200) {
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
 		} else {
-			storage.showAnswer = true;
-			storage.answer = response;
+			this.updateAnswer(internalQuestionId, response);
 		}
 
-		storage.isWaiting = false;
 		this.emitChange();
-
 	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
@@ -73,7 +96,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.showQuestions = top;
 	},
 	customSubmit: function() {
-		this.ask({question: storage.customQuestion});
+		if(storage.customQuestion.length > 0) {
+			this.ask({question: storage.customQuestion});
+		}
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
@@ -112,6 +137,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		storage.isWaiting = false;
 		this.emitChange();
+	},
+	updateAnswer: function(questionId, answer) {
+		console.log(questionId);
+		console.log(answer);
+
+		console.log(storage.chat);
 	}
 });
 
@@ -119,6 +150,10 @@ Dispatcher.register(function(action) {
 	switch(action.actionType) {
 		case Constants.Actions.CONVERSATION_ASK:
 			Store.ask(action.question);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_ASK_ANOTHER:
+			Store.askAnother();
 			Store.emitChange();
 			break;
 		case Constants.Actions.CONVERSATION_CHANGE_IS_WAITING:
