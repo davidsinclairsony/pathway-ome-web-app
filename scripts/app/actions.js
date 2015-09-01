@@ -42,6 +42,17 @@ let Conversation = {
 			value,
 			message
 		});
+	},
+	customSubmit: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_CUSTOM_SUBMIT
+		});
+	},
+	saveCustom: value => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_SAVE_CUSTOM,
+			value
+		});
 	}
 };
 
@@ -96,6 +107,11 @@ let Fields = {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.FIELDS_ON_FIELD_CHANGE,
 			description
+		});
+	},
+	resetValidation: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.FIELDS_RESET_VALIDATION
 		});
 	}
 };

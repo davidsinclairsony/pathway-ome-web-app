@@ -2,11 +2,14 @@ import Actions from '../actions';
 import assign from 'object-assign';
 import ConversationStore from '../stores/conversation';
 import footer from './footer';
+import motion from '../data/motion.js';
 import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import {Spring} from 'react-motion';
 
 let getState = () => {
 	return {
+		customQuestion: ConversationStore.get(['customQuestion']),
 		isWaiting: ConversationStore.get(['isWaiting']),
 		showQuestions: ConversationStore.get(['showQuestions']),
 		questions: ConversationStore.get(['questions']),
@@ -32,40 +35,75 @@ export default React.createClass(assign({}, {
 	render: function() {
 		let transitionInner = [];
 
-		if(this.state.showQuestions) {
-			let questionsInner = [];
+		let containerInner = [];
 
-			this.state.questions.map(o => {
-				questionsInner.push(React.DOM.div(
-					{
-						key: o.questionId,
-						className: 'question'
-					},
-					React.DOM.span(null,
-						o.questionText,
-						React.DOM.br(),
-						React.DOM.button({
-							className: 'button medium positive',
-							onClick:() => {
-								Actions.Conversation.ask({questionId: o.questionId});
+		containerInner.push(
+			<ul className='questions' key='customQuestions'>
+				<li className='custom'>
+					<textarea
+						type='text'
+						value={this.state.customQuestion}
+						placeholder='Enter your own question...'
+						onChange={e => {
+							Actions.Conversation.saveCustom(e.target.value);
+						}}
+						onKeyUp={e => {
+							if(e.keyCode === 13) {
+								Actions.Conversation.customSubmit();
 							}
-						}, 'Ask')
-					)
-				));
-			});
+						}}
+					></textarea>
+					<button
+						className='button medium positive'
+						onClick={() => {Actions.Conversation.customSubmit();}}
+					>Ask OME</button>
+				</li>
+			</ul>
+		);
 
-			transitionInner.push(React.DOM.div(
-				{
-					className: 'questions',
-					key: 'questions'
-				},
-				questionsInner
-			));
-		}
+		containerInner.push(<h2 key='or'>Or select a question...</h2>);
+
+		let questionsInner = [];
+
+		this.state.questions.map(o => {
+			questionsInner.push(
+				<li
+					key={o.questionId}
+					onClick={() => {
+						Actions.Conversation.ask({questionId: o.questionId});
+					}}
+				>{o.questionText}</li>
+			);
+		});
+
+		containerInner.push(
+			<ul className='questions' key='questions'>{questionsInner}</ul>
+		);
+
+		transitionInner.push(
+			<Spring
+				endValue={{
+					val: {top: this.state.showQuestions},
+					config: motion.stiff
+				}}
+				key='panelSpring'
+			>
+				{interpolated =>
+					<div
+						className='panel'
+						key='panel'
+						style={{
+							top: `${interpolated.val.top}%`
+						}}
+					>
+						<div className='container' key='container'>{containerInner}</div>
+						{React.createElement(footer)}
+					</div>
+				}
+			</Spring>
+		);
 
 		if(this.state.showAnswer) {
-
-			console.log(this.state.answer);
 			transitionInner.push(React.DOM.div({
 				key: 'answer',
 				className: 'answer'
@@ -99,44 +137,14 @@ export default React.createClass(assign({}, {
 		return React.DOM.section({className: 'conversation'},
 			React.createElement(TransitionGroup, {
 				key: 'transition',
-				className: 'wrapper',
+				className: 'customWrapper',
 				transitionName: 'fade-fast',
 				transitionAppear: true,
 				component: 'div'
-			}, transitionInner),
-			React.createElement(footer)
+			}, transitionInner)
 		);
 	},
 	_onChange: function() {
 		this.setState(getState());
 	}
 }));
-
-
-
-/*
-		// Add a question
-		inner.push(React.DOM.div({key: 0, className: 'question'},
-			React.DOM.span({key: 0}, [
-				'This is the initial and only question people will currently ask.',
-				React.DOM.br({key: 1}, null),
-				React.DOM.button({
-					key: 2,
-					className: 'button medium positive'
-				}, 'Ask')
-			])
-		));
-
-		// Add an answer
-		inner.push(React.DOM.div({key: 1, className: 'answer'},
-			React.DOM.span({key: 0}, [
-				'This is a sample response.'
-			])
-		));
-
-		inner.push(React.DOM.div({key: 2, className: 'answer'},
-			React.DOM.span({key: 0}, [
-				'This is a sample response. This is a sample response. This is a sample response.'
-			])
-		));
-*/

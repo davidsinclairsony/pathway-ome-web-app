@@ -10,6 +10,11 @@ export default React.createClass(assign({}, base, {
 
 		for(let i = 0; i < this.props.count; i++) {
 			inner.push(React.DOM.input({
+				onKeyUp: e => {
+					if(e.keyCode == 13) {
+						this.props.submitHandler();
+					}
+				},
 				id: this.props.ids[i],
 				key: this.props.ids[i],
 				type: this.props.htmlType,

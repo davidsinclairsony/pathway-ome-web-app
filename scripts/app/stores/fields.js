@@ -124,6 +124,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
+	},
+	resetValidation: function() {
+		Object.keys(storage.fields).forEach(field => {
+			storage.fields[field].isValid = undefined;
+		});
 	}
 });
 
@@ -139,6 +144,10 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.FIELDS_ON_FIELD_CHANGE:
 			Store.onFieldChange(action.description);
+			Store.emitChange();
+			break;
+		case Constants.Actions.FIELDS_RESET_VALIDATION:
+			Store.resetValidation();
 			Store.emitChange();
 			break;
 	}

@@ -4,6 +4,7 @@ import assign from 'object-assign';
 import {Buffer} from 'buffer';
 import crypto from 'crypto';
 import reqwest from 'reqwest';
+import router from '../router';
 import uuid from 'node-uuid';
 
 export default {
@@ -91,8 +92,8 @@ export default {
 		});*/
 	},
 	get: function(storage, key) {
-		if(storage.authentication) {
-			return JSON.parse(storage.authentication)[key];
+		if(storage.user) {
+			return JSON.parse(storage.user)[key];
 		} else {
 			return undefined;
 		}
@@ -138,6 +139,10 @@ export default {
 
 		session();
 	},
+	logout: function() {
+		sessionStorage.removeItem('user');
+		router.transitionTo('login');
+	},
 	request: function(options) {
 		let ivBuf = new Buffer(crypto.randomBytes(16));
 		let keyBuf = new Buffer(options.key, 'base64');
@@ -161,17 +166,15 @@ export default {
 	save: function(storage, key, value) {
 		let data = {};
 
-		if(storage.authentication) {
-			data = JSON.parse(storage.authentication);
+		if(storage.user) {
+			data = JSON.parse(storage.user);
 		}
 
 		data[key] = value;
 
-		storage.authentication = JSON.stringify(data);
+		storage.user = JSON.stringify(data);
 	},
 	update: function(protectedData, hciData, callback) {
-		console.log(hciData);
-		console.log(protectedData);
 		reqwest({
 			method: 'post',
 			crossOrigin: true,

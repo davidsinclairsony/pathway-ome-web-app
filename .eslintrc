@@ -4,6 +4,7 @@
 		"node": true
 	},
 	"parser": "babel-eslint",
+	"plugins": ["react"],
 	"rules": {
 		"eol-last": 0,
 		"no-debugger": 1,

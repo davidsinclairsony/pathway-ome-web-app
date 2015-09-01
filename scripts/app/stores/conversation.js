@@ -11,10 +11,11 @@ let defaults = () => {
 		message: undefined,
 		showMessage: false,
 		isWaiting: true,
-		showQuestions: false,
-		questions: undefined,
+		showQuestions: 0,
+		questions: [],
 		answer: undefined,
-		showAnswer: false
+		showAnswer: false,
+		customQuestion: undefined
 	};
 };
 let storage;
@@ -24,13 +25,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.on(CHANGE_EVENT, callback);
 	},
 	ask: function(question) {
-		storage.showQuestions = false;
+		console.log(question);
+		this.changeShowQuestions('down');
 		storage.isWaiting = true;
 		Talk.ask(question, response => {this.askHandler(response);});
 	},
 	askHandler: function(response) {
 		if(response.status && response.status !== 200) {
-			storage.showQuestions = true;
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
@@ -54,6 +55,26 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.message = message;
 		}
 	},
+	changeShowQuestions: function(word) {
+		let top;
+
+		switch(word) {
+			case 'up':
+				top = 0;
+				break;
+			case 'partial':
+				top = 30;
+				break;
+			case 'down':
+				top = 100;
+				break;
+		}
+
+		storage.showQuestions = top;
+	},
+	customSubmit: function() {
+		this.ask({question: storage.customQuestion});
+	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
 	},
@@ -73,15 +94,19 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
+	saveCustom: function(value) {
+		storage.customQuestion = value.replace('\n', '');
+	},
 	suggestionsHandler: function(response) {
 		if(response.status && response.status !== 200) {
-			storage.showQuestions = true;
+			this.changeShowQuestions('down');
+
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
 		} else {
-			storage.showQuestions = true;
+			this.changeShowQuestions('up');
 			storage.questions = response;
 		}
 
@@ -102,6 +127,14 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CONVERSATION_CHANGE_SHOW_MESSAGE:
 			Store.changeShowMessage(action.value, action.message);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_CUSTOM_SUBMIT:
+			Store.customSubmit();
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_SAVE_CUSTOM:
+			Store.saveCustom(action.value);
 			Store.emitChange();
 			break;
 	}

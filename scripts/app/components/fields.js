@@ -25,6 +25,7 @@ export default React.createClass({
 							htmlFor: 'firstName'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 2,
 							htmlType: 'email',
 							ids: ['firstName', 'lastName'],
@@ -46,6 +47,7 @@ export default React.createClass({
 							htmlFor: 'email'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 1,
 							htmlType: 'email',
 							ids: ['email'],
@@ -67,6 +69,7 @@ export default React.createClass({
 							htmlFor: 'password'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 1,
 							htmlType: 'password',
 							ids: ['password'],
@@ -88,6 +91,7 @@ export default React.createClass({
 							htmlFor: 'password'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 2,
 							htmlType: 'password',
 							ids: ['password', 'repeatPassword'],
@@ -109,6 +113,7 @@ export default React.createClass({
 							htmlFor: 'newPassword'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 2,
 							htmlType: 'password',
 							ids: ['newPassword', 'repeatPassword'],
@@ -130,6 +135,7 @@ export default React.createClass({
 							htmlFor: 'month'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							characterLimiters: [2, 2, 4],
 							count: 3,
 							htmlType: 'text',
@@ -152,6 +158,7 @@ export default React.createClass({
 							htmlFor: 'pin1'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							characterLimiters: [4],
 							count: 1,
 							htmlType: 'text',
@@ -174,6 +181,7 @@ export default React.createClass({
 							htmlFor: 'securityQuestion'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 1,
 							htmlType: 'text',
 							ids: ['securityQuestion'],
@@ -195,6 +203,7 @@ export default React.createClass({
 							htmlFor: 'securityAnswer'
 						},
 						input: {
+							submitHandler: this.props.submitHandler,
 							count: 1,
 							htmlType: 'text',
 							ids: ['securityAnswer'],

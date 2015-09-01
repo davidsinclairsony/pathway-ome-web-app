@@ -122,6 +122,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			);
 		}
 
+		Actions.Fields.resetValidation();
 		storage.isWaiting = false;
 		storage.showForm = true;
 		this.emitChange();

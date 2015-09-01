@@ -49,7 +49,8 @@ export default React.createClass({
 
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
-			fields: this.state.fields
+			fields: this.state.fields,
+			submitHandler: this.submitHandler
 		}));
 
 		wrapperInner.push(React.DOM.div({className: 'agreement', key: 3},
@@ -149,7 +150,7 @@ export default React.createClass({
 
 		inner.push(React.createElement(footer, {key: 1}));
 
-		return React.DOM.div({className: 'create view standard thin'}, inner);
+		return React.DOM.div({className: 'create view standard medium'}, inner);
 	},
 	submitHandler: function() {
 		let allValid = true;

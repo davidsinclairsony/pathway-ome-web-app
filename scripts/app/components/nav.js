@@ -2,6 +2,7 @@ import Actions from '../actions';
 import assign from 'object-assign';
 import React from 'react/addons';
 import ReactRouter from 'react-router';
+import User from '../utilities/user';
 import WindowStore from '../stores/window';
 
 // Map navigation
@@ -10,10 +11,7 @@ let navItems = [
 	{name: 'profile'},
 	{
 		name: 'logout',
-		onClick: (event) => {
-			event.preventDefault();
-			console.log('log it out, son!!!');
-		}
+		onClick: User.logout
 	}
 ];
 

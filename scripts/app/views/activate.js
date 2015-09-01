@@ -46,7 +46,8 @@ export default React.createClass({
 
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
-			fields: this.state.fields
+			fields: this.state.fields,
+			submitHandler: this.submitHandler
 		}));
 
 		wrapperInner.push(React.DOM.button({
