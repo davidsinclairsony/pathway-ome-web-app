@@ -86,8 +86,8 @@ export default React.createClass(assign({}, {
 		transitionInner.push(
 			<Spring
 				endValue={{
-					val: {top: this.state.showQuestions},
-					config: motion.stiff
+					val: {height: this.state.showQuestions},
+					config: motion.noGames
 				}}
 				key='panelSpring'
 			>
@@ -96,7 +96,7 @@ export default React.createClass(assign({}, {
 						className='panel'
 						key='panel'
 						style={{
-							top: `${interpolated.val.top}%`
+							height: `${interpolated.val.height}%`
 						}}
 					>
 						<div className='container' key='container'>{containerInner}</div>

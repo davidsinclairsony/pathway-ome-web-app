@@ -79,21 +79,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		}
 	},
 	changeShowQuestions: function(word) {
-		let top;
+		let height;
 
 		switch(word) {
 			case 'up':
-				top = 0;
+				height = 100;
 				break;
 			case 'partial':
-				top = 30;
+				height = 70;
 				break;
 			case 'down':
-				top = 100;
+				height = 0;
 				break;
 		}
 
-		storage.showQuestions = top;
+		storage.showQuestions = height;
 	},
 	customSubmit: function() {
 		if(storage.customQuestion.length > 0) {
