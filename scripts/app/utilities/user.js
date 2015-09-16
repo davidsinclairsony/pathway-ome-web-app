@@ -110,16 +110,11 @@ export default {
 	},
 	ensureAuthentication: function(nextState, replaceState) {
 		if(this.get(localStorage, 'deviceID')) {
-			console.log('has device');
 			if(!this.get(sessionStorage, 'sessionID')) {
 				replaceState({nextPathname: nextState.location.pathname}, '/login');
-				console.log('needs session');
-			} else {
-				console.log('has session');
 			}
 		} else {
 			replaceState({nextPathname: nextState.location.pathname}, '/create');
-			console.log('needs device');
 		}
 	},
 	login: function(data, callback) {
