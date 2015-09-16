@@ -24,12 +24,12 @@ export default React.createClass(assign({}, {
 	getInitialState: function() {
 		ProfileStore.initialize();
 		FieldsStore.initialize([
-/*			'name',
+			'name',
 			'email',
 			'newPassword',
 			'dob',
 			'securityQuestion',
-			'securityAnswer',*/
+			'securityAnswer',
 			'nutritionGoal',
 			'gender',
 			'weight',

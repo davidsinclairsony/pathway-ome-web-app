@@ -27,7 +27,7 @@ export default React.createClass({
 						input: {
 							submitHandler: this.props.submitHandler,
 							count: 2,
-							htmlType: 'email',
+							htmlType: 'text',
 							ids: ['firstName', 'lastName'],
 							name: key,
 							placeholders: ['First', 'Last'],

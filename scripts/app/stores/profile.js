@@ -52,11 +52,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
-		} else {
-			// Check to see if data is present
-			if(response.status !== 200) {
-				Actions.Fields.fill(response);
-			}
 		}
 
 		storage.showForm = true;

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Actions from '../actions';
 import {Api, Security} from '../constants';
 import assign from 'object-assign';
 import {Buffer} from 'buffer';
@@ -6,6 +7,7 @@ import crypto from 'crypto';
 import history from '../history';
 import reqwest from 'reqwest';
 import uuid from 'node-uuid';
+import when from 'when';
 
 export default {
 	activate: function(data, callback) {
@@ -42,7 +44,7 @@ export default {
 
 			this.request({
 				method: 'post',
-				url: Api.USER_CREATE,
+				url: Api.USER,
 				data,
 				callback,
 				key: this.get(sessionStorage, 'userKey'),
@@ -65,6 +67,19 @@ export default {
 
 		return JSON.parse(_.trim(dec, '\0'));
 	},
+	decryptUserKey: function(encryptedData, key, iv) {
+		const ivBuf = new Buffer(iv, 'base64');
+		const dataBuf = new Buffer(encryptedData, 'base64');
+		const keyBuf = new Buffer(key, 'base64');
+		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
+
+		decipher.setAutoPadding(false);
+
+		let dec = decipher.update(dataBuf, 'base64', 'base64');
+		dec += decipher.final('base64');
+
+		return dec;
+	},
 	encrypt: function(data, keyBuf, ivBuf) {
 		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
 		let encoded = cipher.update(JSON.stringify(data), 'utf8', 'base64');
@@ -74,22 +89,32 @@ export default {
 		return encoded;
 	},
 	fetchProfile: function(callback) {
-		reqwest({
+		let hci = when(reqwest({
 			method: 'get',
 			crossOrigin: true,
 			url: Api.USER_HCI,
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			complete: callback
-		});
+			success: Actions.Fields.fill
+		}));
 
-		/*
-		reqwest({
+		let pii = when(reqwest({
 			method: 'get',
 			crossOrigin: true,
-			url: Api.USER_GET,
+			url: Api.USER,
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			complete: callback
-		});*/
+			success: response => {
+				let decryptedResponse = this.decrypt(
+					response.encryptedPayload,
+					this.get(sessionStorage,'userKey'),
+					response.iv
+				);
+
+				Actions.Fields.fill(decryptedResponse);
+			}
+		}));
+
+		when.join(hci, pii).then(callback).catch(callback);
+	;
 	},
 	get: function(storage, key) {
 		if(storage.user) {
@@ -137,7 +162,17 @@ export default {
 				method: 'post',
 				url: Api.USER_LOGIN,
 				data,
-				callback,
+				callback: response => {
+					let decryptedUserKey = this.decryptUserKey(
+						response.userKey,
+						Api.KEY,
+						response.iv
+					);
+
+					this.save(sessionStorage, 'userKey', decryptedUserKey);
+
+					callback(response);
+				},
 				key: Api.KEY,
 				headers: {
 					'X-Session-Token': this.get(sessionStorage, 'sessionID'),

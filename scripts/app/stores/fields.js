@@ -49,7 +49,23 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		Object.keys(data).forEach(v => {
 			if(typeof(data[v]) !== 'undefined') {
-				storage.fields[getMappedRecord(v)].values[0] = data[v];
+				switch(v) {
+					case 'firstName':
+						storage.fields.name.values[0] = data[v];
+						break;
+					case 'lastName':
+						storage.fields.name.values[1] = data[v];
+						break;
+					case 'dateOfBirth':
+						let dob = data[v].split('/');
+
+						dob.map((o, i) => {
+							storage.fields.dob.values[i] = dob[i];
+						});
+						break;
+					default:
+						storage.fields[getMappedRecord(v)].values[0] = data[v];
+				}
 			}
 		});
 

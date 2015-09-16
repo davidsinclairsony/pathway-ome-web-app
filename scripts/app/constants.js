@@ -34,13 +34,12 @@ const BASE_URL = 'http://atldev.pathway.com:5000/';
 const Api = {
 	KEY: 'gcZFlslKi1l7JRrUCsfwkg==',
 	BASE_URL: BASE_URL,
+	USER: BASE_URL + 'user',
 	USER_REGISTER: BASE_URL + 'user/register',
-	USER_CREATE: BASE_URL + 'user',
 	USER_SESSION: BASE_URL + 'user/session',
 	USER_LOGIN: BASE_URL + 'user/login',
 	USER_ACTIVATE: BASE_URL + 'user/activate',
 	USER_HCI: BASE_URL + 'user/hci',
-	USER_GET: BASE_URL + 'user',
 	SUGGESTIONS: BASE_URL + 'suggestions',
 	ANSWER: BASE_URL + 'answer'
 };
