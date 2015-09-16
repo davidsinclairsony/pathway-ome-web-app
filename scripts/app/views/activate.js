@@ -3,9 +3,9 @@ import ActivateStore from '../stores/activate';
 import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
-import logo from '../components/logo';
+import Logo from '../components/logo';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+import {Link} from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 
 let getState = () => {
@@ -36,11 +36,7 @@ export default React.createClass({
 		let inner = [];
 		let wrapperInner = [];
 
-		wrapperInner.push(React.DOM.h1({key: 0},
-			React.createElement(ReactRouter.Link,
-				{key: 1, to: 'home'}, React.createElement(logo, null)
-			)
-		));
+		wrapperInner.push(<h1 key={0}><Link to='/'><Logo /></Link></h1>);
 
 		wrapperInner.push(React.DOM.h2({key: 1}, 'Activate Your Device'));
 

@@ -1,7 +1,7 @@
 import Actions from '../actions';
-import assign from 'object-assign';
+import history from '../history';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+import {Link} from 'react-router';
 import User from '../utilities/user';
 import WindowStore from '../stores/window';
 
@@ -22,7 +22,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Nav',
 	componentDidMount: function() {
 		WindowStore.addChangeListener(this._onChange);
@@ -55,13 +55,22 @@ export default React.createClass(assign({}, {
 					className
 				}, span);
 			} else {
-				// Conversation link goes to home
-				let to = item.name == 'conversation' ? 'home' : item.name;
+				// If conversation link, point to home
+				let to = item.name == 'conversation' ? '' : item.name;
 
-				link = React.createElement(ReactRouter.Link, {
-					to,
+				// Set correct active class name
+				let path;
+				let unlisten = history.listen(location => {path = location.pathname;});
+				unlisten();
+				let activeClassName = 'active';
+				if(path != '/' && item.name == 'conversation') {
+					activeClassName = null;
+				}
+
+				link = React.createElement(Link, {
+					to: '/' + to,
 					className,
-					activeClassName: 'active',
+					activeClassName,
 					onClick: () => {
 						if(this.state.windowWidth < this.state.windowBps[2]) {
 							Actions.Home.toggleShowMenu();
@@ -79,4 +88,4 @@ export default React.createClass(assign({}, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});

@@ -26,18 +26,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	ask: function(question) {
 		let internalQuestionId = storage.chat.length;
 
-		storage.chat.push(
-			{
-				type: 'question',
-				data: question,
-				internalId: internalQuestionId
-			},
-			{
-				type: 'answer',
-				status: 'pending',
-				internalQuestionId
-			}
-		);
+		storage.chat.push({
+			type: 'question',
+			data: question,
+			internalId: internalQuestionId,
+			answer: {status: 'pending'}
+		});
 
 		// Groom data
 		let data;

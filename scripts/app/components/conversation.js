@@ -1,7 +1,7 @@
 import Actions from '../actions';
 import assign from 'object-assign';
 import ConversationStore from '../stores/conversation';
-import footer from './footer';
+import Footer from './footer';
 import motion from '../data/motion.js';
 import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
@@ -34,7 +34,6 @@ export default React.createClass(assign({}, {
 	},
 	render: function() {
 		let transitionInner = [];
-
 		let containerInner = [];
 
 		containerInner.push(
@@ -99,8 +98,10 @@ export default React.createClass(assign({}, {
 							height: `${interpolated.val.height}%`
 						}}
 					>
-						<div className='container' key='container'>{containerInner}</div>
-						{React.createElement(footer)}
+						<div className='container' key='container'>
+							{containerInner}
+						</div>
+						<Footer></Footer>
 					</div>
 				}
 			</Spring>
@@ -141,7 +142,9 @@ export default React.createClass(assign({}, {
 				React.DOM.div({className: 'controls'},
 					React.DOM.button({
 						className: 'button medium neutral',
-						onClick: () => {Actions.Conversation.changeShowMessage(false);}
+						onClick: () => {
+							Actions.Conversation.changeShowMessage(false);
+						}
 					}, 'Close')
 				)
 			));

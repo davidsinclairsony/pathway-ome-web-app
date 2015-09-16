@@ -8,6 +8,11 @@
 	color: transparentize(white, .05);
 	font: normal normal normal 12px/#{$f-1-l-h} $f-1;
 
+	.space-around {
+		display: inline-block;
+		padding: 0 1em;
+	}
+
 	.view {
 		height: 100%;
 		width: 100%;

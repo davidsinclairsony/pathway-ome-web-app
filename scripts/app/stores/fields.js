@@ -1,11 +1,8 @@
-//import Actions from '../actions';
 import assign from 'object-assign';
-//import User from '../utilities/user';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 import Help from '../data/help';
-//import router from '../router';
 import Validator from '../utilities/validator';
 
 let CHANGE_EVENT = 'change';

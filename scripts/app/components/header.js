@@ -3,7 +3,7 @@ import assign from 'object-assign';
 import base from './base';
 import logo from './logo';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+import {Link} from 'react-router';
 //import router from '../router';
 
 export default React.createClass(assign({}, base, {
@@ -13,8 +13,8 @@ export default React.createClass(assign({}, base, {
 
 		// Add h1 and logo
 		inner.push(React.DOM.h1({key: 0},
-			React.createElement(ReactRouter.Link, {
-				to: 'home',
+			React.createElement(Link, {
+				to: '/',
 				activeClassName: 'active'
 			},
 				React.createElement(logo, {key: 0})

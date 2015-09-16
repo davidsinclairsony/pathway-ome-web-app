@@ -1,10 +1,10 @@
 import Actions from '../actions';
 import assign from 'object-assign';
+import history from '../history';
 import User from '../utilities/user';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-import router from '../router';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -61,7 +61,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				JSON.parse(response.response).message
 			);
 		} else {
-			router.transitionTo('home');
+			history.replaceState(null, '/');
 		}
 	}
 });

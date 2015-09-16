@@ -1,28 +1,23 @@
 import assign from 'object-assign';
 import base from '../components/base';
 import footer from '../components/footer';
-import logo from '../components/logo';
+import Logo from '../components/logo';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+import {Link} from 'react-router';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Error',
 	render: function() {
 		let inner = [];
 
-		inner.push(React.DOM.h1({key: 0},
-			React.createElement(ReactRouter.Link,
-				{key: 1, to: 'home'}, React.createElement(logo, null)
-			)
-		));
+		inner.push(<h1 key={0}><Link to='/'><Logo /></Link></h1>);
 
-		inner.push(React.DOM.p({key: 1},
-			'Sorry, there was an error. ',
-			React.createElement(ReactRouter.Link,
-				{key: 1, to: 'home'}, 'Click here'
-			),
-			' to start over.'
-		));
+		inner.push(
+			<p key={1}>
+				Sorry, there was an error. <Link to='/'>Click here</Link>
+				{' '} to start over.
+			</p>
+		);
 
 		return React.DOM.div({className: 'error view standard thin'}, [
 			React.DOM.div({className: 'wrapper', key: 0}, inner),

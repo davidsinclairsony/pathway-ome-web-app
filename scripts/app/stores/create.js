@@ -1,12 +1,10 @@
 import Actions from '../actions';
 import assign from 'object-assign';
+import history from '../history';
 import User from '../utilities/user';
-import {Buffer} from 'buffer';
 import Constants from '../constants';
-import crypto from 'crypto';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-import router from '../router';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -63,28 +61,19 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.isWaiting = true;
 
 		let today = new Date();
-		let password;
-		let salt = new Buffer(Constants.Security.PW_SALT).toString('base64');
 		let data = {
 			firstName: fields.name.values[0],
 			lastName: fields.name.values[1],
 			email: fields.email.values[0],
 			dateOfBirth: fields.dob.values[0] + '/' + fields.dob.values[1] + '/' +
 				fields.dob.values[2],
-			password,
+			password: User.passwordHasher(fields.doublePassword.values[0]),
 			tcppVersion: '0.0.1',
 			tcppDateSigned: today.getMonth() + '-' + today.getDay() + '-' +
 				today.getFullYear()
 		};
 
-		crypto.pbkdf2(
-			fields.doublePassword.values[0], salt, 1000, 128,
-			(err, derivedKey) => {
-				password = new Buffer(derivedKey);
-				data.password = password.toString('base64');
-				User.create(data, this.submitHandler);
-			}
-		);
+		User.create(data, this.submitHandler);
 	},
 	submitHandler: function(response) {
 		if(response.status && response.status !== 204) {
@@ -94,7 +83,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				JSON.parse(response.response).message
 			);
 		} else {
-			router.transitionTo('activate');
+			history.replaceState(null, '/activate');
 		}
 	}
 });

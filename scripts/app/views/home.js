@@ -1,12 +1,10 @@
 import assign from 'object-assign';
 import base from '../components/base';
-import conversation from '../components/conversation';
-import header from '../components/header';
+import Conversation from '../components/conversation';
+import Header from '../components/header';
 import HomeStore from '../stores/home';
-import nav from '../components/nav';
-import profile from '../components/profile';
+import Nav from '../components/nav';
 import React from 'react/addons';
-//import ReactRouter from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import WindowStore from '../stores/window';
 
@@ -65,39 +63,21 @@ export default React.createClass(assign({}, base, {
 		}
 	},
 	render: function() {
-		// Get child component
-		let child;
-
-		switch(this.props.path) {
-			case '/':
-				child = conversation;
-				break;
-			case '/profile':
-				child = profile;
-				break;
-			default:
-				child = null;
-				break;
-		}
-
-		// Return view, wrapping child and header for animations
-		return React.DOM.div({className: 'home view wide'}, [
-			React.createElement(nav, {key: 0}),
-			React.createElement(TransitionGroup,
-				{
-					transitionName: 'fade-fast',
-					transitionAppear: true,
-					component: 'main',
-					className: 'global',
-					key: 1
-				},
-				[
-					React.createElement(header, {key: 0}),
-					React.createElement(child, {key: this.props.path}),
-				]
-
-			)
-		]);
+		// Wrap child and header for animations
+		return (
+			<div className='home view wide'>
+				<Nav />
+				<TransitionGroup
+					transitionName='fade-fast'
+					transitionAppear={true}
+					component='main'
+					className='global'
+				>
+					<Header />
+					{this.props.children? this.props.children: <Conversation />}
+				</TransitionGroup>
+			</div>
+		);
 	},
 	_onChange: function() {
 		this.setState(getState());

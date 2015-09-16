@@ -2,22 +2,18 @@ import assign from 'object-assign';
 import base from '../components/base';
 import consent from '../components/consent';
 import footer from '../components/footer';
-import logo from '../components/logo';
+import Logo from '../components/logo';
 import React from 'react/addons';
-import ReactRouter from 'react-router';
+import {Link} from 'react-router';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Consent',
 	render: function() {
 		let inner = [];
 
-		inner.push(React.DOM.h1({key: 0},
-			React.createElement(ReactRouter.Link,
-				{key: 1, to: 'home'}, React.createElement(logo, null)
-			)
-		));
+		inner.push(<h1 key={0}><Link to='/'><Logo /></Link></h1>);
 
-		inner.push(React.DOM.h2({key: 1}, 'EULA & Privacy Policy'));
+		inner.push(React.DOM.h2({key: 1}, 'Privacy & Terms'));
 
 		inner.push(React.DOM.div({
 			key: 2,

@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import {Api} from '../constants';
+import {Api, Security} from '../constants';
 import assign from 'object-assign';
 import {Buffer} from 'buffer';
 import crypto from 'crypto';
+import history from '../history';
 import reqwest from 'reqwest';
-import router from '../router';
 import uuid from 'node-uuid';
 
 export default {
@@ -108,6 +108,20 @@ export default {
 
 		return deviceID;
 	},
+	ensureAuthentication: function(nextState, replaceState) {
+		if(this.get(localStorage, 'deviceID')) {
+			console.log('has device');
+			if(!this.get(sessionStorage, 'sessionID')) {
+				replaceState({nextPathname: nextState.location.pathname}, '/login');
+				console.log('needs session');
+			} else {
+				console.log('has session');
+			}
+		} else {
+			replaceState({nextPathname: nextState.location.pathname}, '/create');
+			console.log('needs device');
+		}
+	},
 	login: function(data, callback) {
 		let deviceID, session, login;
 
@@ -141,7 +155,11 @@ export default {
 	},
 	logout: function() {
 		sessionStorage.removeItem('user');
-		router.transitionTo('login');
+		history.replaceState(null, '/login');
+	},
+	passwordHasher: function(password) {
+		let salt = new Buffer(Security.PW_SALT).toString('base64');
+		return crypto.pbkdf2Sync(password, salt, 1000, 128).toString('base64');
 	},
 	request: function(options) {
 		let ivBuf = new Buffer(crypto.randomBytes(16));

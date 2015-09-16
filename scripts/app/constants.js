@@ -32,7 +32,7 @@ const Actions = keymirror({
 const BASE_URL = 'http://atldev.pathway.com:5000/';
 
 const Api = {
-	KEY: 'gcZFlslKi1l7JRrUCsfwkg==​',
+	KEY: 'gcZFlslKi1l7JRrUCsfwkg==',
 	BASE_URL: BASE_URL,
 	USER_REGISTER: BASE_URL + 'user/register',
 	USER_CREATE: BASE_URL + 'user',

@@ -1,12 +1,10 @@
 import Actions from '../actions';
 import assign from 'object-assign';
+import history from '../history';
 import User from '../utilities/user';
-import {Buffer} from 'buffer';
 import Constants from '../constants';
-import crypto from 'crypto';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-import router from '../router';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -54,21 +52,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	submit: function(fields) {
 		storage.isWaiting = true;
 
-		let password;
-		let salt = new Buffer(Constants.Security.PW_SALT).toString('base64');
 		let data = {
 			email: fields.email.values[0],
-			password
+			password: User.passwordHasher(fields.singlePassword.values[0])
 		};
 
-		crypto.pbkdf2(
-			fields.singlePassword.values[0], salt, 1000, 128,
-			(err, derivedKey) => {
-				password = new Buffer(derivedKey);
-				data.password = password.toString('base64');
-				User.login(data, this.submitHandler);
-			}
-		);
+		User.login(data, this.submitHandler);
 	},
 	submitHandler: function(response) {
 		if(response.status && response.status !== 204) {
@@ -78,7 +67,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				JSON.parse(response.response).message
 			);
 		} else {
-			router.transitionTo('home');
+			history.replaceState(null, '/');
 		}
 	}
 });
