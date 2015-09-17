@@ -222,24 +222,31 @@ export default {
 
 		storage.user = JSON.stringify(data);
 	},
-	update: function(protectedData, hciData, callback) {
-		reqwest({
+	update: function(pii, hci, callback) {
+		let ivBuf = new Buffer(crypto.randomBytes(16));
+		let keyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
+
+		let piiPromise = when(reqwest({
+			method: 'put',
+			crossOrigin: true,
+			contentType: 'application/json',
+			url: Api.USER,
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			data: JSON.stringify({
+				iv: ivBuf.toString('base64'),
+				encryptedPayload: this.encrypt(pii, keyBuf, ivBuf)
+			})
+		}));
+
+		let hciPromise = when(reqwest({
 			method: 'post',
 			crossOrigin: true,
 			contentType: 'application/json',
 			url: Api.USER_HCI,
-			data: JSON.stringify(hciData),
-			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			complete: callback
-		});
+			data: JSON.stringify(hci),
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
+		}));
 
-		/*
-		reqwest({
-			method: 'get',
-			crossOrigin: true,
-			url: Api.USER_GET,
-			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			complete: callback
-		});*/
+		when.join(piiPromise, hciPromise).then(callback).catch(callback);
 	}
 };

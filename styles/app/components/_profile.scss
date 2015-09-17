@@ -14,4 +14,28 @@
 			}
 		}
 	}
+
+	@media all and (min-width: $bp-2) {
+		.securityAnswer {
+			label {
+				border-radius: 0 0 0 $g-1;
+			}
+
+			.container {
+				border-radius: 0 0 $g-1 0;
+			}
+		}
+
+		.nutritionGoal {
+			margin-top: $g-3;
+
+			label {
+				border-radius: $g-1 0 0 0;
+			}
+
+			.container {
+				border-radius: 0 $g-1 0 0;
+			}
+		}
+	}
 }

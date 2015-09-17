@@ -1,8 +1,6 @@
 import Actions from '../actions';
 import assign from 'object-assign';
-import {Buffer} from 'buffer';
 import Constants from '../constants';
-import crypto from 'crypto';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 import User from '../utilities/user';
@@ -69,14 +67,31 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.isWaiting = true;
 		storage.showForm = false;
 
-		let protectedData = {
-			/*firstName: fields.name.values[0],
+		let pii = {
+			firstName: fields.name.values[0],
 			lastName: fields.name.values[1],
 			email: fields.email.values[0],
 			dateOfBirth: fields.dob.values[0] + '/' + fields.dob.values[1] + '/' +
-				fields.dob.values[2]*/
+				fields.dob.values[2]
 		};
-		let hciData = {
+
+		// Password may not be changed and not have a value
+		if(fields.securityQuestion.values[0]) {
+			pii.securityQuestion = fields.securityQuestion.values[0];
+		}
+
+		// Security question may not be changed and not have a value
+		if(fields.securityAnswer.values[0]) {
+			pii.securityAnswer = fields.securityAnswer.values[0];
+		}
+
+
+		// Security answer may not be changed and not have a value
+		if(fields.newPassword.values[0]) {
+			pii.password = User.passwordHasher(fields.doublePassword.values[0]);
+		}
+
+		let hci = {
 			gender: fields.gender.values[0],
 			height: fields.height.values[0],
 			weight: fields.weight.values[0],
@@ -89,26 +104,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			dietPrefs: fields.diet.values[0]
 		};
 
-		if(false) {//fields.newPassword.values[0]) {
-			let password;
-			let salt = new Buffer(Constants.Security.PW_SALT).toString('base64');
-
-			crypto.pbkdf2(
-				fields.newPassword.values[0], salt, 1000, 128,
-				(err, derivedKey) => {
-					password = new Buffer(derivedKey);
-					protectedData.password = password.toString('base64');
-					User.update(protectedData, hciData, this.submitHandler);
-				}
-			);
-		} else {
-			User.update(protectedData, hciData, response => {
-				this.submitHandler(response);
-			});
-		}
-
+		User.update(pii, hci, response => {this.submitHandler(response);});
 	},
 	submitHandler: function(response) {
+		console.log(response);
 		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
 			Actions.Profile.changeShowMessage(true,
