@@ -41,6 +41,7 @@ export default {
 
 			this.save(sessionStorage, 'sessionID', decryptedResponse.sessionID);
 			this.save(sessionStorage, 'userKey', decryptedResponse.userKey);
+			this.save(sessionStorage, 'iv', response.iv);
 
 			this.request({
 				method: 'post',

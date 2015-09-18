@@ -11,7 +11,7 @@ let defaults = () => {
 		message: undefined,
 		showMessage: false,
 		isWaiting: true,
-		showQuestions: 0,
+		showQuestions: undefined,
 		questions: [],
 		chat: [],
 		customQuestion: undefined
@@ -24,12 +24,8 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.on(CHANGE_EVENT, callback);
 	},
 	ask: function(question) {
-		let internalQuestionId = storage.chat.length;
-
 		storage.chat.push({
-			type: 'question',
-			data: question,
-			internalId: internalQuestionId,
+			question,
 			answer: {status: 'pending'}
 		});
 
@@ -43,21 +39,25 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		}
 
 		this.changeShowQuestions('down');
-		Talk.ask(
-			data, response => {this.askHandler(internalQuestionId, response);}
-		);
+
+		Talk.ask(data, response => {
+			this.askHandler(storage.chat.length - 1, response);
+		});
 	},
 	askAnother: function() {
 		this.changeShowQuestions('partial');
 	},
-	askHandler: function(internalQuestionId, response) {
-		if(response.status && response.status !== 200) {
+	askHandler: function(chatIndex, response) {
+		if(
+			response.status &&
+			(response.status !== 200 || response.status !== 202)
+		) {
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
 		} else {
-			this.updateAnswer(internalQuestionId, response);
+			this.updateAnswer(chatIndex, response);
 		}
 
 		this.emitChange();
@@ -132,11 +132,8 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.isWaiting = false;
 		this.emitChange();
 	},
-	updateAnswer: function(questionId, answer) {
-		console.log(questionId);
+	updateAnswer: function(chatIndex, answer) {
 		console.log(answer);
-
-		console.log(storage.chat);
 	}
 });
 
