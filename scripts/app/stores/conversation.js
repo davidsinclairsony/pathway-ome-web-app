@@ -14,7 +14,10 @@ let defaults = () => {
 		showQuestions: undefined,
 		questions: [],
 		chat: [],
-		customQuestion: undefined
+		customQuestion: undefined,
+		location: undefined,
+		showAskAnother: false,
+		showRetry: false
 	};
 };
 let storage;
@@ -24,7 +27,10 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.on(CHANGE_EVENT, callback);
 	},
 	ask: function(question) {
+		let id = storage.chat.length;
+
 		storage.chat.push({
+			id,
 			question,
 			answer: {status: 'pending'}
 		});
@@ -38,10 +44,16 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			data = question;
 		}
 
+		data.location = {
+			lat: storage.location.latitude,
+			lng: storage.location.longitude
+		};
+
 		this.changeShowQuestions('down');
+		storage.showAskAnother = true;
 
 		Talk.ask(data, response => {
-			this.askHandler(storage.chat.length - 1, response);
+			this.askHandler(id, response);
 		});
 	},
 	askAnother: function() {
@@ -56,8 +68,15 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
+
+			storage.chat[chatIndex].answer.status = 'error';
+			storage.chat[chatIndex].answer.data = {
+				text: 'Sorry, there was an error.'
+			};
 		} else {
-			this.updateAnswer(chatIndex, response);
+			storage.chat[chatIndex].conversationID = response.conversationID;
+			storage.chat[chatIndex].answer.status = 'complete';
+			storage.chat[chatIndex].answer.data = response.answer;
 		}
 
 		this.emitChange();
@@ -108,15 +127,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	},
 	initialize: function() {
 		storage = defaults();
-		Talk.suggestions(reponse => {this.suggestionsHandler(reponse);});
+
+		// Get suggestions list
+		Talk.initialize(reponse => {this.initializeHandler(reponse);});
 	},
-	removeChangeListener: function(callback) {
-		this.removeListener(CHANGE_EVENT, callback);
-	},
-	saveCustom: function(value) {
-		storage.customQuestion = value.replace('\n', '');
-	},
-	suggestionsHandler: function(response) {
+	initializeHandler: function(response) {
+		console.log(response);
 		if(response.status && response.status !== 200) {
 			this.changeShowQuestions('down');
 
@@ -124,16 +140,29 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
+
+			storage.showAskAnother = false;
+			storage.showRetry = true;
 		} else {
+			storage.questions =  response[0];
+			storage.location = response[1];
+
 			this.changeShowQuestions('up');
-			storage.questions = response;
+			storage.showAskAnother = true;
+			storage.showRetry = false;
 		}
 
 		storage.isWaiting = false;
 		this.emitChange();
 	},
-	updateAnswer: function(chatIndex, answer) {
-		console.log(answer);
+	removeChangeListener: function(callback) {
+		this.removeListener(CHANGE_EVENT, callback);
+	},
+	retry: function() {
+		this.initialize();
+	},
+	saveCustom: function(value) {
+		storage.customQuestion = value.replace('\n', '');
 	}
 });
 
@@ -157,6 +186,10 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CONVERSATION_CUSTOM_SUBMIT:
 			Store.customSubmit();
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_RETRY:
+			Store.retry();
 			Store.emitChange();
 			break;
 		case Constants.Actions.CONVERSATION_SAVE_CUSTOM:

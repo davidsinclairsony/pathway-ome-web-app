@@ -53,6 +53,11 @@ let Conversation = {
 			actionType: Constants.Actions.CONVERSATION_CUSTOM_SUBMIT
 		});
 	},
+	retry: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_RETRY
+		});
+	},
 	saveCustom: value => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CONVERSATION_SAVE_CUSTOM,

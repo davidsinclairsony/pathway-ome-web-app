@@ -5,7 +5,27 @@ import when from 'when';
 
 export default {
 	ask: function(data, callback) {
-		// Add in location or throw a fit
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			url: Api.ANSWER,
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			headers: {
+				'X-Session-Token': User.get(sessionStorage, 'sessionID')
+			},
+			complete: callback
+		});
+	},
+	initialize: function(callback) {
+		let suggestions = when(reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Api.SUGGESTIONS,
+			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')}
+		}));
+
+
 		let locationError = {
 			status: 408,
 			response: JSON.stringify({
@@ -13,8 +33,8 @@ export default {
 			})
 		};
 
-		var locationPromise = when.promise((resolve, reject) => {
-			if (navigator.geolocation) {
+		let location = when.promise((resolve, reject) => {
+			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(response => {
 					resolve(response.coords);
 				});
@@ -23,35 +43,6 @@ export default {
 			}
 		}).timeout(15000, locationError);
 
-		when(locationPromise)
-			.then(location => {
-				data.location = {
-					lat: location.latitude,
-					lng: location.longitude
-				};
-
-				reqwest({
-					method: 'post',
-					crossOrigin: true,
-					url: Api.ANSWER,
-					contentType: 'application/json',
-					data: JSON.stringify(data),
-					headers: {
-						'X-Session-Token': User.get(sessionStorage, 'sessionID')
-					},
-					complete: callback
-				});
-			})
-			.catch(callback);
-		;
-	},
-	suggestions: function(callback) {
-		reqwest({
-			method: 'get',
-			crossOrigin: true,
-			url: Api.SUGGESTIONS,
-			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')},
-			complete: callback
-		});
+		when.join(suggestions, location).then(callback).catch(callback);
 	}
 };

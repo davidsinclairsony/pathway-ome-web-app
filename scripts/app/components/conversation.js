@@ -12,8 +12,9 @@ let getState = () => {
 		customQuestion: ConversationStore.get(['customQuestion']),
 		isWaiting: ConversationStore.get(['isWaiting']),
 		showQuestions: ConversationStore.get(['showQuestions']),
+		showRetry: ConversationStore.get(['showRetry']),
+		showAskAnother: ConversationStore.get(['showAskAnother']),
 		questions: ConversationStore.get(['questions']),
-		showAnswer: ConversationStore.get(['showAnswer']),
 		chat: ConversationStore.get(['chat']),
 		message: ConversationStore.get(['message']),
 		showMessage: ConversationStore.get(['showMessage'])
@@ -34,6 +35,7 @@ export default React.createClass(assign({}, {
 	},
 	render: function() {
 		let transitionInner = [];
+
 		let containerInner = [];
 
 		containerInner.push(
@@ -107,19 +109,58 @@ export default React.createClass(assign({}, {
 			</Spring>
 		);
 
+		let topicsInner = [];
+
+		this.state.chat.map(o => {
+			console.log(o);
+			topicsInner.push(
+				<li key={o.id}>
+					<header>{o.question.question}</header>
+					<main>
+						{o.answer.status}
+					</main>
+				</li>
+			);
+		});
+
+		let button;
+
+		// Add the Ask Another button?
+		if(this.state.showAskAnother) {
+			button = (
+				<button
+					key='askAother'
+					className='button medium neutral'
+					onClick={Actions.Conversation.askAnother}
+				>Ask Another Question</button>
+			);
+		}
+
+		// Add the Retry button?
+		if(this.state.showRetry) {
+			button = (
+				<button
+					key='retry'
+					className='button medium neutral'
+					onClick={Actions.Conversation.retry}
+				>Retry</button>
+			);
+		}
+
 		transitionInner.push(
-			<div
-				className='chat'
-				key='chat'
-			>
-				<div
-					className='container' key='container'
-				>{this.state.chat.text}</div>
+			<div className='chat' key='chat'>
+				<div className='container' key='container'>
+					<ul className='topics'>
+						{topicsInner}
+					</ul>
+				</div>
 				<footer>
-					<button
-						className='button medium neutral'
-						onClick={Actions.Conversation.askAnother}
-					>Ask Another Question</button>
+					<TransitionGroup
+						transitionName='fade-fast'
+						transitionAppear={true}
+					>
+						{button}
+					</TransitionGroup>
 				</footer>
 			</div>
 		);
