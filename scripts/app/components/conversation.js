@@ -16,6 +16,7 @@ let getState = () => {
 		showAskAnother: ConversationStore.get(['showAskAnother']),
 		questions: ConversationStore.get(['questions']),
 		chat: ConversationStore.get(['chat']),
+		chatLength: ConversationStore.get(['chatLength']),
 		message: ConversationStore.get(['message']),
 		showMessage: ConversationStore.get(['showMessage'])
 	};
@@ -30,16 +31,19 @@ export default React.createClass({
 	componentDidMount: function() {
 		ConversationStore.addChangeListener(this._onChange);
 	},
-	componentDidUpdate: function() {
-		let container = React.findDOMNode(this).querySelector('.chat .container');
-		let latest = document.getElementById(
-			'chat' + (this.state.chat.length - 1)
-		);
+	componentDidUpdate: function(prevProps, prevState) {
+		// If a new chat has been added
+		if(prevState.chatLength != this.state.chatLength) {
+			let container =
+				React.findDOMNode(this).querySelector('.chat .container');
+			let latest =
+				document.getElementById('chat' + (this.state.chat.length - 1));
 
-		if(latest) {
-			let topMargin = window.getComputedStyle(latest).marginTop;
-			//console.log(latest.offsetTop - topMargin.slice(0, -2));
-			container.scrollTop = 400;
+			if(latest) {
+				let topMargin = window.getComputedStyle(latest).marginTop;
+				container.scrollTop =
+					latest.offsetTop - parseInt(topMargin.slice(0, -2));
+			}
 		}
 	},
 	componentWillUnmount: function() {
@@ -123,10 +127,9 @@ export default React.createClass({
 
 		let topicsInner = [];
 
-		this.state.chat.map((o, i) => {
-			let isLast = i >= this.state.chat.length - 1 ? true : false;
+		this.state.chat.map(o => {
 			topicsInner.push(
-				<Topic key={o.id} id={'chat' + o.id} data={o} isLast={isLast} />
+				<Topic key={o.id} id={'chat' + o.id} data={o} />
 			);
 		});
 

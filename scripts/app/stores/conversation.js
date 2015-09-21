@@ -14,7 +14,8 @@ let defaults = () => {
 		showQuestions: undefined,
 		questions: [],
 		chat: [],
-		customQuestion: undefined,
+		chatLength: 0,
+		customQuestion: '',
 		location: undefined,
 		showAskAnother: false,
 		showRetry: false
@@ -34,6 +35,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			question,
 			answer: {status: 'pending'}
 		});
+		storage.chatLength++;
 
 		// Groom data
 		let data;

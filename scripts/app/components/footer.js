@@ -11,6 +11,8 @@ export default React.createClass(assign({}, base, {
 				{'Pathway Genomics ' + new Date().getFullYear()}
 				•
 				<Link to='/consent'>Privacy & Terms</Link>
+				•
+				{'Version 1'}
 			</footer>
 		);
 	}

@@ -320,7 +320,7 @@ export default React.createClass({
 								['lightly_active', 'Lightly Active'],
 								['moderately_active', 'Moderately Active'],
 								['very_active', 'Very Active'],
-								['extra_active', 'Moderately Active']
+								['extra_active', 'Extra Active']
 							]
 						},
 						help
