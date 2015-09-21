@@ -1,10 +1,10 @@
 import Actions from '../actions';
-import assign from 'object-assign';
 import ConversationStore from '../stores/conversation';
 import Footer from './footer';
-import motion from '../data/motion.js';
+import motion from '../data/motion';
 import React from 'react/addons';
-import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import Topic from './conversation/topic';
+import TransitionGroup from '../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
 
 let getState = () => {
@@ -21,7 +21,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Conversation',
 	getInitialState: function() {
 		ConversationStore.initialize();
@@ -29,6 +29,18 @@ export default React.createClass(assign({}, {
 	},
 	componentDidMount: function() {
 		ConversationStore.addChangeListener(this._onChange);
+	},
+	componentDidUpdate: function() {
+		let container = React.findDOMNode(this).querySelector('.chat .container');
+		let latest = document.getElementById(
+			'chat' + (this.state.chat.length - 1)
+		);
+
+		if(latest) {
+			let topMargin = window.getComputedStyle(latest).marginTop;
+			//console.log(latest.offsetTop - topMargin.slice(0, -2));
+			container.scrollTop = 400;
+		}
 	},
 	componentWillUnmount: function() {
 		ConversationStore.removeChangeListener(this._onChange);
@@ -111,15 +123,10 @@ export default React.createClass(assign({}, {
 
 		let topicsInner = [];
 
-		this.state.chat.map(o => {
-			console.log(o);
+		this.state.chat.map((o, i) => {
+			let isLast = i >= this.state.chat.length - 1 ? true : false;
 			topicsInner.push(
-				<li key={o.id}>
-					<header>{o.question.question}</header>
-					<main>
-						{o.answer.status}
-					</main>
-				</li>
+				<Topic key={o.id} id={'chat' + o.id} data={o} isLast={isLast} />
 			);
 		});
 
@@ -154,7 +161,7 @@ export default React.createClass(assign({}, {
 						{topicsInner}
 					</ul>
 				</div>
-				<footer>
+				<footer className='buttons'>
 					<TransitionGroup
 						transitionName='fade-fast'
 						transitionAppear={true}
@@ -204,4 +211,4 @@ export default React.createClass(assign({}, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});

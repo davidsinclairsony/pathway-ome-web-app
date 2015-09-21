@@ -34,6 +34,9 @@ export default {
 		};
 
 		let location = when.promise((resolve, reject) => {
+			// For faster testing!
+			resolve({latitude: 32.8781238, longitude: -117.2038344});
+
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(response => {
 					resolve(response.coords);

@@ -1,0 +1,31 @@
+li {
+	margin-top: $g-4;
+	background: transparentize(white, .85);
+	border-radius: $g-1;
+
+	&:last-child {
+		margin-bottom: $g-4;
+	}
+
+	header {
+		background: transparentize(white, .9);
+		padding: $g-2 $g-3;
+		font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+		border-radius: $g-1 $g-1 0 0;
+	}
+
+	main {
+		background: transparentize(black, .8);
+		padding: $g-2 $g-3;
+		height: 500px;
+	}
+
+	footer {
+		padding: $g-2 $g-3;
+		border-radius: 0 0 $g-1 $g-1;
+	}
+
+	@media all and (max-width: $bp-2 - 1) {}
+
+	@media all and (min-width: $bp-2) {}
+}

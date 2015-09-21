@@ -24,9 +24,7 @@
 			z-index: 1;
 
 			.container {
-				margin: 0 auto -1 * $g-5 auto;
 				min-height: 100%;
-				width: $bp-3 + $g-4;
 				max-width: 100%;
 
 				&:after {
@@ -39,6 +37,8 @@
 					list-style: none;
 					display: flex;
 					flex-wrap: wrap;
+					width: $bp-3 + $g-4;
+					margin: 0 auto;
 
 					li {
 						padding: $g-2 + $g-1 $g-3;
@@ -79,34 +79,44 @@
 						}
 					}
 				}
+
+				h2 {
+					width: $bp-3 + $g-4;
+					margin: 0 auto;
+				}
 			}
 		}
 
 		.chat {
 			top: 0;
+			padding: 0 0 $g-4 + $g-3 0;
 
 			.container {
-				margin: 0 auto -1 * $g-5 auto;
-				min-height: 100%;
-				width: $bp-3 + $g-4;
-				max-width: 100%;
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+				height: 100%;
+
+				ul.topics {
+					list-style: none;
+					margin: 0 auto;
+					width: $bp-3 + $g-4;
+					max-width: 100%;
+
+					@import "conversation/topic";
+				}
 			}
 
-			footer {
-				height: $g-5;
+			footer.buttons {
+				height: $g-4 + $g-3;
 				color: transparentize(white, .8);
+				background: transparentize(white, .95);
 				display: flex;
 				align-items: center;
 				justify-content: center;
-			}
-		}
-
-		.answer {
-			text-align: left;
-			margin-right: auto;
-
-			> span {
-				background: transparentize(white, .8);
+				position: fixed;
+				width: 100%;
+				bottom: 0;
+				left: 0;
 			}
 		}
 	}
@@ -162,7 +172,8 @@
 		.customWrapper {
 			.panel,
 			.chat {
-				padding: 0 $g-3;
+				padding-left: $g-3;
+				padding-right: $g-3;
 			}
 
 			.panel {

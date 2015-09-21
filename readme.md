@@ -12,8 +12,5 @@ npm start -- -d
 
 ## to do ##
 - add, on create view, an async check to see if supplied email already used
-- add functionality to save and get profile data
-- add functionality to conversation view (get questions, ask, feedback, ...)
-- add functionality to logout button
-- add constraints to ensure user is only allowed access on navigable pages
-- add functionality for lost password view
+- add functionality to conversation view: show answers and feedback
+- add forgot password flow

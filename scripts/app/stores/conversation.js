@@ -132,7 +132,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		Talk.initialize(reponse => {this.initializeHandler(reponse);});
 	},
 	initializeHandler: function(response) {
-		console.log(response);
 		if(response.status && response.status !== 200) {
 			this.changeShowQuestions('down');
 
@@ -144,7 +143,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.showAskAnother = false;
 			storage.showRetry = true;
 		} else {
-			storage.questions =  response[0];
+			storage.questions =  response[0]? response[0] : [];
 			storage.location = response[1];
 
 			this.changeShowQuestions('up');

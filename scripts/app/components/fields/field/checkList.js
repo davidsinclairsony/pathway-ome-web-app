@@ -8,10 +8,12 @@ export default React.createClass(assign({}, base, {
 	displayName: 'Check List',
 	render: function() {
 		return React.createElement(Widgets.SelectList, {
-			className: this.props.className + ' inputs count' + this.props.data.length,
+			className:
+				this.props.className + ' inputs count' + this.props.data.length,
 			multiple: this.props.multiple,
 			valueField: 'id',
 			textField: 'name',
+			id: this.props.name,
 			data: this.props.data,
 			value: this.props.values[0],
 			onChange: data => {
