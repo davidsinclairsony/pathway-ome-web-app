@@ -63,10 +63,10 @@ li {
 	}
 
 	@media all and (min-width: $bp-2) {
-		margin-top: $g-4;
+		margin-bottom: $g-4;
 
 		&:last-child {
-			margin-bottom: $g-4;
+			margin-top: $g-4;
 		}
 	}
 }

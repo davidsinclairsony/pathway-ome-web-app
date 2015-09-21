@@ -15,6 +15,7 @@ let defaults = () => {
 		questions: [],
 		chat: [],
 		chatLength: 0,
+		lastChatStatus: undefined,
 		customQuestion: '',
 		location: undefined,
 		showAskAnother: false,
@@ -36,6 +37,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			answer: {status: 'pending'}
 		});
 		storage.chatLength++;
+		storage.lastChatStatus = 'pending';
 
 		// Groom data
 		let data;
@@ -79,6 +81,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.chat[chatIndex].conversationID = response.conversationID;
 			storage.chat[chatIndex].answer.status = 'complete';
 			storage.chat[chatIndex].answer.data = response.answer;
+
+			if(chatIndex == storage.chat.length - 1) {
+				storage.lastChatStatus = 'complete';
+				console.log('here');
+			}
 		}
 
 		this.emitChange();

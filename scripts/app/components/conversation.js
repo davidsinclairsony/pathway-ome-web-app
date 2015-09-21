@@ -17,6 +17,7 @@ let getState = () => {
 		questions: ConversationStore.get(['questions']),
 		chat: ConversationStore.get(['chat']),
 		chatLength: ConversationStore.get(['chatLength']),
+		lastChatStatus: ConversationStore.get(['lastChatStatus']),
 		message: ConversationStore.get(['message']),
 		showMessage: ConversationStore.get(['showMessage'])
 	};
@@ -32,8 +33,11 @@ export default React.createClass({
 		ConversationStore.addChangeListener(this._onChange);
 	},
 	componentDidUpdate: function(prevProps, prevState) {
-		// If a new chat has been added
-		if(prevState.chatLength != this.state.chatLength) {
+		// Scroll if new chat added or the most recent answer is retrieved
+		if(
+			(prevState.lastChatStatus != this.state.lastChatStatus) ||
+			(prevState.chatLength != this.state.chatLength)
+		) {
 			let container =
 				React.findDOMNode(this).querySelector('.chat .container');
 			let latest =

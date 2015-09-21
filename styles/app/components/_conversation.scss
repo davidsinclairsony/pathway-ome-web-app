@@ -210,7 +210,12 @@
 			}
 
 			.chat {
-
+				.container {
+					ul.topics {
+						display: flex;
+						flex-direction: column-reverse;
+					}
+				}
 			}
 		}
 	}
