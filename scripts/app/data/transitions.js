@@ -36,6 +36,11 @@ export default {
 		enter: {opacity: [1, 0]},
 		leave: {opacity: [0, 1]}
 	},
+	'fade-medium': {
+		duration: 300,
+		enter: {opacity: [1, 0]},
+		leave: {opacity: [0, 1]}
+	},
 	'fade-fast': {
 		duration: 100,
 		enter: {opacity: [1, 0]},

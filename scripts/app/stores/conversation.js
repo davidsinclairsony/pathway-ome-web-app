@@ -34,7 +34,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.chat.push({
 			id,
 			question,
-			answer: {status: 'pending'}
+			answer: {status: 'pending'},
+			feedback: {
+				showComment: false,
+				rating: undefined,
+				comment: undefined
+			}
 		});
 		storage.chatLength++;
 		storage.lastChatStatus = 'pending';
@@ -68,15 +73,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			response.status &&
 			(response.status !== 200 || response.status !== 202)
 		) {
-			this.changeShowMessage(true,
-				'Sorry, there was an error: ' +
-				JSON.parse(response.response).message
-			);
+			let displayedError;
+
+			if(response.status === 202) {
+				displayedError =
+					'Please fill out your profile and ask this question again.';
+			} else {
+				this.changeShowMessage(true,
+					'Sorry, there was an error: ' +
+					JSON.parse(response.response).message
+				);
+				displayedError = 'Sorry, there was an error.';
+			}
 
 			storage.chat[chatIndex].answer.status = 'error';
-			storage.chat[chatIndex].answer.data = {
-				text: 'Sorry, there was an error.'
-			};
+			storage.chat[chatIndex].answer.data = {summary: displayedError};
 		} else {
 			storage.chat[chatIndex].conversationID = response.conversationID;
 			storage.chat[chatIndex].answer.status = 'complete';
@@ -84,11 +95,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 			if(chatIndex == storage.chat.length - 1) {
 				storage.lastChatStatus = 'complete';
-				console.log('here');
 			}
 		}
 
 		this.emitChange();
+	},
+	changeShowComment: function(id, value) {
+		storage.chat[id].feedback.showComment = value;
 	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
@@ -117,9 +130,19 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		storage.showQuestions = height;
 	},
+	commentSubmit: function(id) {
+		if(
+			storage.chat[id].feedback.comment &&
+			storage.chat[id].feedback.comment != ''
+		) {
+			this.updateFeedback(id);
+			this.changeShowComment(id, false);
+		}
+	},
 	customSubmit: function() {
 		if(storage.customQuestion.length > 0) {
 			this.ask({question: storage.customQuestion});
+			storage.customQuestion = '';
 		}
 	},
 	emitChange: function() {
@@ -169,8 +192,40 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	retry: function() {
 		this.initialize();
 	},
+	saveComment: function(id, comment) {
+		storage.chat[id].feedback.comment = comment;
+	},
 	saveCustom: function(value) {
 		storage.customQuestion = value.replace('\n', '');
+	},
+	updateFeedback: function(id, feedback) {
+		// Save any passed in feedback
+		if(feedback) {
+			storage.chat[id].feedback = assign(
+				{}, storage.chat[id].feedback, feedback
+			);
+		}
+
+		// Prepare data for API
+		let data = {
+			rating: storage.chat[id].feedback.rating,
+			comment: storage.chat[id].feedback.comment,
+			answerId: storage.chat[id].conversationID
+		};
+
+		Talk.updateFeedback(data, response => {
+			this.updateFeedbackHandler(response);
+		});
+	},
+	updateFeedbackHandler: function(response) {
+		if(response.status && response.status !== 204) {
+			this.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		}
+
+		this.emitChange();
 	}
 });
 
@@ -202,6 +257,22 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CONVERSATION_SAVE_CUSTOM:
 			Store.saveCustom(action.value);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_CHANGE_SHOW_COMMENT:
+			Store.changeShowComment(action.id, action.value);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_UPDATE_FEEDBACK:
+			Store.updateFeedback(action.id, action.feedback);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_SAVE_COMMENT:
+			Store.saveComment(action.id, action.comment);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_COMMENT_SUBMIT:
+			Store.commentSubmit(action.id);
 			Store.emitChange();
 			break;
 	}

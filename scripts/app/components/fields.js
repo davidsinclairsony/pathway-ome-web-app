@@ -342,7 +342,7 @@ export default React.createClass({
 								this.props.fields[key].values : [],
 							options: [
 								['none', ''],
-								['low_carb', 'Low Card'],
+								['low_carb', 'Low Carb'],
 								['low_fat', 'Low Fat'],
 								['balanced', 'Balanced'],
 								['mediterranean', 'Mediterranean']

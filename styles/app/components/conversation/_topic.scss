@@ -1,21 +1,26 @@
-li {
+> li {
 	background: transparentize(white, .85);
 	border-radius: $g-1;
 
 	header {
 		background: transparentize(white, .9);
-		padding: $g-2 $g-3;
-		font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+		padding: $g-2 + $g-1 $g-3;
+		font: normal normal 100 18px/#{$f-1-l-h} $f-1;
 		border-radius: $g-1 $g-1 0 0;
 	}
 
 	main {
 		background: transparentize(black, .8);
-		padding: $g-2 $g-3;
+		padding: $g-2 + $g-1 $g-3;
+		position: relative;
+		min-height: $g-4 + $g-1;
+		overflow: hidden;
 
 		.pending {
-			height: $g-4;
-			position: relative;
+			position: absolute;
+			top: 50%;
+			left: $g-3;
+			margin: $g-3 / -2 0 0 0;
 
 			&:after {
 				@keyframes spinner {
@@ -36,22 +41,145 @@ li {
 				width: $g-3;
 				content: "";
 				position: absolute;
-				top: 50%;
-				left: $g-2;
-				margin: -1 * $g-2 0 0 -1 * $g-2;
+				top: 0;
+				left: 0;
 				z-index: 0;
 				box-sizing: border-box;
 			}
 		}
 
 		.summary {
-			font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+			font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+
+			h1 {
+				display: none;
+			}
+
+			> * {
+				&:nth-child(n + 3) {
+					margin-top: $g-2;
+				}
+			}
+
+			ol, ul {
+				list-style: disc inside;
+				margin-left: $g-3;
+				text-indent: -1 * $g-2;
+			}
 		}
+
+		@import "topic/places";
+		@import "topic/recipes";
 	}
 
 	footer {
-		padding: $g-2 $g-3;
+		padding: 0 $g-3;
 		border-radius: 0 0 $g-1 $g-1;
+		display: flex;
+		width: 100%;
+
+		.rating {
+			padding: $g-2 + $g-1 0;
+			width: 100%;
+
+			.top {
+				display: flex;
+				align-items: center;
+
+				span {
+					font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+				}
+
+				ul {
+					list-style: none;
+					display: flex;
+					margin: 0 $g-2;
+
+					&[data-rating="-1"] li.negative div,
+					li.negative:hover div {
+						border-color: $c-4;
+
+						&:after {
+							background: $c-4;
+						}
+					}
+
+					&[data-rating="0"] li.neutral div,
+					li.neutral:hover div {
+						border-color: $c-1;
+
+						&:after {
+							background: $c-1;
+						}
+					}
+
+					&[data-rating="1"] li.positive div,
+					li.positive:hover div {
+						border-color: $c-2;
+
+						&:after {
+							background: $c-2;
+						}
+					}
+
+					li {
+						flex: 0 0 auto;
+						cursor: pointer;
+						padding: 0 $g-1 / 2;
+
+						div {
+							position: relative;
+							cursor: pointer;
+							border: 2px solid $c-1;
+							border-radius: 2em;
+							width: $g-3;
+							height: $g-3;
+
+							&:after {
+								transition: .2s linear;
+								position: absolute;
+								content: "";
+								top: 50%;
+								left: 50%;
+								margin: $g-2 / -2 0 0 $g-2 / -2;
+								width: $g-2;
+								height: $g-2;
+								border-radius: 1em;
+							}
+						}
+					}
+				}
+			}
+
+			.comment {
+				display: flex;
+				align-items: center;
+				padding: $g-2 + $g-1 $g-3;
+				background: transparentize(white, .9);
+				border-radius: $g-1;
+				margin: $g-2 + $g-1 0 0 0;
+
+				textarea {
+					font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+					background: none;
+					cursor: auto;
+					flex: 1 1 auto;
+					color: white;
+					outline: none;
+					resize: none;
+					overflow: hidden;
+					height: $f-1-l-h;
+
+					&::placeholder {
+						color: white;
+					}
+				}
+
+				button {
+					flex: 0 0 auto;
+				}
+			}
+		}
 	}
 
 	@media all and (max-width: $bp-2 - 1) {

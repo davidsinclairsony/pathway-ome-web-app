@@ -11,9 +11,7 @@ export default {
 			url: Api.ANSWER,
 			contentType: 'application/json',
 			data: JSON.stringify(data),
-			headers: {
-				'X-Session-Token': User.get(sessionStorage, 'sessionID')
-			},
+			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')},
 			complete: callback
 		});
 	},
@@ -47,5 +45,16 @@ export default {
 		}).timeout(15000, locationError);
 
 		when.join(suggestions, location).then(callback).catch(callback);
+	},
+	updateFeedback: function(data, callback) {
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			url: Api.ANSWER_FEEDBACK,
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')},
+			complete: callback
+		});
 	}
 };

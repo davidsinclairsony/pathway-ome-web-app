@@ -1,0 +1,7 @@
+ul.recipes {
+	list-style: none;
+
+	@media all and (max-width: $bp-2 - 1) {}
+
+	@media all and (min-width: $bp-2) {}
+}

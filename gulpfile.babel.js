@@ -42,9 +42,11 @@ gulp.task('lint', () => {
 	;
 });
 
+
 // Main bundle
 let mainOptions = assign({entries: ['./scripts/main.js']}, watchify.args);
-let main = watchify(browserify(mainOptions)).transform(babelify).external(deps);
+let main = watchify(browserify(mainOptions), {poll: true})
+	.transform(babelify).external(deps);
 let bundleMain = () => {
 	return main
 		.bundle()

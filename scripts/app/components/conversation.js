@@ -62,7 +62,6 @@ export default React.createClass({
 			<ul className='questions' key='customQuestions'>
 				<li className='custom'>
 					<textarea
-						type='text'
 						value={this.state.customQuestion}
 						placeholder='Enter your own question...'
 						onChange={e => {
@@ -112,12 +111,12 @@ export default React.createClass({
 				}}
 				key='panelSpring'
 			>
-				{interpolated =>
+				{i =>
 					<div
 						className='panel'
 						key='panel'
 						style={{
-							height: `${interpolated.val.height}%`
+							height: `${i.val.height}%`
 						}}
 					>
 						<div className='container' key='container'>

@@ -3,5 +3,6 @@ export default {
 	gentle: [120, 14],
 	wobbly: [180, 12],
 	stiff: [210, 20],
-	noGames: [400, 30]
+	noGames: [400, 30],
+	fastest: [2000, 80]
 };

@@ -42,6 +42,11 @@ let VelocityTransitionGroupChild = React.createClass({
 			}
 		);
 	},
+	componentDidLeave: function() {
+		if(this.props.didLeave) {
+			this.props.didLeave();
+		}
+	},
 	render: function() {
 		return React.Children.only(this.props.children);
 	}
@@ -54,7 +59,10 @@ let VelocityTransitionGroup = React.createClass({
 		return (
 			React.createElement(
 				VelocityTransitionGroupChild,
-				{transitionName: this.props.transitionName},
+				{
+					transitionName: this.props.transitionName,
+					didLeave: this.props.didLeave
+				},
 				child
 			)
 		);

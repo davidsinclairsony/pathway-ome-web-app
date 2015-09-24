@@ -63,6 +63,33 @@ let Conversation = {
 			actionType: Constants.Actions.CONVERSATION_SAVE_CUSTOM,
 			value
 		});
+	},
+	changeShowComment: (id, value) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_CHANGE_SHOW_COMMENT,
+			id,
+			value
+		});
+	},
+	updateFeedback: (id, feedback) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_UPDATE_FEEDBACK,
+			id,
+			feedback
+		});
+	},
+	saveComment: (id, comment) => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_SAVE_COMMENT,
+			id,
+			comment
+		});
+	},
+	commentSubmit: id => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_COMMENT_SUBMIT,
+			id
+		});
 	}
 };
 
