@@ -63,7 +63,7 @@ export default {
 		decipher.setAutoPadding(false);
 
 		let dec = decipher.update(dataBuf, 'base64', 'utf8');
-		dec += decipher.final('utf-8');
+		dec += decipher.final('utf8');
 
 		return JSON.parse(_.trim(dec, '\0'));
 	},

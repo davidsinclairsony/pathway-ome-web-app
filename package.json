@@ -5,7 +5,6 @@
 	"author": "David Sinclair",
 	"email": "david.sinclair@pathway.com",
 	"dependencies": {
-		"bcryptjs": "latest",
 		"buffer": "latest",
 		"crypto": "latest",
 		"eslint-plugin-react": "latest",
@@ -24,7 +23,6 @@
 		"react-slider": "latest",
 		"react-motion": "latest",
 		"react-widgets": "latest",
-		"request": "latest",
 		"reqwest": "latest",
 		"velocity-animate": "latest",
 		"when": "latest"
@@ -46,7 +44,6 @@
 		"vinyl-buffer": "latest",
 		"vinyl-source-stream": "latest",
 		"watchify": "latest",
-		"xhr2": "latest",
 		"yargs": "latest"
 	},
 	"jshintConfig": {
