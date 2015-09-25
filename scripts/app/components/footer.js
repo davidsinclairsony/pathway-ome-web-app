@@ -12,7 +12,7 @@ export default React.createClass(assign({}, base, {
 				•
 				<Link to='/consent'>Privacy & Terms</Link>
 				•
-				{'Version 4'}
+				{'Version 5'}
 			</footer>
 		);
 	}

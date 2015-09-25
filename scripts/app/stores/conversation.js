@@ -208,9 +208,12 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		// Prepare data for API
 		let data = {
-			rating: storage.chat[id].feedback.rating,
-			comment: storage.chat[id].feedback.comment,
-			answerId: storage.chat[id].conversationID
+			conversationID: storage.chat[id].conversationID,
+			userRating: {
+				type: 'rangeInt3',
+				score: storage.chat[id].feedback.rating,
+				comment: storage.chat[id].feedback.comment
+			}
 		};
 
 		Talk.updateFeedback(data, response => {
