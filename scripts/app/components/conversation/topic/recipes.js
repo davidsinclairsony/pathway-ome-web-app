@@ -10,15 +10,17 @@ export default React.createClass(assign({}, base, {
 		this.props.data.map((o, i) => {
 			inner.push(
 				<li key={i}>
-					<h3>{o.name}</h3>
 					<img src={o.image} alt={o.name} />
-					<p>
-						{o.ingredientsCount} ingredients,
-						{o.servings} servings,
-						{Math.round(o.totalCalories)} total calories,
-						{Math.round(o.totalWeight)} total weight
-					</p>
-					<p><a href={o.url} target='_blank'>External Link</a></p>
+					<div className='content'>
+						<h3>{o.name}</h3>
+						<p>
+							{o.ingredientsCount} ingredients,
+							{' '} {o.servings} servings,
+							{' '} {Math.round(o.totalCalories)} total calories,
+							{' '} {Math.round(o.totalWeight)} total weight
+						</p>
+						<p><a href={o.url} target='_blank'>External Link ➜</a></p>
+					</div>
 				</li>
 			);
 		});

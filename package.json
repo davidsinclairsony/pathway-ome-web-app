@@ -7,12 +7,12 @@
 	"dependencies": {
 		"buffer": "latest",
 		"crypto": "latest",
-		"element-resize-event": "latest",
 		"eslint-plugin-react": "latest",
 		"events": "latest",
 		"fastclick": "latest",
 		"flux": "latest",
 		"history": "latest",
+		"imagesloaded": "latest",
 		"joi": "latest",
 		"keymirror": "latest",
 		"lodash": "latest",

@@ -1,4 +1,5 @@
 import Actions from '../../actions';
+import imagesLoaded from 'imagesloaded';
 import motion from '../../data/motion';
 import Places from './topic/places';
 import React from 'react/addons';
@@ -21,12 +22,17 @@ export default React.createClass({
 	componentDidMount: function() {
 		this.setMainHeight();
 		this.setFooterHeight();
-
-		//let main = React.findDOMNode(this).querySelector('main');
 	},
 	componentDidUpdate: function()  {
 		this.setMainHeight();
 		this.setFooterHeight();
+
+		let main = React.findDOMNode(this).querySelector('main');
+
+		imagesLoaded(main, () => {
+			this.setMainHeight();
+			console.log('ready');
+		});
 	},
 	ratingClickHandler: function(event) {
 		let rating;
@@ -106,7 +112,7 @@ export default React.createClass({
 
 		let rating;
 
-		if(d.answer.status != 'pending' && d.answer.status != 'need') {
+		if(d.answer.status == 'success') {
 			let comment;
 
 			if(d.feedback.showComment) {

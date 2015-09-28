@@ -1,4 +1,3 @@
-import Actions from '../actions';
 import assign from 'object-assign';
 import history from '../history';
 import User from '../utilities/user';
@@ -73,15 +72,17 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				today.getFullYear()
 		};
 
-		User.create(data, this.submitHandler);
+		User.create(data, response => {this.submitHandler(response);});
 	},
 	submitHandler: function(response) {
 		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
-			Actions.Create.changeShowMessage(true,
+			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
+
+			this.emitChange();
 		} else {
 			history.replaceState(null, '/activate');
 		}

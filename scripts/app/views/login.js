@@ -62,6 +62,23 @@ export default React.createClass({
 			}, null));
 		}
 
+		if(this.state.showMessage) {
+			transitionInner.push(React.DOM.div({
+				className: 'message modal',
+				key: 'message'
+			},
+				React.DOM.div({className: 'content centered'},
+					React.DOM.h2(null, this.state.message)
+				),
+				React.DOM.div({className: 'controls'},
+					React.DOM.button({
+						className: 'button medium neutral',
+						onClick: () => {Actions.Login.changeShowMessage(false);}
+					}, 'Close')
+				)
+			));
+		}
+
 		wrapperInner.push(React.createElement(TransitionGroup, {
 			key: 4,
 			transitionName: 'fade-fast',

@@ -1,5 +1,49 @@
 ul.recipes {
 	list-style: none;
+	background: transparentize(white, .9);
+	border-radius: $g-1;
+	margin-top: $g-3;
+
+	li {
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		padding: $g-2 + $g-1 $g-3;
+
+		&:nth-child(n + 2) {
+			border-top: 1px solid transparentize(white, .9);
+		}
+
+		img {
+			width: 100px;
+			flex: 0 0 auto;
+			border-radius: 3px;
+		}
+
+		.content {
+			font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+			padding: 0 0 0 $g-3;
+
+			h3 {
+				font: normal normal 100 22px/#{$f-1-l-h} $f-1;
+				padding-bottom: $g-2;
+			}
+
+			a {
+				color: transparentize(white, .05);
+				text-decoration: none;
+				border-bottom: 1px solid transparentize(white, .8);
+				cursor: pointer;
+				margin-top: $g-2;
+				display: inline-block;
+
+				&:hover {
+					color: white;
+					border-bottom-color: white;
+				}
+			}
+		}
+	}
 
 	@media all and (max-width: $bp-2 - 1) {}
 

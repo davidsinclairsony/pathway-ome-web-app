@@ -57,6 +57,7 @@ export default {
 					encryptedPayload: this.encrypt(data, keyBuf, ivBuf)
 				}),
 				complete: callback,
+				error: callback
 			});
 		};
 
@@ -204,19 +205,18 @@ export default {
 					iv: ivBuf.toString('base64'),
 					encryptedPayload: this.encrypt(newData, keyBuf, ivBuf)
 				}),
-				complete: response => {
-					if(!response.status && response.status !== 204) {
-						let decryptedUserKey = this.decryptUserKey(
-							response.userKey,
-							Api.KEY,
-							response.iv
-						);
+				success: response => {
+					let decryptedUserKey = this.decryptUserKey(
+						response.userKey,
+						Api.KEY,
+						response.iv
+					);
 
-						this.save(sessionStorage, 'userKey', decryptedUserKey);
-					}
+					this.save(sessionStorage, 'userKey', decryptedUserKey);
 
 					callback(response);
-				}
+				},
+				error: callback
 			});
 		};
 
