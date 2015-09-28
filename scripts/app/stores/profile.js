@@ -12,8 +12,7 @@ let defaults = () => {
 		message: undefined,
 		showMessage: false,
 		isWaiting: true,
-		showForm: false,
-		fetchedHci: undefined
+		showForm: false
 	};
 };
 let storage;
@@ -44,7 +43,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		return value;
 	},
-	fetchHandler: function(response) {
+	initialize: function() {
+		storage = defaults();
+		User.fetchProfile(reponse => {this.initializeHandler(reponse);});
+	},
+	initializeHandler: function(response) {
 		if(response.status && response.status !== 200) {
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
@@ -55,10 +58,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		storage.showForm = true;
 		storage.isWaiting = false;
 		this.emitChange();
-	},
-	initialize: function() {
-		storage = defaults();
-		User.fetchProfile(reponse => {this.fetchHandler(reponse);});
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
@@ -85,10 +84,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			pii.securityAnswer = fields.securityAnswer.values[0];
 		}
 
-
 		// Security answer may not be changed and not have a value
 		if(fields.newPassword.values[0]) {
-			pii.password = User.passwordHasher(fields.doublePassword.values[0]);
+			pii.password = User.passwordHasher(fields.newPassword.values[0]);
 		}
 
 		let hci = {
@@ -107,7 +105,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		User.update(pii, hci, response => {this.submitHandler(response);});
 	},
 	submitHandler: function(response) {
-		console.log(response);
 		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
 			Actions.Profile.changeShowMessage(true,

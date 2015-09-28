@@ -52,7 +52,8 @@ export default React.createClass({
 
 						item.onClick(event);
 					},
-					className
+					className,
+					id: item.name
 				}, span);
 			} else {
 				// If conversation link, point to home
@@ -75,7 +76,8 @@ export default React.createClass({
 						if(this.state.windowWidth < this.state.windowBps[2]) {
 							Actions.Home.toggleShowMenu();
 						}
-					}
+					},
+					id: item.name
 				}, span);
 			}
 

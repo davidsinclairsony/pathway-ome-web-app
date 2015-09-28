@@ -48,7 +48,8 @@ export default React.createClass({
 		wrapperInner.push(React.DOM.button({
 			className: 'submit button medium positive',
 			key: 3,
-			onClick: this.submitHandler
+			onClick: this.submitHandler,
+			id: 'get-a-pin'
 		}, 'Get a Pin'));
 
 		let transitionInner = [];
@@ -72,7 +73,9 @@ export default React.createClass({
 
 		return React.DOM.div({className: 'reactivate view standard thin'}, inner);
 	},
-	submitHandler: function() {
+	submitHandler: function(e) {
+		e.preventDefault();
+
 		let allValid = true;
 
 		// Validate all fields

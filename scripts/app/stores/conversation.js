@@ -1,4 +1,5 @@
 import assign from 'object-assign';
+import User from '../utilities/user';
 import Talk from '../utilities/talk';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
@@ -78,20 +79,58 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			if(response.status === 202) {
 				displayedError =
 					'Please fill out your profile and ask this question again.';
+				storage.chat[chatIndex].answer.status = 'need';
 			} else {
 				this.changeShowMessage(true,
 					'Sorry, there was an error: ' +
 					JSON.parse(response.response).message
 				);
 				displayedError = 'Sorry, there was an error.';
+				storage.chat[chatIndex].answer.status = 'error';
 			}
 
-			storage.chat[chatIndex].answer.status = 'error';
 			storage.chat[chatIndex].answer.data = {summary: displayedError};
 		} else {
+			// Replace variables
+			let replaceVariables = string => {
+				let a = string.indexOf('{{');
+				let b = string.indexOf('}}');
+
+				if(a !== -1 && b !== -1) {
+					let variable = string.substring(a + 2, b);
+					let match = User.get(sessionStorage, variable);
+
+					if(match) {
+						string = string.replace(string.substring(a, b + 2), match);
+					}
+
+					string = replaceVariables(string);
+				}
+
+				return string;
+			};
+
+			// Replace \n with <br />
+			let replaceLineEnds = string => {
+				let a = string.indexOf('\n');
+				if(a !== -1) {
+					string = replaceLineEnds(
+						string.replace(string.substring(a, a + 1), '<br />')
+					);
+				}
+
+				return string;
+			};
+
+			let summary = replaceVariables(response.answer.summary);
+			summary = replaceLineEnds(summary);
+
+			storage.chat[chatIndex].answer.data = assign({}, response.answer, {
+				summary
+			});
+
 			storage.chat[chatIndex].conversationID = response.conversationID;
 			storage.chat[chatIndex].answer.status = 'complete';
-			storage.chat[chatIndex].answer.data = response.answer;
 
 			if(chatIndex == storage.chat.length - 1) {
 				storage.lastChatStatus = 'complete';
@@ -177,6 +216,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		} else {
 			storage.questions =  response[0]? response[0] : [];
 			storage.location = response[1];
+			User.saveObject(sessionStorage, response[2]);
 
 			this.changeShowQuestions('up');
 			storage.showAskAnother = true;

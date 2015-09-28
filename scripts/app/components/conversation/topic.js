@@ -21,6 +21,8 @@ export default React.createClass({
 	componentDidMount: function() {
 		this.setMainHeight();
 		this.setFooterHeight();
+
+		//let main = React.findDOMNode(this).querySelector('main');
 	},
 	componentDidUpdate: function()  {
 		this.setMainHeight();
@@ -104,7 +106,7 @@ export default React.createClass({
 
 		let rating;
 
-		if(d.answer.status != 'pending') {
+		if(d.answer.status != 'pending' && d.answer.status != 'need') {
 			let comment;
 
 			if(d.feedback.showComment) {

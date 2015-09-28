@@ -23,7 +23,6 @@ export default {
 			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')}
 		}));
 
-
 		let locationError = {
 			status: 408,
 			response: JSON.stringify({
@@ -44,7 +43,11 @@ export default {
 			}
 		}).timeout(15000, locationError);
 
-		when.join(suggestions, location).then(callback).catch(callback);
+		let piiFetch = when.promise((resolve, reject) => {
+			User.fetchPii(resolve, reject);
+		});
+
+		when.join(suggestions, location, piiFetch).then(callback).catch(callback);
 	},
 	updateFeedback: function(data, callback) {
 		reqwest({

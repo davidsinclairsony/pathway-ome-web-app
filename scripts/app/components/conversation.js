@@ -76,6 +76,7 @@ export default React.createClass({
 					<button
 						className='button medium positive'
 						onClick={() => {Actions.Conversation.customSubmit();}}
+						id='ask-ome'
 					>Ask OME</button>
 				</li>
 			</ul>

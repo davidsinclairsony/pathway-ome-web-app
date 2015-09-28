@@ -12,7 +12,7 @@ export default React.createClass(assign({}, base, {
 			inner.push(React.DOM.input({
 				onKeyUp: e => {
 					if(e.keyCode == 13) {
-						this.props.submitHandler();
+						this.props.submitHandler(e);
 					}
 				},
 				id: this.props.ids[i],

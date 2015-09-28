@@ -39,16 +39,24 @@ export default {
 				response.encryptedPayload, Api.KEY, response.iv
 			);
 
+			sessionStorage.removeItem('user');
 			this.save(sessionStorage, 'sessionID', decryptedResponse.sessionID);
 			this.save(sessionStorage, 'userKey', decryptedResponse.userKey);
 
-			this.request({
+			let ivBuf = new Buffer(crypto.randomBytes(16));
+			let keyBuf = new Buffer(this.get(sessionStorage, 'userKey'), 'base64');
+
+			reqwest({
 				method: 'post',
+				crossOrigin: true,
 				url: Api.USER,
-				data,
-				callback,
-				key: this.get(sessionStorage, 'userKey'),
-				headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
+				contentType: 'application/json',
+				headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+				data: JSON.stringify({
+					iv: ivBuf.toString('base64'),
+					encryptedPayload: this.encrypt(data, keyBuf, ivBuf)
+				}),
+				complete: callback,
 			});
 		};
 
@@ -88,6 +96,25 @@ export default {
 
 		return encoded;
 	},
+	fetchPii: function(resolve, reject) {
+		reqwest({
+			method: 'get',
+			crossOrigin: true,
+			url: Api.USER,
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+		})
+			.then(response => {
+				let decryptedResponse = this.decrypt(
+					response.encryptedPayload,
+					this.get(sessionStorage,'userKey'),
+					response.iv
+				);
+
+				resolve(decryptedResponse);
+			})
+			.fail(reject)
+		;
+	},
 	fetchProfile: function(callback) {
 		let hci = when(reqwest({
 			method: 'get',
@@ -114,7 +141,6 @@ export default {
 		}));
 
 		when.join(hci, pii).then(callback).catch(callback);
-	;
 	},
 	get: function(storage, key) {
 		if(storage.user) {
@@ -156,27 +182,40 @@ export default {
 			}).then(login).fail(callback);
 		};
 		login = response => {
+			sessionStorage.removeItem('user');
 			this.save(sessionStorage, 'sessionID', response.sessionToken);
 
-			this.request({
+			let ivBuf = new Buffer(crypto.randomBytes(16));
+			let keyBuf = new Buffer(Api.KEY, 'base64');
+			let newData = assign({}, data, {
+				deviceID: this.get(localStorage, 'deviceID')
+			});
+
+			reqwest({
 				method: 'post',
+				crossOrigin: true,
 				url: Api.USER_LOGIN,
-				data,
-				callback: response => {
-					let decryptedUserKey = this.decryptUserKey(
-						response.userKey,
-						Api.KEY,
-						response.iv
-					);
-
-					this.save(sessionStorage, 'userKey', decryptedUserKey);
-
-					callback(response);
-				},
-				key: Api.KEY,
+				contentType: 'application/json',
 				headers: {
 					'X-Session-Token': this.get(sessionStorage, 'sessionID'),
 					'X-Device-ID': this.getDeviceID()
+				},
+				data: JSON.stringify({
+					iv: ivBuf.toString('base64'),
+					encryptedPayload: this.encrypt(newData, keyBuf, ivBuf)
+				}),
+				complete: response => {
+					if(!response.status && response.status !== 204) {
+						let decryptedUserKey = this.decryptUserKey(
+							response.userKey,
+							Api.KEY,
+							response.iv
+						);
+
+						this.save(sessionStorage, 'userKey', decryptedUserKey);
+					}
+
+					callback(response);
 				}
 			});
 		};
@@ -191,26 +230,6 @@ export default {
 		let salt = new Buffer(Security.PW_SALT).toString('base64');
 		return crypto.pbkdf2Sync(password, salt, 1000, 128).toString('base64');
 	},
-	request: function(options) {
-		let ivBuf = new Buffer(crypto.randomBytes(16));
-		let keyBuf = new Buffer(options.key, 'base64');
-		let data = assign({}, options.data, {
-			deviceID: this.get(localStorage, 'deviceID')
-		});
-
-		reqwest({
-			method: options.method,
-			crossOrigin: true,
-			url: options.url,
-			contentType: 'application/json',
-			headers: options.headers,
-			data: JSON.stringify({
-				iv: ivBuf.toString('base64'),
-				encryptedPayload: this.encrypt(data, keyBuf, ivBuf)
-			}),
-			complete: options.callback
-		});
-	},
 	save: function(storage, key, value) {
 		let data = {};
 
@@ -221,6 +240,13 @@ export default {
 		data[key] = value;
 
 		storage.user = JSON.stringify(data);
+	},
+	saveObject: function(storage, object) {
+		Object.keys(object).map(o => {
+			if(typeof(object[o]) !== 'undefined') {
+				this.save(storage, o, object[o]);
+			}
+		});
 	},
 	update: function(pii, hci, callback) {
 		let ivBuf = new Buffer(crypto.randomBytes(16));

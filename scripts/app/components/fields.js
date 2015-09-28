@@ -457,6 +457,9 @@ export default React.createClass({
 			}
 		});
 
-		return React.DOM.form({className: 'fields'}, React.DOM.ul(null, inner));
+		return React.DOM.form({
+			onSubmit: this.props.submitHandler,
+			className: 'fields'
+		}, React.DOM.ul(null, inner));
 	}
 });
