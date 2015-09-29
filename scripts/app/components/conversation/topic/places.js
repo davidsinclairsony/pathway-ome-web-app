@@ -7,7 +7,7 @@ import React from 'react/addons';
 export default React.createClass(assign({}, base, {
 	displayName: 'Places',
 	componentDidMount: function() {
-		let places = Array.from(
+		let places = Array.prototype.slice.call(
 			React.findDOMNode(this).querySelector('ul').children
 		);
 

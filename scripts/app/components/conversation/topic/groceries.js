@@ -7,7 +7,10 @@ import React from 'react/addons';
 export default React.createClass(assign({}, base, {
 	displayName: 'Groceries',
 	componentDidMount: function() {
-		let groceries = Array.from(
+		console.log(React.findDOMNode(this));
+		console.log(React.findDOMNode(this).querySelector('ul'));
+		console.log(React.findDOMNode(this).querySelector('ul').children);
+		let groceries = Array.prototype.slice.call(
 			React.findDOMNode(this).querySelector('ul').children
 		);
 
@@ -77,7 +80,7 @@ export default React.createClass(assign({}, base, {
 
 		return (
 			<div className='groceries'>
-				<h3>Groceries</h3>
+				<h3>Grocery Stores</h3>
 				<ul>{inner}</ul>
 			</div>
 		);

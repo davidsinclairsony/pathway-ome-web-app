@@ -59,7 +59,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		User.login(data, response => {this.submitHandler(response);});
 	},
 	submitHandler: function(response) {
-		console.log(response);
 		if(response.status && response.status !== 204) {
 			storage.isWaiting = false;
 			this.changeShowMessage(true,
