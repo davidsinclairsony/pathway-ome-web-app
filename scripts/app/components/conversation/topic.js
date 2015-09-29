@@ -1,4 +1,5 @@
 import Actions from '../../actions';
+import Groceries from './topic/groceries';
 import imagesLoaded from 'imagesloaded';
 import motion from '../../data/motion';
 import Places from './topic/places';
@@ -28,11 +29,7 @@ export default React.createClass({
 		this.setFooterHeight();
 
 		let main = React.findDOMNode(this).querySelector('main');
-
-		imagesLoaded(main, () => {
-			this.setMainHeight();
-			console.log('ready');
-		});
+		imagesLoaded(main, this.setMainHeight);
 	},
 	ratingClickHandler: function(event) {
 		let rating;
@@ -102,6 +99,11 @@ export default React.createClass({
 							break;
 						case 'places':
 							lists.push(<Places key='places' data={o.templateData} />);
+							break;
+						case 'groceries':
+							lists.push(
+								<Groceries key='groceries' data={o.templateData} />
+							);
 							break;
 					}
 				});

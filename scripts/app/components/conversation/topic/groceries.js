@@ -5,13 +5,13 @@ import mapStyles from '../../../data/mapStyles';
 import React from 'react/addons';
 
 export default React.createClass(assign({}, base, {
-	displayName: 'Places',
+	displayName: 'Groceries',
 	componentDidMount: function() {
-		let places = Array.from(
+		let groceries = Array.from(
 			React.findDOMNode(this).querySelector('ul').children
 		);
 
-		places.map(o => {
+		groceries.map(o => {
 			GoogleMaps.load(function(google) {
 				let element = o.querySelector('.map');
 
@@ -70,17 +70,14 @@ export default React.createClass(assign({}, base, {
 						data-title={o.title}
 					/>
 					<h4>{o.title}</h4>
-					<p>
-						There are {o.menuItems.length + ' '}
-						items on the menu for your diet
-					</p>
+					<p>{o.openNow? 'Open' : 'Closed'} for business</p>
 				</li>
 			);
 		});
 
 		return (
-			<div className='places'>
-				<h3>Places</h3>
+			<div className='groceries'>
+				<h3>Groceries</h3>
 				<ul>{inner}</ul>
 			</div>
 		);

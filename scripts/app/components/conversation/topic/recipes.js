@@ -12,12 +12,12 @@ export default React.createClass(assign({}, base, {
 				<li key={i}>
 					<img src={o.image} alt={o.name} />
 					<div className='content'>
-						<h3>{o.name}</h3>
+						<h4>{o.name}</h4>
 						<p>
 							{o.ingredientsCount} ingredients,
-							{' '} {o.servings} servings,
-							{' '} {Math.round(o.totalCalories)} total calories,
-							{' '} {Math.round(o.totalWeight)} total weight
+							{' ' + o.servings} servings,
+							{' ' + Math.round(o.totalCalories)} total calories,
+							{' ' + Math.round(o.totalWeight)} total weight
 						</p>
 						<p><a href={o.url} target='_blank'>External Link ➜</a></p>
 					</div>
@@ -26,7 +26,10 @@ export default React.createClass(assign({}, base, {
 		});
 
 		return (
-			<ul className='recipes'>{inner}</ul>
+			<div className='recipes'>
+				<h3>Recipes</h3>
+				<ul>{inner}</ul>
+			</div>
 		);
 	}
 }));
