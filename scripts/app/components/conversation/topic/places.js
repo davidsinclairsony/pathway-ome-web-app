@@ -70,10 +70,13 @@ export default React.createClass(assign({}, base, {
 						data-title={o.title}
 					/>
 					<h4>{o.title}</h4>
-					<p>
-						There are {o.menuItems.length + ' '}
-						items on the menu for your diet
-					</p>
+					<ul>
+						{o.menuItems.map(o => {
+							return (
+								<li>{o.name}</li>
+							);
+						})}
+					</ul>
 				</li>
 			);
 		});

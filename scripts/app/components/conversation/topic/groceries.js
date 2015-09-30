@@ -7,9 +7,6 @@ import React from 'react/addons';
 export default React.createClass(assign({}, base, {
 	displayName: 'Groceries',
 	componentDidMount: function() {
-		console.log(React.findDOMNode(this));
-		console.log(React.findDOMNode(this).querySelector('ul'));
-		console.log(React.findDOMNode(this).querySelector('ul').children);
 		let groceries = Array.prototype.slice.call(
 			React.findDOMNode(this).querySelector('ul').children
 		);

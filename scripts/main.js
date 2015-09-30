@@ -4,12 +4,10 @@ import React from 'react/addons';
 import {Router} from 'react-router';
 import routes from './app/routes';
 
-document.addEventListener('DOMContentLoaded', () => {
-	FastClick(document.body);
+FastClick(document.body);
 
-	React.render((
-		<Router history={history}>
-			{routes}
-		</Router>
-	), document.body);
-});
+React.render((
+	<Router history={history}>
+		{routes}
+	</Router>
+), document.body);

@@ -85,7 +85,29 @@ gulp.task('libs', bundleLibs);
 libs.on('update', bundleLibs);
 libs.on('log', gutil.log);
 
-gulp.task('scripts', ['lint', 'main', 'libs']);
+// Loader bundle
+let loaderOptions = assign({entries: ['./scripts/loader.js']}, watchify.args);
+let loader = watchify(browserify(loaderOptions), {poll: true})
+	.transform(babelify);
+let bundleLoader = () => {
+	return loader
+		.bundle()
+			.on('error', function(err) {
+			gutil.log(err.message);
+			this.emit('end');
+		})
+		.pipe(source('./public/scripts/loader.bundle.js'))
+		.pipe(buffer())
+		.pipe(gulpIf(settings.uglify, uglify()))
+		.pipe(gulp.dest(''))
+	;
+};
+
+gulp.task('loader', bundleLoader);
+main.on('update', bundleLoader);
+main.on('log', gutil.log);
+
+gulp.task('scripts', ['lint', 'main', 'libs', 'loader']);
 
 gulp.task('styles', () => {
 	return gulp.src('styles/styles.scss')

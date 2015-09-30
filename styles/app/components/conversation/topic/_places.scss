@@ -13,7 +13,7 @@
 		display: flex;
 		flex-wrap: wrap;
 
-		li {
+		> li {
 			width: 50%;
 			flex: 0 0 auto;
 			justify-content: flex-start;
@@ -28,6 +28,21 @@
 			h4 {
 				font: normal normal 100 18px/#{$f-1-l-h} $f-1;
 				padding: $g-1 0 0 0;
+			}
+
+			ul {
+				list-style: none;
+
+				li {
+					display: inline;
+
+					&:nth-child(n + 2) {
+						&:before {
+							content: ', ';
+							display: inline;
+						}
+					}
+				}
 			}
 		}
 	}

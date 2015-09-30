@@ -114,7 +114,7 @@ export default React.createClass({
 
 		let rating;
 
-		if(d.answer.status == 'success') {
+		if(d.answer.status == 'complete') {
 			let comment;
 
 			if(d.feedback.showComment) {
