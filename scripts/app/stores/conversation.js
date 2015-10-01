@@ -203,6 +203,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		Talk.initialize(reponse => {this.initializeHandler(reponse);});
 	},
 	initializeHandler: function(response) {
+		console.log(response);
 		if(response.status && response.status !== 200) {
 			this.changeShowQuestions('down');
 

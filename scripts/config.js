@@ -3,13 +3,13 @@ export default (() => {
 		return {
 			uglify: false,
 			styles: 'nested',
-			version: 9
+			version: 10
 		};
 	} else {
 		return {
 			uglify: true,
 			styles: 'compressed',
-			version: 9
+			version: 10
 		};
 	}
 })();
