@@ -205,6 +205,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	initializeHandler: function(response) {
 		console.log(response);
 		if(response.status && response.status !== 200) {
+			console.log('failed');
 			this.changeShowQuestions('down');
 
 			this.changeShowMessage(true,
@@ -215,6 +216,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.showAskAnother = false;
 			storage.showRetry = true;
 		} else {
+			console.log('success');
 			storage.questions =  response[0]? response[0] : [];
 			storage.location = response[1];
 			User.saveObject(sessionStorage, response[2]);
@@ -226,6 +228,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 		storage.isWaiting = false;
 		this.emitChange();
+		console.log(storage);
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
