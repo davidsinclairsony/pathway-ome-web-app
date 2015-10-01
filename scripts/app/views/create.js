@@ -43,6 +43,14 @@ export default React.createClass({
 
 		wrapperInner.push(React.DOM.h2({key: 1}, 'Create an Account'));
 
+		wrapperInner.push(
+			<div key='notice' className='notice'>
+				OME is currently an invite-only system while we gather feedback.
+				To add yourself to our interest list, please visit
+				{' '} <a href='http://www.pathway.com'>www.pathway.com</a>.
+			</div>
+		);
+
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
 			fields: this.state.fields,

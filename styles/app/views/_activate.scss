@@ -1,4 +1,12 @@
 .activate.view {
+	.notice {
+		font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+		padding: 0 0 $g-3 0;
+		max-width: $g-7 + $g-6;
+		margin: 0 auto;
+		text-align: center;
+	}
+
 	button.submit {
 		margin: $g-2 auto 0 auto;
 		display: block;

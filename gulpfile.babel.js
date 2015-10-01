@@ -11,8 +11,8 @@ import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
 import watchify from 'watchify';
-import yargs from 'yargs';
 import packageJson from './package.json';
+import config from './scripts/config';
 
 let deps = Object.keys(packageJson.dependencies);
 
@@ -20,20 +20,6 @@ let deps = Object.keys(packageJson.dependencies);
 deps[deps.indexOf('react')] = 'react/addons';
 deps[deps.indexOf('react-pure-render')] = 'react-pure-render/function';
 deps[deps.indexOf('history')] = 'history/lib/createBrowserHistory';
-
-let settings = {};
-
-if(yargs.argv.d) {
-	settings = {
-		uglify: false,
-		styles: 'nested'
-	};
-} else {
-	settings = {
-		uglify: true,
-		styles: 'compressed'
-	};
-}
 
 gulp.task('lint', () => {
 	return gulp.src(['gulpfile.babel.js', 'scripts/**/*.js'])
@@ -56,7 +42,7 @@ let bundleMain = () => {
 		})
 		.pipe(source('./public/scripts/main.bundle.js'))
 		.pipe(buffer())
-		.pipe(gulpIf(settings.uglify, uglify()))
+		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
 };
@@ -76,7 +62,7 @@ let bundleLibs = () => {
 		})
 		.pipe(source('./public/scripts/libs.bundle.js'))
 		.pipe(buffer())
-		.pipe(gulpIf(settings.uglify, uglify()))
+		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
 };
@@ -98,7 +84,7 @@ let bundleLoader = () => {
 		})
 		.pipe(source('./public/scripts/loader.bundle.js'))
 		.pipe(buffer())
-		.pipe(gulpIf(settings.uglify, uglify()))
+		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
 };
@@ -111,7 +97,7 @@ gulp.task('scripts', ['lint', 'main', 'libs', 'loader']);
 
 gulp.task('styles', () => {
 	return gulp.src('styles/styles.scss')
-		.pipe(sass({outputStyle: settings.styles}))
+		.pipe(sass({outputStyle: config.styles}))
 		.on('error', sass.logError)
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions'],
@@ -123,7 +109,7 @@ gulp.task('styles', () => {
 
 gulp.task('watch', () => {
 	gulp.watch('styles/**/*.scss', ['styles']);
-	gulp.watch(['scripts/**/*.js'], ['lint', 'main']);
+	gulp.watch(['scripts/**/*.js'], ['lint', 'main', 'libs', 'loader']);
 });
 
 gulp.task('default', ['styles', 'scripts', 'watch']);

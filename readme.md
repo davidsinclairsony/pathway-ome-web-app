@@ -5,12 +5,14 @@ Bundling by Browserify and orchestrated through Gulp.
 
 ## commands ##
 ```
-npm install
+export NODE_ENV=production
+export NODE_ENV=development
+npm install --dev
 npm start
 npm start -- -d
 ```
 
 ## to do ##
 - add, on create view, an async check to see if supplied email already used
-- add functionality to conversation view: show answers and feedback
 - add forgot password flow
+- rework ui for responses

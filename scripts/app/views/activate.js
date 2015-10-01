@@ -38,7 +38,13 @@ export default React.createClass({
 
 		wrapperInner.push(<h1 key={0}><Link to='/'><Logo /></Link></h1>);
 
-		wrapperInner.push(React.DOM.h2({key: 1}, 'Activate Your Device'));
+		wrapperInner.push(React.DOM.h2({key: 1}, 'Activate'));
+
+		wrapperInner.push(
+			<div key='notice' className='notice'>
+				Please check your email address to activate your account.
+			</div>
+		);
 
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,

@@ -1,5 +1,6 @@
 import assign from 'object-assign';
 import base from './base';
+import config from '../../config';
 import React from 'react/addons';
 import {Link} from 'react-router';
 
@@ -12,7 +13,7 @@ export default React.createClass(assign({}, base, {
 				•
 				<Link to='/consent'>Privacy & Terms</Link>
 				•
-				{'Version 8'}
+				{'Version ' + config.version}
 			</footer>
 		);
 	}

@@ -1,0 +1,15 @@
+export default (() => {
+	if(process.env.NODE_ENV == 'development') {
+		return {
+			uglify: false,
+			styles: 'nested',
+			version: 9
+		};
+	} else {
+		return {
+			uglify: true,
+			styles: 'compressed',
+			version: 9
+		};
+	}
+})();

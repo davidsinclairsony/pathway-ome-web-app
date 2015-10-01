@@ -45,8 +45,7 @@
 		"postcss-cli": "latest",
 		"vinyl-buffer": "latest",
 		"vinyl-source-stream": "latest",
-		"watchify": "latest",
-		"yargs": "latest"
+		"watchify": "latest"
 	},
 	"jshintConfig": {
 		"esnext": true

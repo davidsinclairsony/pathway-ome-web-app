@@ -1,6 +1,9 @@
+import config from './config';
+
 let append = () => {
 	[
-		'/scripts/libs.bundle.js?v=8', '/scripts/main.bundle.js?v=8'
+		'/scripts/libs.bundle.js?v=' + config.version,
+		'/scripts/main.bundle.js?v=' + config.version
 	].map(o => {
 		let script = document.createElement('script');
 		script.src = o;
