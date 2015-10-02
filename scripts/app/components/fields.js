@@ -420,8 +420,7 @@ export default React.createClass({
 								{id: 'fish', name: 'Fish'},
 								{id: 'shellfish', name: 'Shellfish'},
 								{id: 'peanut', name: 'Peanut'},
-								{id: 'treenut', name: 'Treenut'},
-								{id: 'alcohol', name: 'Alcohol'}
+								{id: 'treenut', name: 'Treenut'}
 							]
 						},
 						help
