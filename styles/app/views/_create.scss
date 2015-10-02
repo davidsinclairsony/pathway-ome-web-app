@@ -38,4 +38,19 @@
 			margin-top: $g-1;
 		}
 	}
+
+	.consentPopup {
+		.content {
+			.consent {
+				width: $bp-3 + $g-4;
+				max-width: 100%;
+				margin: 0 auto;
+				padding: $g-2 + $g-1 $g-3;
+
+				* {
+					text-align: left;
+				}
+			}
+		}
+	}
 }

@@ -18,7 +18,7 @@ export default {
 			data: JSON.stringify(data),
 			contentType: 'application/json',
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			complete: callback
+			complete: response => {this.errorHandler(response, callback);}
 		});
 	},
 	create: function(data, callback) {
@@ -32,7 +32,10 @@ export default {
 				url: Api.USER_REGISTER,
 				data: JSON.stringify({deviceID}),
 				contentType: 'application/json'
-			}).then(create).fail(callback);
+			})
+				.then(create)
+				.fail(response => {this.errorHandler(response, callback);})
+			;
 		};
 		create = response => {
 			let decryptedResponse = this.decrypt(
@@ -56,8 +59,8 @@ export default {
 					iv: ivBuf.toString('base64'),
 					encryptedPayload: this.encrypt(data, keyBuf, ivBuf)
 				}),
-				complete: callback,
-				error: callback
+				complete: response => {this.errorHandler(response, callback);},
+				error: response => {this.errorHandler(response, callback);}
 			});
 		};
 
@@ -96,6 +99,22 @@ export default {
 		encoded += cipher.final('base64');
 
 		return encoded;
+	},
+	errorHandler: function(response, callback) {
+		if(
+			response.status &&
+			(response.status < 200 || response.status > 299)
+		) {
+			switch(JSON.parse(response.response).message) {
+				case 'this is not a valid GUID: undefined':
+					history.replaceState(null, '/login');
+					break;
+				default:
+					callback(response);
+			}
+		} else {
+			callback(response);
+		}
 	},
 	fetchPii: function(resolve, reject) {
 		reqwest({
@@ -141,7 +160,10 @@ export default {
 			}
 		}));
 
-		when.join(hci, pii).then(callback).catch(callback);
+		when.join(hci, pii)
+			.then(response => {this.errorHandler(response, callback);})
+			.catch(response => {this.errorHandler(response, callback);})
+		;
 	},
 	get: function(storage, key) {
 		if(storage.user) {
@@ -180,7 +202,10 @@ export default {
 				url: Api.USER_SESSION,
 				data: JSON.stringify({deviceID}),
 				contentType: 'application/json'
-			}).then(login).fail(callback);
+			})
+				.then(login)
+				.fail(response => {this.errorHandler(response, callback);})
+			;
 		};
 		login = response => {
 			sessionStorage.removeItem('user');
@@ -213,10 +238,9 @@ export default {
 					);
 
 					this.save(sessionStorage, 'userKey', decryptedUserKey);
-
-					callback(response);
+					this.errorHandler(response, callback);
 				},
-				error: callback
+				error: response => {this.errorHandler(response, callback);}
 			});
 		};
 
@@ -273,6 +297,9 @@ export default {
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')}
 		}));
 
-		when.join(piiPromise, hciPromise).then(callback).catch(callback);
+		when.join(piiPromise, hciPromise)
+			.then(response => {this.errorHandler(response, callback);})
+			.catch(response => {this.errorHandler(response, callback);})
+		;
 	}
 };

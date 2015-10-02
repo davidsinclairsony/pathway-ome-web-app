@@ -70,6 +70,7 @@ export default React.createClass(assign({}, base, {
 						data-title={o.title}
 					/>
 					<h4>{o.title}</h4>
+					Here are some menu items that match your diet needs:
 					<ul>
 						{o.menuItems.map(o => {
 							return (

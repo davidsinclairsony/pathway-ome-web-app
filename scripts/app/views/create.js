@@ -47,7 +47,8 @@ export default React.createClass({
 			<div key='notice' className='notice'>
 				OME is currently an invite-only system while we gather feedback.
 				To add yourself to our interest list, please visit
-				{' '} <a href='http://www.pathway.com'>www.pathway.com</a>.
+				{' '} <a target='_blank' href='http://www.pathway.com'>
+				www.pathway.com</a>.
 			</div>
 		);
 
@@ -85,8 +86,8 @@ export default React.createClass({
 
 		if(this.state.showConsent) {
 			transitionInner.push(React.DOM.div({
-				className: 'consent modal',
-				key: 'consent'
+				className: 'consentPopup modal',
+				key: 'consentPopup'
 			},
 				React.DOM.div({className: 'content'},
 					React.createElement(consent, null)

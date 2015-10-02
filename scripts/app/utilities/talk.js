@@ -12,7 +12,7 @@ export default {
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')},
-			complete: callback
+			complete: response => {User.errorHandler(response, callback);}
 		});
 	},
 	initialize: function(callback) {
@@ -47,7 +47,10 @@ export default {
 			User.fetchPii(resolve, reject);
 		});
 
-		when.join(suggestions, location, piiFetch).then(callback).catch(callback);
+		when.join(suggestions, location, piiFetch)
+			.then(response => {User.errorHandler(response, callback);})
+			.catch(response => {User.errorHandler(response, callback);})
+		;
 	},
 	updateFeedback: function(data, callback) {
 		reqwest({
@@ -57,7 +60,7 @@ export default {
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			headers: {'X-Session-Token': User.get(sessionStorage, 'sessionID')},
-			complete: callback
+			complete: response => {User.errorHandler(response, callback);}
 		});
 	}
 };

@@ -74,17 +74,17 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				fields.dob.values[2]
 		};
 
-		// Password may not be changed and not have a value
+		// Security question may not be changed and not have a value
 		if(fields.securityQuestion.values[0]) {
 			pii.securityQuestion = fields.securityQuestion.values[0];
 		}
 
-		// Security question may not be changed and not have a value
+		// Security answer may not be changed and not have a value
 		if(fields.securityAnswer.values[0]) {
 			pii.securityAnswer = fields.securityAnswer.values[0];
 		}
 
-		// Security answer may not be changed and not have a value
+		// Password may not be changed and not have a value
 		if(fields.newPassword.values[0]) {
 			pii.password = User.passwordHasher(fields.newPassword.values[0]);
 		}

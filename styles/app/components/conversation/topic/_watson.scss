@@ -1,0 +1,54 @@
+.watson {
+	background: transparentize(white, .9);
+	border-radius: $g-1;
+	margin-top: $g-3;
+
+	h3 {
+		font: normal normal 100 22px/#{$f-1-l-h} $f-1;
+		padding: $g-2 + $g-1 $g-3 0 $g-3;
+	}
+
+	> ul {
+		list-style: none;
+
+		> li {
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			padding: $g-2 + $g-1 $g-3;
+
+			.content {
+				font: normal normal 100 14px/#{$f-1-l-h} $f-1;
+
+				.formattedText {
+					h1 {
+						font: normal normal 100 20px/#{$f-1-l-h} $f-1;
+						padding-bottom: $g-1;
+					}
+
+					> * {
+						&:nth-child(n + 3) {
+							margin-top: $g-2;
+						}
+					}
+
+					ol, ul {
+						list-style: disc inside;
+						margin-left: $g-3;
+						text-indent: -1 * $g-2;
+					}
+				}
+
+				.confidence {
+					font-weight: bold;
+					color: $c-1;
+					padding: $g-2 + $g-1 0 0 0;
+				}
+			}
+		}
+	}
+
+	@media all and (max-width: $bp-2 - 1) {}
+
+	@media all and (min-width: $bp-2) {}
+}

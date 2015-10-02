@@ -257,8 +257,7 @@ export default React.createClass({
 							options: [
 								['none', ''],
 								['female', 'Female'],
-								['male', 'Male'],
-								['other', 'Other']
+								['male', 'Male']
 							]
 						},
 						help

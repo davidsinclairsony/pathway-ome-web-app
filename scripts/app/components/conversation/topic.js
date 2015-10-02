@@ -7,6 +7,7 @@ import React from 'react/addons';
 import Recipes from './topic/recipes';
 import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
+import Watson from './topic/watson';
 
 let getState = () => {
 	return {
@@ -103,6 +104,10 @@ export default React.createClass({
 						case 'groceries':
 							lists.push(
 								<Groceries key='groceries' data={o.templateData} />
+							);
+						case 'watson':
+							lists.push(
+								<Watson key='watson' data={o.templateData} />
 							);
 							break;
 					}

@@ -50,27 +50,12 @@
 
 		.summary {
 			font: normal normal 100 18px/#{$f-1-l-h} $f-1;
-
-			h1 {
-				display: none;
-			}
-
-			> * {
-				&:nth-child(n + 3) {
-					margin-top: $g-2;
-				}
-			}
-
-			ol, ul {
-				list-style: disc inside;
-				margin-left: $g-3;
-				text-indent: -1 * $g-2;
-			}
 		}
 
 		@import "topic/places";
 		@import "topic/recipes";
 		@import "topic/groceries";
+		@import "topic/watson";
 	}
 
 	footer {
