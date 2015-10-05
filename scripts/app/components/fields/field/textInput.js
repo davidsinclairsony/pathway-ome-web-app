@@ -27,7 +27,8 @@ export default React.createClass(assign({}, base, {
 				onChange: event => {
 					Actions.Fields.onFieldChange({
 						name: this.props.name,
-						value: event.target.value,
+						value: this.props.name == 'email'?
+							event.target.value.toLowerCase() : event.target.value,
 						vIndex: i
 					});
 				}
