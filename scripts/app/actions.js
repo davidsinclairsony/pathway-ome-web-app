@@ -140,6 +140,11 @@ let Fields = {
 			data
 		});
 	},
+	onEmailBlur: () => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.FIELDS_ON_EMAIL_BLUR
+		});
+	},
 	onFieldChange: description => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.FIELDS_ON_FIELD_CHANGE,

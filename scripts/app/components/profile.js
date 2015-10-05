@@ -7,6 +7,7 @@ import footer from './footer';
 import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import Validator from '../utilities/validator';
+import User from '../utilities/user';
 
 let getState = () => {
 	return {
@@ -63,7 +64,15 @@ export default React.createClass(assign({}, {
 
 			loadedInner.push(React.createElement(fields, {
 				key: 'fields',
-				fields: this.state.fields
+				fields: this.state.fields,
+				submitHandler: this.submitHandler,
+				emailBlurHandler: e => {
+					let oldEmail = User.get(sessionStorage, 'email');
+
+					if(oldEmail && oldEmail !== e.target.value) {
+						Actions.Fields.onEmailBlur();
+					}
+				}
 			}));
 
 			loadedInner.push(React.DOM.div(

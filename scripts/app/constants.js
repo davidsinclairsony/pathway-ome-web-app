@@ -22,6 +22,7 @@ const Actions = keymirror({
 	CREATE_SUBMIT: null,
 	FIELDS_CHANGE_SHOW_HELP: null,
 	FIELDS_FILL: null,
+	FIELDS_ON_EMAIL_BLUR: null,
 	FIELDS_ON_FIELD_CHANGE: null,
 	FIELDS_RESET_VALIDATION: null,
 	HOME_TOGGLE_SHOW_MENU: null,
@@ -45,6 +46,7 @@ const Api = {
 	USER_LOGIN: BASE_URL + 'user/login',
 	USER_ACTIVATE: BASE_URL + 'user/activate',
 	USER_HCI: BASE_URL + 'user/hci',
+	USER_CHECKEMAIL: BASE_URL + 'user/checkemail',
 	SUGGESTIONS: BASE_URL + 'suggestions',
 	ANSWER: BASE_URL + 'answer',
 	ANSWER_FEEDBACK: BASE_URL + 'answer/feedback'

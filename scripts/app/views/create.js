@@ -55,7 +55,8 @@ export default React.createClass({
 		wrapperInner.push(React.createElement(fields, {
 			key: 2,
 			fields: this.state.fields,
-			submitHandler: this.submitHandler
+			submitHandler: this.submitHandler,
+			emailBlurHandler: Actions.Fields.onEmailBlur
 		}));
 
 		wrapperInner.push(React.DOM.div({className: 'agreement', key: 3},

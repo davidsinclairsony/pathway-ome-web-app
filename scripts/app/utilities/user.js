@@ -92,6 +92,17 @@ export default {
 
 		return dec;
 	},
+	doesEmailExist: function(data, callback) {
+		reqwest({
+			method: 'post',
+			crossOrigin: true,
+			url: Api.USER_CHECKEMAIL,
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
+			complete: response => {this.errorHandler(response, callback);}
+		});
+	},
 	encrypt: function(data, keyBuf, ivBuf) {
 		let cipher = crypto.createCipheriv('aes-128-cbc', keyBuf, ivBuf);
 		let encoded = cipher.update(JSON.stringify(data), 'utf8', 'base64');

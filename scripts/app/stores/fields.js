@@ -3,6 +3,7 @@ import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
 import Help from '../data/help';
+import User from '../utilities/user';
 import Validator from '../utilities/validator';
 
 let CHANGE_EVENT = 'change';
@@ -68,8 +69,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				}
 			}
 		});
-
-		//this.emitChange();
 	},
 	get: function(keys) {
 		let value = storage;
@@ -112,6 +111,27 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.fields[field] = assign({}, defaults, custom);
 		});
 	},
+	onEmailBlur: function() {
+		if(storage.fields.email.isValid) {
+			User.doesEmailExist(
+				{email: storage.fields.email.values[0]},
+				response => {this.onEmailBlurHandler(response);}
+			);
+		}
+	},
+	onEmailBlurHandler: function(response) {
+		if(response.status && response.status !== 200) {
+			this.changeShowMessage(true,
+				'Sorry, there was an error: ' +
+				JSON.parse(response.response).message
+			);
+		} else if(response.code == 'AlreadyExists') {
+			storage.fields.email.help = Help.emailExists;
+			storage.fields.email.isValid = false;
+		}
+
+		this.emitChange();
+	},
 	onFieldChange: function(o) {
 		// Make sure previous array values already exist
 		for(let i = 0; i < o.vIndex; i++) {
@@ -153,6 +173,10 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.FIELDS_FILL:
 			Store.fill(action.data);
+			Store.emitChange();
+			break;
+		case Constants.Actions.FIELDS_ON_EMAIL_BLUR:
+			Store.onEmailBlur();
 			Store.emitChange();
 			break;
 		case Constants.Actions.FIELDS_ON_FIELD_CHANGE:

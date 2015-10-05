@@ -1,15 +1,19 @@
 export default (() => {
+	let settings;
+
 	if(process.env.NODE_ENV == 'development') {
-		return {
+		settings = {
 			uglify: false,
-			styles: 'nested',
-			version: 11
+			styles: 'nested'
 		};
 	} else {
-		return {
+		settings = {
 			uglify: true,
-			styles: 'compressed',
-			version: 11
+			styles: 'compressed'
 		};
 	}
+
+	settings.version = 12;
+
+	return settings;
 })();

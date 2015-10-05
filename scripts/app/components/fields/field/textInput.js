@@ -15,6 +15,8 @@ export default React.createClass(assign({}, base, {
 						this.props.submitHandler(e);
 					}
 				},
+				onBlur: this.props.name == 'email'?
+					this.props.emailBlurHandler : undefined,
 				id: this.props.ids[i],
 				key: this.props.ids[i],
 				type: this.props.htmlType,

@@ -48,7 +48,6 @@ let bundleMain = () => {
 };
 
 gulp.task('main', bundleMain);
-main.on('update', bundleMain);
 main.on('log', gutil.log);
 
 // Libs bundle
@@ -68,7 +67,6 @@ let bundleLibs = () => {
 };
 
 gulp.task('libs', bundleLibs);
-libs.on('update', bundleLibs);
 libs.on('log', gutil.log);
 
 // Loader bundle
@@ -90,7 +88,6 @@ let bundleLoader = () => {
 };
 
 gulp.task('loader', bundleLoader);
-main.on('update', bundleLoader);
 main.on('log', gutil.log);
 
 gulp.task('scripts', ['lint', 'main', 'libs', 'loader']);

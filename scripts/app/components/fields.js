@@ -48,6 +48,7 @@ export default React.createClass({
 						},
 						input: {
 							submitHandler: this.props.submitHandler,
+							emailBlurHandler: this.props.emailBlurHandler,
 							count: 1,
 							htmlType: 'email',
 							ids: ['email'],
