@@ -116,9 +116,16 @@ export default {
 			response.status &&
 			(response.status < 200 || response.status > 299)
 		) {
-			switch(JSON.parse(response.response).message) {
+			let error = JSON.parse(response.response).message;
+
+			if(Array.isArray(error)) {
+				error = error[0];
+			}
+
+			switch(error) {
 				case 'this is not a valid GUID: undefined':
-					history.replaceState(null, '/login');
+				case 'data field not found: userGUID':
+					this.logout();
 					break;
 				default:
 					callback(response);

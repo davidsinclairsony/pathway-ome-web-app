@@ -141,7 +141,10 @@ export default React.createClass(assign({}, {
 		// Validate all fields
 		Object.keys(this.state.fields).forEach(key => {
 			if(
-				this.state.fields[key].required &&
+				(
+					this.state.fields[key].required ||
+					this.state.fields[key].values[0]
+				) &&
 				!this.state.fields[key].isValid &&
 				!Validator.validate(this.state.fields[key])
 			) {

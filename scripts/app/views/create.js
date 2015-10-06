@@ -169,7 +169,7 @@ export default React.createClass({
 			if(!this.state.fields[key].isValid) {
 				Actions.Fields.onFieldChange({
 					name: this.state.fields[key].name,
-					value: this.state.fields[key].value,
+					value: this.state.fields[key].values[0],
 					vIndex: 0
 				});
 

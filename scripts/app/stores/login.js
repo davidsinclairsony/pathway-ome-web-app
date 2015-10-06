@@ -1,3 +1,4 @@
+import Actions from '../actions';
 import assign from 'object-assign';
 import history from '../history';
 import User from '../utilities/user';
@@ -65,6 +66,14 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
+
+			if(response.status === 400) {
+				Actions.Fields.onFieldChange({
+					name: 'singlePassword',
+					value: '',
+					vIndex: 0
+				});
+			}
 
 			this.emitChange();
 		} else {
