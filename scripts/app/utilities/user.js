@@ -99,7 +99,6 @@ export default {
 			url: Api.USER_CHECKEMAIL,
 			data: JSON.stringify(data),
 			contentType: 'application/json',
-			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
 			complete: response => {this.errorHandler(response, callback);}
 		});
 	},
@@ -125,6 +124,7 @@ export default {
 			switch(error) {
 				case 'this is not a valid GUID: undefined':
 				case 'data field not found: userGUID':
+				case 'Session is not active':
 					this.logout();
 					break;
 				default:

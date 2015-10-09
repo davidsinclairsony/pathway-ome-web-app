@@ -31,6 +31,10 @@ export default React.createClass({
 
 		let main = React.findDOMNode(this).querySelector('main');
 		imagesLoaded(main, this.setMainHeight);
+
+		if(this.props.data.feedback.showComment) {
+			React.findDOMNode(this.refs.commentInput).focus();
+		}
 	},
 	ratingClickHandler: function(event) {
 		let rating;
@@ -126,6 +130,7 @@ export default React.createClass({
 				comment = (
 					<div className='comment' key='comment'>
 						<textarea
+							ref='commentInput'
 							value={d.feedback.comment}
 							placeholder='Please leave any comments on the answer here...'
 							onChange={e => {
@@ -139,6 +144,7 @@ export default React.createClass({
 						></textarea>
 						<button
 							className='button small positive'
+							id={'commentSave' + d.id}
 							onClick={() => {Actions.Conversation.commentSubmit(d.id);}}
 						>Save</button>
 					</div>
@@ -164,6 +170,7 @@ export default React.createClass({
 						</ul>
 						<button
 							className='button small neutral'
+							id={'commentOpen' + d.id}
 							onClick={() => {
 								Actions.Conversation.changeShowComment(
 									d.id, !d.feedback.showComment
