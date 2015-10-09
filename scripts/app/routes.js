@@ -9,9 +9,7 @@ import profile from './components/profile';
 import reactivate from './views/reactivate';
 import User from './utilities/user';
 import {IndexRoute, Route} from 'react-router';
-/*eslint-disable */
-import React from 'react/addons';
-/*eslint-enable */
+import React from 'react'; // eslint-disable-line no-unused-vars
 
 export default <Route path='/' component={app}>
 	<IndexRoute

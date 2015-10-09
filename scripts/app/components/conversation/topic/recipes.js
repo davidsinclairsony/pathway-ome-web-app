@@ -1,6 +1,6 @@
 import assign from 'object-assign';
 import base from '../../base';
-import React from 'react/addons';
+import React from 'react';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Recipes',

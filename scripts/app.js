@@ -1,5 +1,5 @@
 import history from './app/history';
-import React from 'react/addons';
+import React from 'react';
 import TransitionGroup from './app/utilities/velocityTransitionGroup.js';
 
 export default React.createClass({

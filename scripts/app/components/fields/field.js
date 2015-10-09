@@ -3,7 +3,7 @@ import assign from 'object-assign';
 import base from './../base';
 import dropDown from './field/dropDown';
 import heightSlider from './field/heightSlider';
-import React from 'react/addons';
+import React from 'react';
 import textInput from './field/textInput';
 import checkList from './field/checkList';
 import weightSlider from './field/weightSlider';

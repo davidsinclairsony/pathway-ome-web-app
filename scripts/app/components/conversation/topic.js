@@ -3,7 +3,7 @@ import Groceries from './topic/groceries';
 import imagesLoaded from 'imagesloaded';
 import motion from '../../data/motion';
 import Places from './topic/places';
-import React from 'react/addons';
+import React from 'react';
 import Recipes from './topic/recipes';
 import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
@@ -33,7 +33,7 @@ export default React.createClass({
 		imagesLoaded(main, this.setMainHeight);
 
 		if(this.props.data.feedback.showComment) {
-			React.findDOMNode(this.refs.commentInput).focus();
+			this.refs.commentInput.focus();
 		}
 	},
 	ratingClickHandler: function(event) {

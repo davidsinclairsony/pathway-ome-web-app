@@ -13,6 +13,5 @@ npm start -- -d
 ```
 
 ## to do ##
-- add, on create view, an async check to see if supplied email already used
 - add forgot password flow
 - rework ui for responses

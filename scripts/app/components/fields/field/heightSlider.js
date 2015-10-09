@@ -1,7 +1,7 @@
 import Actions from '../../../actions';
 import assign from 'object-assign';
 import base from './../../base';
-import React from 'react/addons';
+import React from 'react';
 import Slider from 'react-slider';
 
 export default React.createClass(assign({}, base, {

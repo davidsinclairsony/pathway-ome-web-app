@@ -17,9 +17,7 @@ import config from './scripts/config';
 let deps = Object.keys(packageJson.dependencies);
 
 // Adjust for slash modules
-deps[deps.indexOf('react')] = 'react/addons';
 deps[deps.indexOf('react-pure-render')] = 'react-pure-render/function';
-deps[deps.indexOf('history')] = 'history/lib/createBrowserHistory';
 
 gulp.task('lint', () => {
 	return gulp.src(['gulpfile.babel.js', 'scripts/**/*.js'])

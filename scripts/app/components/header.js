@@ -2,9 +2,8 @@ import Actions from '../actions';
 import assign from 'object-assign';
 import base from './base';
 import logo from './logo';
-import React from 'react/addons';
+import React from 'react';
 import {Link} from 'react-router';
-//import router from '../router';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Header',

@@ -1,6 +1,7 @@
 // Credit to https://gist.github.com/tkafka/0d94c6ec94297bb67091
 
-import React from 'react/addons';
+import React from 'react'; // eslint-disable-line no-unused-vars
+import TransitionGroup from 'react-addons-transition-group';
 import transitions from '../data/transitions';
 import Velocity from 'velocity-animate';
 
@@ -69,7 +70,7 @@ let VelocityTransitionGroup = React.createClass({
 	},
 	render: function() {
 		return (React.createElement(
-			React.addons.TransitionGroup, React.__spread({}, this.props,
+			TransitionGroup, React.__spread({}, this.props,
 				{childFactory: this._wrapChild})
 			)
 		);
