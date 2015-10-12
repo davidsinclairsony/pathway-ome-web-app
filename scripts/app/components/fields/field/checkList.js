@@ -7,7 +7,6 @@ import Widgets from 'react-widgets';
 export default React.createClass(assign({}, base, {
 	displayName: 'Check List',
 	render: function() {
-		return undefined;
 		return React.createElement(Widgets.SelectList, {
 			className:
 				this.props.className + ' inputs count' + this.props.data.length,

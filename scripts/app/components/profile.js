@@ -1,5 +1,4 @@
 import Actions from '../actions';
-import assign from 'object-assign';
 import ProfileStore from '../stores/profile';
 import fields from './fields';
 import FieldsStore from '../stores/fields';
@@ -20,7 +19,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, {
+export default React.createClass({
 	displayName: 'Profile',
 	getInitialState: function() {
 		ProfileStore.initialize();
@@ -166,4 +165,4 @@ export default React.createClass(assign({}, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});
