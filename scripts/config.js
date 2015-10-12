@@ -13,7 +13,7 @@ export default (() => {
 		};
 	}
 
-	settings.version = 12;
+	settings.version = 17;
 
 	return settings;
 })();

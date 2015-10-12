@@ -4,7 +4,7 @@ import fields from '../components/fields';
 import FieldsStore from '../stores/fields';
 import footer from '../components/footer';
 import Logo from '../components/logo';
-import React from 'react';
+import React from 'react/addons';
 import {Link} from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 

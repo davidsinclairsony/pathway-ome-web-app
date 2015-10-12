@@ -34,8 +34,9 @@ const Actions = keymirror({
 	REACTIVATE_CHANGE_IS_WAITING: null
 });
 
-// const BASE_URL = 'http://' + window.location.host + '/api/v1/';
+//const BASE_URL = 'http://' + window.location.host + '/api/v1/';
 const BASE_URL = 'http://atldev.pathway.com:5000/';
+//const BASE_URL = 'http://52.89.209.132:5000/';
 
 const Api = {
 	KEY: 'gcZFlslKi1l7JRrUCsfwkg==',

@@ -7,6 +7,7 @@ import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
+import runSequence from 'run-sequence';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
@@ -14,28 +15,38 @@ import watchify from 'watchify';
 import packageJson from './package.json';
 import config from './scripts/config';
 
+if(process.env.NODE_ENV) {
+	console.log('Starting in ' + process.env.NODE_ENV + ' mode...');
+} else {
+	console.log('No environment variable set.');
+	process.exit();
+}
+
 let deps = Object.keys(packageJson.dependencies);
 
 // Adjust for slash modules
+deps[deps.indexOf('react')] = 'react/addons';
 deps[deps.indexOf('react-pure-render')] = 'react-pure-render/function';
 
-gulp.task('lint', () => {
+gulp.task('scripts:lint', () => {
 	return gulp.src(['gulpfile.babel.js', 'scripts/**/*.js'])
 		.pipe(eslint({quiet: true}))
 		.pipe(eslint.format())
 	;
 });
 
+let mainB = watchify(browserify(assign({}, watchify.args, {
+		entries: ['./scripts/main.js']}
+	)), {poll: true, ignoreWatch: '**/*.js'})
+	.transform(babelify)
+	.external(deps)
+	.on('log', gutil.log)
+;
 
-// Main bundle
-let mainOptions = assign({entries: ['./scripts/main.js']}, watchify.args);
-let main = watchify(browserify(mainOptions), {poll: true})
-	.transform(babelify).external(deps);
-let bundleMain = () => {
-	return main
-		.bundle()
-			.on('error', function(err) {
-			gutil.log(err.message);
+gulp.task('scripts:bundle:main', () => {
+	return mainB.bundle()
+		.on('error', function(error) {
+			gutil.log(error.message);
 			this.emit('end');
 		})
 		.pipe(source('./public/scripts/main.bundle.js'))
@@ -43,18 +54,21 @@ let bundleMain = () => {
 		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
-};
-
-gulp.task('main', bundleMain);
-main.on('log', gutil.log);
+});
 
 // Libs bundle
-let libs = watchify(browserify(assign({}, watchify.args))).require(deps);
-let bundleLibs = () => {
-	return libs
-		.bundle()
-		.on('error', function(err) {
-			gutil.log(err.message);
+let libsB = watchify(
+		browserify(assign({}, watchify.args)),
+		{poll: true, ignoreWatch: '**/*.js'}
+	)
+	.require(deps)
+	.on('log', gutil.log)
+;
+
+gulp.task('scripts:bundle:libs', () => {
+	return libsB.bundle()
+		.on('error', function(error) {
+			gutil.log(error.message);
 			this.emit('end');
 		})
 		.pipe(source('./public/scripts/libs.bundle.js'))
@@ -62,20 +76,21 @@ let bundleLibs = () => {
 		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
-};
-
-gulp.task('libs', bundleLibs);
-libs.on('log', gutil.log);
+});
 
 // Loader bundle
-let loaderOptions = assign({entries: ['./scripts/loader.js']}, watchify.args);
-let loader = watchify(browserify(loaderOptions), {poll: true})
-	.transform(babelify);
-let bundleLoader = () => {
-	return loader
-		.bundle()
-			.on('error', function(err) {
-			gutil.log(err.message);
+let loaderB = watchify(browserify(assign({}, watchify.args, {
+		entries: ['./scripts/loader.js']}
+	)), {poll: true, ignoreWatch: '**/*.js'}
+	)
+	.transform(babelify)
+	.on('log', gutil.log)
+;
+
+gulp.task('scripts:bundle:loader', () => {
+	return loaderB.bundle()
+		.on('error', function(error) {
+			gutil.log(error.message);
 			this.emit('end');
 		})
 		.pipe(source('./public/scripts/loader.bundle.js'))
@@ -83,12 +98,13 @@ let bundleLoader = () => {
 		.pipe(gulpIf(config.uglify, uglify()))
 		.pipe(gulp.dest(''))
 	;
-};
+});
 
-gulp.task('loader', bundleLoader);
-main.on('log', gutil.log);
+gulp.task('scripts:bundle', [
+	'scripts:bundle:main', 'scripts:bundle:libs', 'scripts:bundle:loader'
+]);
 
-gulp.task('scripts', ['lint', 'main', 'libs', 'loader']);
+gulp.task('scripts', ['scripts:lint', 'scripts:bundle']);
 
 gulp.task('styles', () => {
 	return gulp.src('styles/styles.scss')
@@ -104,7 +120,10 @@ gulp.task('styles', () => {
 
 gulp.task('watch', () => {
 	gulp.watch('styles/**/*.scss', ['styles']);
-	gulp.watch(['scripts/**/*.js'], ['lint', 'main', 'libs', 'loader']);
+	gulp.watch(
+		['gulpfile.babel.js', 'scripts/**/*.js'],
+		() => {runSequence('scripts:lint', 'scripts:bundle');}
+	);
 });
 
 gulp.task('default', ['styles', 'scripts', 'watch']);

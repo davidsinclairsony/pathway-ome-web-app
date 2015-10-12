@@ -2,7 +2,7 @@ import Actions from '../actions';
 import assign from 'object-assign';
 import base from './base';
 import logo from './logo';
-import React from 'react';
+import React from 'react/addons';
 import {Link} from 'react-router';
 
 export default React.createClass(assign({}, base, {

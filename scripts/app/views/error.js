@@ -2,7 +2,7 @@ import assign from 'object-assign';
 import base from '../components/base';
 import footer from '../components/footer';
 import Logo from '../components/logo';
-import React from 'react';
+import React from 'react/addons';
 import {Link} from 'react-router';
 
 export default React.createClass(assign({}, base, {

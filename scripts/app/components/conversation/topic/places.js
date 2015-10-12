@@ -2,7 +2,7 @@ import assign from 'object-assign';
 import base from '../../base';
 import GoogleMaps from 'google-maps';
 import mapStyles from '../../../data/mapStyles';
-import React from 'react';
+import React from 'react/addons';
 
 export default React.createClass(assign({}, base, {
 	displayName: 'Places',

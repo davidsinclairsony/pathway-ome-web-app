@@ -4,7 +4,7 @@ import Conversation from '../components/conversation';
 import Header from '../components/header';
 import HomeStore from '../stores/home';
 import Nav from '../components/nav';
-import React from 'react';
+import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import WindowStore from '../stores/window';
 

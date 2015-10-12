@@ -1,6 +1,6 @@
 import Actions from '../actions';
 import history from '../history';
-import React from 'react';
+import React from 'react/addons';
 import {Link} from 'react-router';
 import User from '../utilities/user';
 import WindowStore from '../stores/window';

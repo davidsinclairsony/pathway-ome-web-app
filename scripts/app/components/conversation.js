@@ -2,7 +2,7 @@ import Actions from '../actions';
 import ConversationStore from '../stores/conversation';
 import Footer from './footer';
 import motion from '../data/motion';
-import React from 'react';
+import React from 'react/addons';
 import Topic from './conversation/topic';
 import TransitionGroup from '../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';

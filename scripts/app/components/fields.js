@@ -1,5 +1,5 @@
 import field from './fields/field';
-import React from 'react';
+import React from 'react/addons';
 
 export default React.createClass({
 	displayName: 'Fields',

@@ -4,7 +4,7 @@ import ProfileStore from '../stores/profile';
 import fields from './fields';
 import FieldsStore from '../stores/fields';
 import footer from './footer';
-import React from 'react';
+import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import Validator from '../utilities/validator';
 import User from '../utilities/user';

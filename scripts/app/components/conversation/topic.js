@@ -3,7 +3,7 @@ import Groceries from './topic/groceries';
 import imagesLoaded from 'imagesloaded';
 import motion from '../../data/motion';
 import Places from './topic/places';
-import React from 'react';
+import React from 'react/addons';
 import Recipes from './topic/recipes';
 import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';

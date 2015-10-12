@@ -79,19 +79,6 @@ export default {
 
 		return JSON.parse(_.trim(dec, '\0'));
 	},
-	decryptUserKey: function(encryptedData, key, iv) {
-		const ivBuf = new Buffer(iv, 'base64');
-		const dataBuf = new Buffer(encryptedData, 'base64');
-		const keyBuf = new Buffer(key, 'base64');
-		let decipher = crypto.createDecipheriv('aes-128-cbc', keyBuf, ivBuf);
-
-		decipher.setAutoPadding(false);
-
-		let dec = decipher.update(dataBuf, 'base64', 'base64');
-		dec += decipher.final('base64');
-
-		return dec;
-	},
 	doesEmailExist: function(data, callback) {
 		reqwest({
 			method: 'post',
@@ -249,13 +236,13 @@ export default {
 					encryptedPayload: this.encrypt(newData, keyBuf, ivBuf)
 				}),
 				success: response => {
-					let decryptedUserKey = this.decryptUserKey(
-						response.userKey,
+					let decrypted = this.decrypt(
+						response.encryptedPayload,
 						Api.KEY,
 						response.iv
 					);
 
-					this.save(sessionStorage, 'userKey', decryptedUserKey);
+					this.save(sessionStorage, 'userKey', decrypted.key);
 					this.errorHandler(response, callback);
 				},
 				error: response => {this.errorHandler(response, callback);}
