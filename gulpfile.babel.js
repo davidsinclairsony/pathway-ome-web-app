@@ -1,4 +1,3 @@
-import assign from 'object-assign';
 import autoprefixer from 'gulp-autoprefixer';
 import babelify from 'babelify';
 import browserify from 'browserify';
@@ -7,11 +6,11 @@ import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import gutil from 'gulp-util';
+import rememberify from 'rememberify';
 import runSequence from 'run-sequence';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
-import watchify from 'watchify';
 import packageJson from './package.json';
 import config from './scripts/config';
 
@@ -35,9 +34,8 @@ gulp.task('scripts:lint', () => {
 	;
 });
 
-let mainB = watchify(browserify(assign({}, watchify.args, {
-		entries: ['./scripts/main.js']}
-	)), {poll: true, ignoreWatch: '**/*.js'})
+let mainB = browserify('./scripts/main.js', {cache: {}})
+	.plugin(rememberify)
 	.transform(babelify)
 	.external(deps)
 	.on('log', gutil.log)
@@ -57,10 +55,8 @@ gulp.task('scripts:bundle:main', () => {
 });
 
 // Libs bundle
-let libsB = watchify(
-		browserify(assign({}, watchify.args)),
-		{poll: true, ignoreWatch: '**/*.js'}
-	)
+let libsB = browserify(null, {cache: {}})
+	.plugin(rememberify)
 	.require(deps)
 	.on('log', gutil.log)
 ;
@@ -79,10 +75,8 @@ gulp.task('scripts:bundle:libs', () => {
 });
 
 // Loader bundle
-let loaderB = watchify(browserify(assign({}, watchify.args, {
-		entries: ['./scripts/loader.js']}
-	)), {poll: true, ignoreWatch: '**/*.js'}
-	)
+let loaderB = browserify('./scripts/loader.js', {cache: {}})
+	.plugin(rememberify)
 	.transform(babelify)
 	.on('log', gutil.log)
 ;
@@ -122,7 +116,10 @@ gulp.task('watch', () => {
 	gulp.watch('styles/**/*.scss', ['styles']);
 	gulp.watch(
 		['gulpfile.babel.js', 'scripts/**/*.js'],
-		() => {runSequence('scripts:lint', 'scripts:bundle');}
+		vinyl => {
+			rememberify.forget(mainB, vinyl.path);
+			runSequence('scripts:lint', 'scripts:bundle:main');
+		}
 	);
 });
 
