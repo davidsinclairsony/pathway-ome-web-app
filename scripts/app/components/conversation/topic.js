@@ -8,6 +8,7 @@ import Recipes from './topic/recipes';
 import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
 import Watson from './topic/watson';
+import Asker from './topic/asker';
 
 let getState = () => {
 	return {
@@ -76,12 +77,13 @@ export default React.createClass({
 	render: function() {
 		let d = this.props.data;
 		let mainInner = [];
+console.log(d.answer.dataNeeded);
+		if(d.answer.dataNeeded) {
+			mainInner.push(<Asker key='asker' data={d.answer.dataNeeded} />);
+		}
 
-		if(d.answer.status == 'pending') {
-			mainInner.push(
-				<div className='pending' key='pending'></div>
-			);
-		} else {
+		if(d.answer.data) {
+			// All answers have a summary
 			mainInner.push(
 				<div
 					className='summary'
@@ -119,6 +121,10 @@ export default React.createClass({
 			}
 
 			mainInner.push(lists);
+		}
+
+		if(d.answer.status == 'pending') {
+			mainInner.push(<div className='pending' key='pending'></div>);
 		}
 
 		let rating;
@@ -183,8 +189,6 @@ export default React.createClass({
 					{comment}
 				</TransitionGroup>
 			);
-
-
 		}
 
 		return (

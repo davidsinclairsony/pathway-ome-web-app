@@ -1,8 +1,8 @@
 import Actions from '../actions';
 import ActivateStore from '../stores/activate';
-import fields from '../components/fields';
+import Fields from '../components/fields';
 import FieldsStore from '../stores/fields';
-import footer from '../components/footer';
+import Footer from '../components/footer';
 import Logo from '../components/logo';
 import React from 'react/addons';
 import {Link} from 'react-router';
@@ -33,12 +33,11 @@ export default React.createClass({
 		return getState();
 	},
 	render: function() {
-		let inner = [];
 		let wrapperInner = [];
 
 		wrapperInner.push(<h1 key={0}><Link to='/'><Logo /></Link></h1>);
 
-		wrapperInner.push(React.DOM.h2({key: 1}, 'Activate'));
+		wrapperInner.push(<h2 key={1}>Activate</h2>);
 
 		wrapperInner.push(
 			<div key='notice' className='notice'>
@@ -46,56 +45,62 @@ export default React.createClass({
 			</div>
 		);
 
-		wrapperInner.push(React.createElement(fields, {
-			key: 2,
-			fields: this.state.fields,
-			submitHandler: this.submitHandler
-		}));
+		wrapperInner.push(
+			<Fields
+				key={2}
+				fields={this.state.fields}
+				submitHandler={this.submitHandler}
+			/>
+		);
 
-		wrapperInner.push(React.DOM.button({
-			className: 'submit button medium positive',
-			key: 3,
-			onClick: this.submitHandler,
-			id: 'activate'
-		}, 'Activate'));
+		wrapperInner.push(
+			<button
+				className='submit button medium positive'
+				key={3}
+				onClick={this.submitHandler}
+				id='activate'
+			>Activate</button>
+		);
 
 		let transitionInner = [];
 
 		if(this.state.showMessage) {
-			transitionInner.push(React.DOM.div({
-				className: 'message modal',
-				key: 'message'
-			},
-				React.DOM.div({className: 'content centered'},
-					React.DOM.h2(null, this.state.message)
-				),
-				React.DOM.div({className: 'controls'},
-					React.DOM.button({
-						className: 'button medium neutral',
-						onClick: () => {Actions.Activate.changeShowMessage(false);}
-					}, 'Close')
-				)
-			));
+			transitionInner.push(
+				<div
+					className='message modal'
+					key='message'
+				>
+					<div className='content centered'>
+						<h2>{this.state.message}</h2>
+					</div>
+					<div className='controls'>
+						<button
+							className='button medium neutral'
+							onClick={() => {Actions.Activate.changeShowMessage(false);}}
+						>Close</button>
+					</div>
+				</div>
+			);
 		}
 
 		if(this.state.isWaiting) {
-			transitionInner.push(React.DOM.div({
-				key: 'waiting',
-				className: 'waiting'
-			}, null));
+			transitionInner.push(<div key='waiting' className='waiting' />);
 		}
 
-		wrapperInner.push(React.createElement(TransitionGroup, {
-			key: 4,
-			transitionName: 'fade-fast',
-			transitionAppear: true
-		}, transitionInner));
+		wrapperInner.push(
+			<TransitionGroup
+				key={4}
+				transitionName='fade-fast'
+				transitionAppear={true}
+			>{transitionInner}</TransitionGroup>
+		);
 
-		inner.push(React.DOM.div({className: 'wrapper', key: 0}, wrapperInner));
-
-		inner.push(React.createElement(footer, {key: 1}));
-
-		return React.DOM.div({className: 'activate view standard thin'}, inner);
+		return (
+			<div className='activate view standard thin'>
+				<div className='wrapper' key={0}>{wrapperInner}</div>
+				<Footer key={1} />
+			</div>
+		);
 	},
 	submitHandler: function(e) {
 		e.preventDefault();

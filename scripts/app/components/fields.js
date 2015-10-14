@@ -222,7 +222,7 @@ export default React.createClass({
 						key,
 						classes: key,
 						label: {
-							content: 'Nutrition Goal',
+							content: 'Nutrition Goal *',
 							htmlFor: 'nutritionGoal'
 						},
 						input: {
@@ -246,7 +246,7 @@ export default React.createClass({
 						key,
 						classes: key,
 						label: {
-							content: 'Gender',
+							content: 'Gender *',
 							htmlFor: 'gender'
 						},
 						input: {
@@ -269,7 +269,7 @@ export default React.createClass({
 						key,
 						classes: key,
 						label: {
-							content: 'Height',
+							content: 'Height *',
 							htmlFor: 'height'
 						},
 						input: {
@@ -305,7 +305,7 @@ export default React.createClass({
 						key,
 						classes: key,
 						label: {
-							content: 'Activity Level',
+							content: 'Activity Level *',
 							htmlFor: 'activityLevel'
 						},
 						input: {
@@ -331,7 +331,7 @@ export default React.createClass({
 						key,
 						classes: key,
 						label: {
-							content: 'Diet Type',
+							content: 'Diet Type *',
 							htmlFor: 'dietType'
 						},
 						input: {

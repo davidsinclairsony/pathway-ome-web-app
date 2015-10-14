@@ -16,7 +16,6 @@ let defaults = () => {
 		questions: [],
 		chat: [],
 		chatLength: 0,
-		lastChatStatus: undefined,
 		customQuestion: '',
 		location: undefined,
 		showAskAnother: false,
@@ -43,7 +42,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			}
 		});
 		storage.chatLength++;
-		storage.lastChatStatus = 'pending';
 
 		// Groom data
 		let data;
@@ -70,26 +68,25 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.changeShowQuestions('partial');
 	},
 	askHandler: function(chatIndex, response) {
-		if(
-			response.status &&
-			(response.status !== 200 || response.status !== 202)
-		) {
-			let displayedError;
-
-			if(response.status === 202) {
-				displayedError =
-					'Please fill out your profile and ask this question again.';
-				storage.chat[chatIndex].answer.status = 'need';
-			} else {
+		if(response.status) {
+			if(response.status !== 202) {
 				this.changeShowMessage(true,
 					'Sorry, there was an error: ' +
 					JSON.parse(response.response).message
 				);
-				displayedError = 'Sorry, there was an error.';
-				storage.chat[chatIndex].answer.status = 'error';
-			}
 
-			storage.chat[chatIndex].answer.data = {summary: displayedError};
+				let displayedError = 'Sorry, there was an error.';
+				storage.chat[chatIndex].answer.status = 'error';
+
+				storage.chat[chatIndex].answer.data = {summary: displayedError};
+			} else {
+				console.log(response);
+
+				storage.chat[chatIndex].conversationID = response.conversationID;
+				storage.chat[chatIndex].answer.status = 'incomplete';
+				storage.chat[chatIndex].answer.dataNeeded = response.required;
+
+			}
 		} else {
 			// Replace variables
 			let replaceVariables = string => {
@@ -131,10 +128,6 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 			storage.chat[chatIndex].conversationID = response.conversationID;
 			storage.chat[chatIndex].answer.status = 'complete';
-
-			if(chatIndex == storage.chat.length - 1) {
-				storage.lastChatStatus = 'complete';
-			}
 		}
 
 		this.emitChange();
