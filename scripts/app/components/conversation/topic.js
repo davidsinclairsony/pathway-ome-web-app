@@ -77,9 +77,11 @@ export default React.createClass({
 	render: function() {
 		let d = this.props.data;
 		let mainInner = [];
-console.log(d.answer.dataNeeded);
-		if(d.answer.dataNeeded) {
-			mainInner.push(<Asker key='asker' data={d.answer.dataNeeded} />);
+console.log(this.props);
+		if(d.answer.status == 'incomplete') {
+			mainInner.push(
+				<Asker key='asker' data={d.answer.dataNeeded} id={d.id} />
+			);
 		}
 
 		if(d.answer.data) {

@@ -1,0 +1,65 @@
+.asker {
+	h3 {
+		font: normal normal 100 22px/#{$f-1-l-h} $f-1;
+	}
+
+	> ul {
+		list-style: none;
+
+		li {
+			label {
+				font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+				width: 100%;
+				padding: $g-3 $g-3 $g-1 0;
+				display: block;
+			}
+
+			> div {
+				display: flex;
+				align-items: center;
+				min-height: 42px;
+				background: transparentize(white, .9);
+				border-radius: $g-1;
+
+				&.number {
+					width: $g-6 + $g-4 + $g-3;
+				}
+
+				input {
+					display: block;
+					color: white;
+					font: normal normal 100 16px/#{$f-1-l-h} $f-1;
+					cursor: auto;
+					user-select: text !important;
+					background: transparent;
+					padding: $g-2 $g-3;
+					outline: none;
+					width: 100px;
+					flex: 1 1 auto;
+					-webkit-appearance: none;
+
+					&[type="number"]::-webkit-inner-spin-button,
+					&[type="number"]::-webkit-outer-spin-button {
+						appearance: none;
+						margin: 0;
+					}
+				}
+
+				aside {
+					flex: 0 0 auto;
+					padding: $g-2;
+					width: $g-4;
+					align-self: flex-start;
+				}
+			}
+		}
+	}
+
+	button {
+		margin-top: $g-3;
+	}
+
+	@media all and (max-width: $bp-2 - 1) {}
+
+	@media all and (min-width: $bp-2) {}
+}

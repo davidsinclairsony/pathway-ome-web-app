@@ -1,4 +1,5 @@
 import keymirror from 'keymirror';
+import {baseUrl} from '../config.json';
 
 const Actions = keymirror({
 	ACTIVATE_CHANGE_IS_WAITING: null,
@@ -6,6 +7,8 @@ const Actions = keymirror({
 	ACTIVATE_SUBMIT: null,
 	CONVERSATION_ASK: null,
 	CONVERSATION_ASK_ANOTHER: null,
+	CONVERSATION_ASKER_SUBMIT: null,
+	CONVERSATION_ON_ASKER_INPUT_CHANGE: null,
 	CONVERSATION_CHANGE_IS_WAITING: null,
 	CONVERSATION_CHANGE_SHOW_MESSAGE: null,
 	CONVERSATION_CUSTOM_SUBMIT: null,
@@ -34,23 +37,19 @@ const Actions = keymirror({
 	REACTIVATE_CHANGE_IS_WAITING: null
 });
 
-//const BASE_URL = 'http://' + window.location.host + '/api/v1/';
-//const BASE_URL = 'http://atldev.pathway.com:5000/';
-const BASE_URL = 'http://atldevstage.pathway.com:5000/';
-
 const Api = {
 	KEY: 'gcZFlslKi1l7JRrUCsfwkg==',
-	BASE_URL: BASE_URL,
-	USER: BASE_URL + 'user',
-	USER_REGISTER: BASE_URL + 'user/register',
-	USER_SESSION: BASE_URL + 'user/session',
-	USER_LOGIN: BASE_URL + 'user/login',
-	USER_ACTIVATE: BASE_URL + 'user/activate',
-	USER_HCI: BASE_URL + 'user/hci',
-	USER_CHECKEMAIL: BASE_URL + 'user/checkemail',
-	SUGGESTIONS: BASE_URL + 'suggestions',
-	ANSWER: BASE_URL + 'answer',
-	ANSWER_FEEDBACK: BASE_URL + 'answer/feedback'
+	BASE_URL: baseUrl,
+	USER: baseUrl + 'user',
+	USER_REGISTER: baseUrl + 'user/register',
+	USER_SESSION: baseUrl + 'user/session',
+	USER_LOGIN: baseUrl + 'user/login',
+	USER_ACTIVATE: baseUrl + 'user/activate',
+	USER_HCI: baseUrl + 'user/hci',
+	USER_CHECKEMAIL: baseUrl + 'user/checkemail',
+	SUGGESTIONS: baseUrl + 'suggestions',
+	ANSWER: baseUrl + 'answer',
+	ANSWER_FEEDBACK: baseUrl + 'answer/feedback'
 };
 
 const Security = {

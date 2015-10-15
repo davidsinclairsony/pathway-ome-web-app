@@ -35,6 +35,18 @@ let Conversation = {
 			actionType: Constants.Actions.CONVERSATION_ASK_ANOTHER
 		});
 	},
+	askerSubmit: id => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ASKER_SUBMIT,
+			id
+		});
+	},
+	onAskerInputChange: data => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ON_ASKER_INPUT_CHANGE,
+			data
+		});
+	},
 	changeIsWaiting: value => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CONVERSATION_CHANGE_IS_WAITING,

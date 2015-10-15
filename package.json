@@ -14,7 +14,6 @@
     "google-maps": "latest",
     "history": "latest",
     "imagesloaded": "latest",
-    "immutable": "latest",
     "joi": "latest",
     "keymirror": "latest",
     "lodash": "latest",
@@ -27,6 +26,7 @@
     "react-slider": "latest",
     "react-widgets": "2.8.2",
     "reqwest": "latest",
+    "seamless-immutable": "latest",
     "velocity-animate": "latest",
     "when": "latest"
   },

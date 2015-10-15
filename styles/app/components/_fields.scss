@@ -1,7 +1,5 @@
-form.fields {
-	ul {
-		list-style: none;
+.fields {
+	list-style: none;
 
-		@import "fields/field";
-	}
+	@import "fields/field";
 }

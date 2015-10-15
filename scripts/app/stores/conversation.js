@@ -4,6 +4,7 @@ import Talk from '../utilities/talk';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
+//import Validator from '../utilities/validator';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -80,12 +81,21 @@ let Store = assign({}, events.EventEmitter.prototype, {
 
 				storage.chat[chatIndex].answer.data = {summary: displayedError};
 			} else {
-				console.log(response);
-
 				storage.chat[chatIndex].conversationID = response.conversationID;
 				storage.chat[chatIndex].answer.status = 'incomplete';
 				storage.chat[chatIndex].answer.dataNeeded = response.required;
 
+				storage.chat[chatIndex].answer.dataNeeded.forEach(o => {
+					o = assign(o, {
+						help: {
+							isValid: undefined,
+							content: '',
+							showHelp: false,
+							required: o.default,
+							showIcon: undefined
+						}
+					});
+				});
 			}
 		} else {
 			// Replace variables
@@ -262,6 +272,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		}
 
 		this.emitChange();
+	},
+	askerSubmit: function(id) {
+		console.log('submitted for chat id:' + id);
+	},
+	onAskerInputChange: function(data) {
+		console.log('something changed:');
+		console.log(data);
 	}
 });
 
@@ -309,6 +326,14 @@ Dispatcher.register(function(action) {
 			break;
 		case Constants.Actions.CONVERSATION_COMMENT_SUBMIT:
 			Store.commentSubmit(action.id);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_ASKER_SUBMIT:
+			Store.askerSubmit(action.id);
+			Store.emitChange();
+			break;
+		case Constants.Actions.CONVERSATION_ON_ASKER_INPUT_CHANGE:
+			Store.onAskerInputChange(action.data);
 			Store.emitChange();
 			break;
 	}

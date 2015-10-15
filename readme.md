@@ -5,11 +5,12 @@ Bundling by Browserify and orchestrated through Gulp.
 
 ## commands ##
 ```
+export NODE_ENV=dev
+export NODE_ENV=devstage
+export NODE_ENV=stage
 export NODE_ENV=production
-export NODE_ENV=development
 npm install --dev
 npm start
-npm start -- -d
 ```
 
 ## to do ##

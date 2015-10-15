@@ -13,13 +13,17 @@ import source from 'vinyl-source-stream';
 import uglify from 'gulp-uglify';
 import packageJson from './package.json';
 import config from './scripts/config';
+import fs from 'fs';
 
 if(process.env.NODE_ENV) {
-	console.log('Starting in ' + process.env.NODE_ENV + ' mode...');
+	console.log('Starting in ' + process.env.NODE_ENV + ' environment...');
 } else {
 	console.log('No environment variable set.');
 	process.exit();
 }
+
+// Build config.json for browser config
+fs.writeFileSync('./scripts/config.json', JSON.stringify(config));
 
 let deps = Object.keys(packageJson.dependencies);
 

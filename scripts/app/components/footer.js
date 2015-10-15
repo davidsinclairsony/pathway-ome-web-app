@@ -1,6 +1,6 @@
 import assign from 'object-assign';
 import base from './base';
-import config from '../../config';
+import config from '../../config.json';
 import React from 'react/addons';
 import {Link} from 'react-router';
 
