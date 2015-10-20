@@ -31,7 +31,8 @@ $g-8: 640px;
 	cursor: default;
 	word-break: break-word;
 
-	:not(input, textarea) {
+	&:not(input),
+	&:not(textarea) {
 		user-select: none;
 	}
 }

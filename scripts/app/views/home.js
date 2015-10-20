@@ -66,6 +66,11 @@ export default React.createClass(assign({}, base, {
 		// Wrap child and header for animations
 		return (
 			<div className='home view wide'>
+				<div className='notice'>
+					<div>
+						<strong>Notice:</strong> This system currently stores data on a cloud-hosted server that is not HIPAA compliant. You will see this message until we migrate to a secure server. In the mean time, please ONLY provide fake health information to test the application.
+					</div>
+				</div>
 				<Nav path={this.props.location.pathname} />
 				<TransitionGroup
 					transitionName='fade-fast'

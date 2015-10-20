@@ -176,9 +176,9 @@ export default React.createClass({
 							data-rating={d.feedback.rating}
 							onClick={this.ratingClickHandler}
 						>
-							<li className='negative' data-rating='-1'><div /></li>
-							<li className='neutral' data-rating='0'><div /></li>
-							<li className='positive' data-rating='1'><div /></li>
+							<li title='Negative' className='negative' data-rating='-1'><div /></li>
+							<li title='Neutral' className='neutral' data-rating='0'><div /></li>
+							<li title='Positive' className='positive' data-rating='1'><div /></li>
 						</ul>
 						<button
 							className='button small neutral'

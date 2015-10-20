@@ -1,4 +1,29 @@
 .home.view {
+	.notice {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background: #fdf69d;
+		color: black;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		> div {
+			width: $bp-3 + $g-5 + $g-1;
+			max-width: 100%;
+			padding: $g-1 + $g-2 $g-3;
+
+			strong {
+				font-weight: bold;
+				color: red;
+				text-transform: uppercase;
+			}
+		}
+	}
+
 	main.global {
 		height: 100%;
 		width: 100%;
@@ -21,19 +46,27 @@
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
+		.notice {
+			height: $g-5 + $g-4;
+		}
+
 		main.global {
 			border-right: 1px solid darken(mix(grey, #12204f, 40%), 25%);
 
 			> section {
-				padding-top: $g-4 + $g-2 + $g-1 ;
+				padding-top: $g-4 + $g-2 + $g-1 + $g-5 + $g-4;
 			}
 		}
 	}
 
 	@media all and (min-width: $bp-2) {
+		.notice {
+			height: $g-5;
+		}
+
 		main.global {
 			> section {
-				padding-top: $g-5 + $g-1;
+				padding-top: $g-5 + $g-1 + $g-5;
 			}
 		}
 	}

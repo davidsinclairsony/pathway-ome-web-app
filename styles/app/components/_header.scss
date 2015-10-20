@@ -50,6 +50,8 @@ header.global {
 	}
 
 	@media all and (max-width: $bp-2 - 1) {
+		top: $g-5 + $g-4;
+
 		.content {
 			h1 {
 				flex: 0 0 auto;
@@ -87,6 +89,8 @@ header.global {
 	}
 
 	@media all and (min-width: $bp-2) {
+		top: $g-5;
+
 		.content {
 			height: $g-5 + $g-1;
 
