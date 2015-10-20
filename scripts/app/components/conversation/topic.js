@@ -9,9 +9,7 @@ import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
 import Watson from './topic/watson';
 //import Asker from './topic/asker';
-//import Immutable from 'seamless-immutable';
-import assign from 'object-assign';
-import base from '../base';
+//import immutable from 'seamless-immutable';
 
 let getState = () => {
 	return {
@@ -20,7 +18,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, base, {
+export default React.createClass({
 	displayName: 'Topic',
 	getInitialState: function() {
 		return getState();
@@ -83,7 +81,7 @@ export default React.createClass(assign({}, base, {
 
 		if(d.answer.status == 'incomplete') {
 			/*mainInner.push(
-				<Asker key='asker' data={Immutable(d.answer.dataNeeded)} id={d.id} />
+				<Asker key='asker' data={immutable(d.answer.dataNeeded)} id={d.id} />
 			);*/
 			mainInner.push(
 				<div key='asker' className='summary'>OME requires more information about you to provide an acccurate answer. Please complete your Profile and this answer may be available.</div>
@@ -242,4 +240,4 @@ export default React.createClass(assign({}, base, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});

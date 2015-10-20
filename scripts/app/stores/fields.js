@@ -5,13 +5,12 @@ import events from 'events';
 import Help from '../data/help';
 import User from '../utilities/user';
 import Validator from '../utilities/validator';
-import Immutable from 'seamless-immutable';
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
 	return {
 		name: 'fields',
-		fields: Immutable({}),
+		fields: {},
 		isWaiting: false
 	};
 };
@@ -22,22 +21,16 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.on(CHANGE_EVENT, callback);
 	},
 	changeShowHelp: function(o) {
-		let mutableFields = storage.fields.asMutable({deep: true});
-
-		Object.keys(mutableFields).forEach(field => {
-			mutableFields[field].showHelp = false;
+		Object.keys(storage.fields).forEach(field => {
+			storage.fields[field].showHelp = false;
 		});
 
-		mutableFields[o.field].showHelp = o.value;
-
-		storage.fields = Immutable(mutableFields);
+		storage.fields[o.field].showHelp = o.value;
 	},
 	emitChange: function() {
 		this.emit(CHANGE_EVENT);
 	},
 	fill: function(data) {
-		let mutableFields = storage.fields.asMutable({deep: true});
-
 		let apiToStoreHciMap = {
 			nutritionalGoal: 'nutritionGoal',
 			activityRating: 'activityLevel',
@@ -59,25 +52,23 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			if(typeof(data[v]) !== 'undefined') {
 				switch(v) {
 					case 'firstName':
-						mutableFields.name.values[0] = data[v];
+						storage.fields.name.values[0] = data[v];
 						break;
 					case 'lastName':
-						mutableFields.name.values[1] = data[v];
+						storage.fields.name.values[1] = data[v];
 						break;
 					case 'dateOfBirth':
 						let dob = data[v].split('/');
 
 						dob.map((o, i) => {
-							mutableFields.dob.values[i] = dob[i];
+							storage.fields.dob.values[i] = dob[i];
 						});
 						break;
 					default:
-						mutableFields[getMappedRecord(v)].values[0] = data[v];
+						storage.fields[getMappedRecord(v)].values[0] = data[v];
 				}
 			}
 		});
-
-		storage.fields = Immutable(mutableFields);
 	},
 	get: function(keys) {
 		let value = storage;
@@ -117,11 +108,7 @@ let Store = assign({}, events.EventEmitter.prototype, {
 					break;
 			}
 
-			let mutableFields = storage.fields.asMutable({deep: true});
-
-			mutableFields[field] = assign({}, defaults, custom);
-
-			storage.fields = Immutable(mutableFields);
+			storage.fields[field] = assign({}, defaults, custom);
 		});
 	},
 	onEmailBlur: function() {
@@ -133,60 +120,48 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		}
 	},
 	onEmailBlurHandler: function(response) {
-		let mutableFields = storage.fields.asMutable({deep: true});
-
 		if(response.status && response.status !== 200) {
 			this.changeShowMessage(true,
 				'Sorry, there was an error: ' +
 				JSON.parse(response.response).message
 			);
 		} else if(response.code == 'AlreadyExists') {
-			mutableFields.email.help = Help.emailExists;
-			mutableFields.email.isValid = false;
+			storage.fields.email.help = Help.emailExists;
+			storage.fields.email.isValid = false;
 		}
-
-		storage.fields = Immutable(mutableFields);
 
 		this.emitChange();
 	},
 	onFieldChange: function(o) {
-		let mutableFields = storage.fields.asMutable({deep: true});
-
 		// Make sure previous array values already exist
 		for(let i = 0; i < o.vIndex; i++) {
 			if(
-				!mutableFields[o.name].values[i] &&
-				mutableFields[o.name].values[i] !== ''
+				!storage.fields[o.name].values[i] &&
+				storage.fields[o.name].values[i] !== ''
 			) {
-				mutableFields[o.name].values.push('');
+				storage.fields[o.name].values.push('');
 			}
 		}
 
 		// Save value
-		mutableFields[o.name].values[o.vIndex] = o.value;
+		storage.fields[o.name].values[o.vIndex] = o.value;
 
 		// Validate
-		mutableFields[o.name].isValid =
-			Validator.validate(mutableFields[o.name]);
+		storage.fields[o.name].isValid =
+			Validator.validate(storage.fields[o.name]);
 
 		// Set help
-		if(mutableFields[o.name].isValid === false) {
-			mutableFields[o.name].help = Help[o.name];
+		if(storage.fields[o.name].isValid === false) {
+			storage.fields[o.name].help = Help[o.name];
 		}
-
-		storage.fields = Immutable(mutableFields);
 	},
 	removeChangeListener: function(callback) {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 	resetValidation: function() {
-		let mutableFields = storage.fields.asMutable({deep: true});
-
-		Object.keys(mutableFields).forEach(field => {
-			mutableFields[field].isValid = undefined;
+		Object.keys(storage.fields).forEach(field => {
+			storage.fields[field].isValid = undefined;
 		});
-
-		storage.fields = Immutable(mutableFields);
 	}
 });
 

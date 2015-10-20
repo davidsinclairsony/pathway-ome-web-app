@@ -9,11 +9,12 @@ import Validator from '../utilities/validator';
 import User from '../utilities/user';
 import assign from 'object-assign';
 import base from './base';
+import immutable from 'seamless-immutable';
 
 let getState = () => {
 	return {
 		isWaiting: ProfileStore.get(['isWaiting']),
-		fields: FieldsStore.get(['fields']),
+		fields: immutable(FieldsStore.get(['fields'])),
 		showForm: ProfileStore.get(['showForm']),
 		message: ProfileStore.get(['message']),
 		showMessage: ProfileStore.get(['showMessage']),

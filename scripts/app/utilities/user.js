@@ -147,7 +147,7 @@ export default {
 			url: Api.USER_HCI,
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
 			success: response => {
-				if(response.response) {
+				if(response.status !== 200) {
 					Actions.Fields.fill(response);
 				}
 			}

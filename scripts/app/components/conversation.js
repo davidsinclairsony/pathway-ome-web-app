@@ -6,8 +6,6 @@ import React from 'react/addons';
 import Topic from './conversation/topic';
 import TransitionGroup from '../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
-import assign from 'object-assign';
-import base from './base';
 
 let getState = () => {
 	return {
@@ -25,7 +23,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass(assign({}, base, {
+export default React.createClass({
 	displayName: 'Conversation',
 	getInitialState: function() {
 		ConversationStore.initialize();
@@ -142,7 +140,7 @@ export default React.createClass(assign({}, base, {
 
 		let button;
 
-		// Add the Ask Another button?
+		// Add the Ask Another? button
 		if(this.state.showAskAnother) {
 			button = (
 				<button
@@ -223,4 +221,4 @@ export default React.createClass(assign({}, base, {
 	_onChange: function() {
 		this.setState(getState());
 	}
-}));
+});

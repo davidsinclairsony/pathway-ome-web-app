@@ -9,11 +9,12 @@ import {Link} from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import base from '../components/base';
 import assign from 'object-assign';
+import immutable from 'seamless-immutable';
 
 let getState = () => {
 	return {
 		isWaiting: ReactivateStore.get(['isWaiting']),
-		fields: FieldsStore.get(['fields'])
+		fields: immutable(FieldsStore.get(['fields']))
 	};
 };
 
