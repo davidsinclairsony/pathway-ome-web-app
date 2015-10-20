@@ -146,7 +146,11 @@ export default {
 			crossOrigin: true,
 			url: Api.USER_HCI,
 			headers: {'X-Session-Token': this.get(sessionStorage, 'sessionID')},
-			success: Actions.Fields.fill
+			success: response => {
+				if(response.response) {
+					Actions.Fields.fill(response);
+				}
+			}
 		}));
 
 		let pii = when(reqwest({
@@ -257,6 +261,7 @@ export default {
 	},
 	passwordHasher: function(password) {
 		let salt = new Buffer(Security.PW_SALT).toString('base64');
+
 		return crypto.pbkdf2Sync(password, salt, 1000, 128).toString('base64');
 	},
 	save: function(storage, key, value) {

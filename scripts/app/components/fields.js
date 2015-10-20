@@ -1,7 +1,9 @@
 import field from './fields/field';
 import React from 'react/addons';
+import base from './base';
+import assign from 'object-assign';
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Fields',
 	render: function() {
 		let inner = [];
@@ -458,4 +460,4 @@ export default React.createClass({
 
 		return (<ul className='fields'>{inner}</ul>);
 	}
-});
+}));

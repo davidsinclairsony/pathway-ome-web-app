@@ -18,4 +18,5 @@ export default {
 	highCholesterol: 'Please indicate if you have high cholesterol.',
 	foodAllergyList: 'Please indicate any allergies you are aware of.',
 	dietPrefs: 'Please indicate any dietary preferences.',
+	number: 'Please enter a number between '
 };

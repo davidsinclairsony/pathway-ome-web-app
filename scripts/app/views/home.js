@@ -66,7 +66,7 @@ export default React.createClass(assign({}, base, {
 		// Wrap child and header for animations
 		return (
 			<div className='home view wide'>
-				<Nav />
+				<Nav path={this.props.location.pathname} />
 				<TransitionGroup
 					transitionName='fade-fast'
 					transitionAppear={true}

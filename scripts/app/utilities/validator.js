@@ -38,9 +38,20 @@ export default {
 				return this.isNotNone(o.values[0]);
 			case 'dietType':
 				return this.isNotNone(o.values[0]);
+			case 'number':
+				return this.number(o.o);
 			default:
 				return true;
 		}
+	},
+	number: o => {
+		const value = parseInt(o.value);
+
+		if(isNaN(value) || value <= o.min || value >= o.max) {
+			return false;
+		}
+
+		return true;
 	},
 	isPinValid: value => {
 		// All numbers and length validation

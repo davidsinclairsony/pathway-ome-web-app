@@ -14,7 +14,13 @@ export default React.createClass(assign({}, base, {
 
 			switch(o.type) {
 				case 'number':
-					input = (<NumberInput {...o}  id={this.props.id} />);
+					input = (
+						<NumberInput
+							{...o}
+							chatId={this.props.id}
+							askerId={i}
+						/>
+					);
 					break;
 			}
 
@@ -35,9 +41,10 @@ export default React.createClass(assign({}, base, {
 						<div key={0}
 							className='icon-help circle negative small clickable'
 							onClick={() => {
-								Actions.Fields.changeShowHelp({
-									field: this.props.classes,
-									value: !this.props.help.showHelp
+								Actions.Conversation.askerChangeShowHelp({
+									chatId: this.props.id,
+									askerId: i,
+									value: !o.help.showHelp
 								});
 							}}
 						/>

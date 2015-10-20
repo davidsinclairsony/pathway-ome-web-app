@@ -10,7 +10,7 @@ export default React.createClass(assign({}, base, {
 			<input
 				onKeyUp={e => {
 					if(e.keyCode == 13) {
-						Actions.Conversation.askerSubmit(this.props.id);
+						Actions.Conversation.askerSubmit(this.props.chatId);
 					}
 				}}
 				id={this.props.name}
@@ -19,15 +19,10 @@ export default React.createClass(assign({}, base, {
 				placeholder={this.props.description}
 				maxLength={this.props.max}
 				onChange={event => {
-					Actions.Conversation.onAskerInputChange({
-						id: this.props.id,
-						name: this.props.name,
-						type: 'number',
-						value: event.target.value,
-						validation: {
-							min: this.props.min,
-							max: this.props.max
-						}
+					Actions.Conversation.askerOnInputChange({
+						chatId: this.props.chatId,
+						askerId: this.props.askerId,
+						value: event.target.value
 					});
 				}}
 			/>

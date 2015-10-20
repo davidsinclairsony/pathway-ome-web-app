@@ -7,6 +7,8 @@ import React from 'react/addons';
 import ReactivateStore from '../stores/reactivate';
 import {Link} from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import base from '../components/base';
+import assign from 'object-assign';
 
 let getState = () => {
 	return {
@@ -15,7 +17,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Reactivate',
 	componentDidMount: function() {
 		ReactivateStore.addChangeListener(this._onChange);
@@ -98,4 +100,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

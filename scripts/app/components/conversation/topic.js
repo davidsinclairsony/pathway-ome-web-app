@@ -8,7 +8,10 @@ import Recipes from './topic/recipes';
 import TransitionGroup from '../../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
 import Watson from './topic/watson';
-import Asker from './topic/asker';
+//import Asker from './topic/asker';
+//import Immutable from 'seamless-immutable';
+import assign from 'object-assign';
+import base from '../base';
 
 let getState = () => {
 	return {
@@ -17,7 +20,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Topic',
 	getInitialState: function() {
 		return getState();
@@ -34,7 +37,7 @@ export default React.createClass({
 		imagesLoaded(main, this.setMainHeight);
 
 		if(this.props.data.feedback.showComment) {
-			this.refs.commentInput.focus();
+			this.refs.commentInput.getDOMNode().focus();
 		}
 	},
 	ratingClickHandler: function(event) {
@@ -77,10 +80,13 @@ export default React.createClass({
 	render: function() {
 		let d = this.props.data;
 		let mainInner = [];
-console.log(this.props);
+
 		if(d.answer.status == 'incomplete') {
+			/*mainInner.push(
+				<Asker key='asker' data={Immutable(d.answer.dataNeeded)} id={d.id} />
+			);*/
 			mainInner.push(
-				<Asker key='asker' data={d.answer.dataNeeded} id={d.id} />
+				<div key='asker' className='summary'>OME requires more information about you to provide an acccurate answer. Please complete your Profile and this answer may be available.</div>
 			);
 		}
 
@@ -236,4 +242,4 @@ console.log(this.props);
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

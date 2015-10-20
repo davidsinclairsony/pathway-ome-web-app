@@ -7,6 +7,8 @@ import Logo from '../components/logo';
 import React from 'react/addons';
 import {Link} from 'react-router';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
+import base from '../components/base';
+import assign from 'object-assign';
 
 let getState = () => {
 	return {
@@ -17,7 +19,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Login',
 	componentDidMount: function() {
 		LoginStore.addChangeListener(this._onChange);
@@ -137,4 +139,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

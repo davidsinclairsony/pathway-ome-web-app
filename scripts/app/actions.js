@@ -35,6 +35,18 @@ let Conversation = {
 			actionType: Constants.Actions.CONVERSATION_ASK_ANOTHER
 		});
 	},
+	askerChangeShowHelp: o => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ASKER_CHANGE_SHOW_HELP,
+			o
+		});
+	},
+	askerOnInputChange: o => {
+		Dispatcher.dispatch({
+			actionType: Constants.Actions.CONVERSATION_ASKER_ON_INPUT_CHANGE,
+			o
+		});
+	},
 	askerSubmit: id => {
 		Dispatcher.dispatch({
 			actionType: Constants.Actions.CONVERSATION_ASKER_SUBMIT,

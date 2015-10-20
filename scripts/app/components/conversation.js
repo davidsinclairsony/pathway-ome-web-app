@@ -6,6 +6,8 @@ import React from 'react/addons';
 import Topic from './conversation/topic';
 import TransitionGroup from '../utilities/velocityTransitionGroup';
 import {Spring} from 'react-motion';
+import assign from 'object-assign';
+import base from './base';
 
 let getState = () => {
 	return {
@@ -23,7 +25,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Conversation',
 	getInitialState: function() {
 		ConversationStore.initialize();
@@ -60,8 +62,9 @@ export default React.createClass({
 
 		containerInner.push(
 			<ul className='questions' key='customQuestions'>
-				<li className='custom'>
+				<li className='custom' key='customLi'>
 					<textarea
+						key='customInput'
 						value={this.state.customQuestion}
 						placeholder='Enter your own question...'
 						onChange={e => {
@@ -72,7 +75,7 @@ export default React.createClass({
 								Actions.Conversation.customSubmit();
 							}
 						}}
-					></textarea>
+					/>
 					<button
 						className='button medium positive'
 						onClick={() => {Actions.Conversation.customSubmit();}}
@@ -205,17 +208,19 @@ export default React.createClass({
 			));
 		}
 
-		return React.DOM.section({className: 'conversation'},
-			React.createElement(TransitionGroup, {
-				key: 'transition',
-				className: 'customWrapper',
-				transitionName: 'fade-fast',
-				transitionAppear: true,
-				component: 'div'
-			}, transitionInner)
+		return (
+			<section className='conversation'>
+				<TransitionGroup
+					key='transition'
+					className='customWrapper'
+					transitionName='fade-fast'
+					transitionAppear={true}
+					component='div'
+				>{transitionInner}</TransitionGroup>
+			</section>
 		);
 	},
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

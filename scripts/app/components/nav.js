@@ -1,9 +1,10 @@
 import Actions from '../actions';
-import history from '../history';
 import React from 'react/addons';
 import {Link} from 'react-router';
 import User from '../utilities/user';
 import WindowStore from '../stores/window';
+import assign from 'object-assign';
+import base from './base';
 
 // Map navigation
 let navItems = [
@@ -22,7 +23,7 @@ let getState = () => {
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Nav',
 	componentDidMount: function() {
 		WindowStore.addChangeListener(this._onChange);
@@ -60,11 +61,8 @@ export default React.createClass({
 				let to = item.name == 'conversation' ? '' : item.name;
 
 				// Set correct active class name
-				let path;
-				let unlisten = history.listen(location => {path = location.pathname;});
-				unlisten();
 				let activeClassName = 'active';
-				if(path != '/' && item.name == 'conversation') {
+				if(this.props.path != '/' && item.name == 'conversation') {
 					activeClassName = null;
 				}
 
@@ -90,4 +88,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

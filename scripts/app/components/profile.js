@@ -7,19 +7,20 @@ import React from 'react/addons';
 import TransitionGroup from '../utilities/velocityTransitionGroup.js';
 import Validator from '../utilities/validator';
 import User from '../utilities/user';
+import assign from 'object-assign';
+import base from './base';
 
 let getState = () => {
 	return {
 		isWaiting: ProfileStore.get(['isWaiting']),
 		fields: FieldsStore.get(['fields']),
 		showForm: ProfileStore.get(['showForm']),
-		fetchedHci: ProfileStore.get(['fetchedHci']),
 		message: ProfileStore.get(['message']),
 		showMessage: ProfileStore.get(['showMessage']),
 	};
 };
 
-export default React.createClass({
+export default React.createClass(assign({}, base, {
 	displayName: 'Profile',
 	getInitialState: function() {
 		ProfileStore.initialize();
@@ -165,4 +166,4 @@ export default React.createClass({
 	_onChange: function() {
 		this.setState(getState());
 	}
-});
+}));

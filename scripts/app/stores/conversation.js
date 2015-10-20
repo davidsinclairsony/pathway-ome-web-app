@@ -1,10 +1,13 @@
 import assign from 'object-assign';
 import User from '../utilities/user';
 import Talk from '../utilities/talk';
+import Help from '../data/help';
 import Constants from '../constants';
 import Dispatcher from '../dispatcher';
 import events from 'events';
-//import Validator from '../utilities/validator';
+import Validator from '../utilities/validator';
+import Immutable from 'seamless-immutable';
+
 
 let CHANGE_EVENT = 'change';
 let defaults = () => {
@@ -14,8 +17,8 @@ let defaults = () => {
 		showMessage: false,
 		isWaiting: true,
 		showQuestions: undefined,
-		questions: [],
-		chat: [],
+		questions: Immutable([]),
+		chat: Immutable([]),
 		chatLength: 0,
 		customQuestion: '',
 		location: undefined,
@@ -32,7 +35,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	ask: function(question) {
 		let id = storage.chat.length;
 
-		storage.chat.push({
+		let mutableChat = storage.chat.asMutable({deep: true});
+
+		mutableChat.push({
 			id,
 			question,
 			answer: {status: 'pending'},
@@ -42,6 +47,9 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				comment: undefined
 			}
 		});
+
+		storage.chat = Immutable(mutableChat);
+
 		storage.chatLength++;
 
 		// Groom data
@@ -69,6 +77,8 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.changeShowQuestions('partial');
 	},
 	askHandler: function(chatIndex, response) {
+		let mutableChat = storage.chat.asMutable({deep: true});
+
 		if(response.status) {
 			if(response.status !== 202) {
 				this.changeShowMessage(true,
@@ -77,15 +87,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 				);
 
 				let displayedError = 'Sorry, there was an error.';
-				storage.chat[chatIndex].answer.status = 'error';
-
-				storage.chat[chatIndex].answer.data = {summary: displayedError};
+				mutableChat[chatIndex].answer.status = 'error';
+				mutableChat[chatIndex].answer.data = {summary: displayedError};
 			} else {
-				storage.chat[chatIndex].conversationID = response.conversationID;
-				storage.chat[chatIndex].answer.status = 'incomplete';
-				storage.chat[chatIndex].answer.dataNeeded = response.required;
-
-				storage.chat[chatIndex].answer.dataNeeded.forEach(o => {
+				mutableChat[chatIndex].conversationID = response.conversationID;
+				mutableChat[chatIndex].answer.status = 'incomplete';
+				mutableChat[chatIndex].answer.dataNeeded = response.required;
+				mutableChat[chatIndex].answer.dataNeeded.forEach(o => {
 					o = assign(o, {
 						help: {
 							isValid: undefined,
@@ -132,18 +140,24 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			let summary = replaceVariables(response.answer.summary);
 			summary = replaceLineEnds(summary);
 
-			storage.chat[chatIndex].answer.data = assign({}, response.answer, {
+			mutableChat[chatIndex].answer.data = assign({}, response.answer, {
 				summary
 			});
 
-			storage.chat[chatIndex].conversationID = response.conversationID;
-			storage.chat[chatIndex].answer.status = 'complete';
+			mutableChat[chatIndex].conversationID = response.conversationID;
+			mutableChat[chatIndex].answer.status = 'complete';
 		}
+
+		storage.chat = Immutable(mutableChat);
 
 		this.emitChange();
 	},
 	changeShowComment: function(id, value) {
-		storage.chat[id].feedback.showComment = value;
+		let mutableChat = storage.chat.asMutable({deep: true});
+
+		mutableChat[id].feedback.showComment = value;
+
+		storage.chat = Immutable(mutableChat);
 	},
 	changeIsWaiting: function(value) {
 		storage.isWaiting = value;
@@ -217,13 +231,17 @@ let Store = assign({}, events.EventEmitter.prototype, {
 			storage.showAskAnother = false;
 			storage.showRetry = true;
 		} else {
-			storage.questions =  response[0]? response[0] : [];
+			let mutableQuestions = storage.questions.asMutable({deep: true});
+
+			mutableQuestions = response[0]? response[0] : [];
 			storage.location = response[1];
 			User.saveObject(sessionStorage, response[2]);
 
 			this.changeShowQuestions('up');
 			storage.showAskAnother = true;
 			storage.showRetry = false;
+
+			storage.questions = Immutable(mutableQuestions);
 		}
 
 		storage.isWaiting = false;
@@ -236,7 +254,11 @@ let Store = assign({}, events.EventEmitter.prototype, {
 		this.initialize();
 	},
 	saveComment: function(id, comment) {
-		storage.chat[id].feedback.comment = comment;
+		let mutableChat = storage.chat.asMutable({deep: true});
+
+		mutableChat[id].feedback.comment = comment;
+
+		storage.chat = Immutable(mutableChat);
 	},
 	saveCustom: function(value) {
 		storage.customQuestion = value.replace('\n', '');
@@ -244,9 +266,13 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	updateFeedback: function(id, feedback) {
 		// Save any passed in feedback
 		if(feedback) {
-			storage.chat[id].feedback = assign(
-				{}, storage.chat[id].feedback, feedback
+			let mutableChat = storage.chat.asMutable({deep: true});
+
+			mutableChat[id].feedback = assign(
+				{}, mutableChat[id].feedback, feedback
 			);
+
+			storage.chat = Immutable(mutableChat);
 		}
 
 		// Prepare data for API
@@ -276,9 +302,54 @@ let Store = assign({}, events.EventEmitter.prototype, {
 	askerSubmit: function(id) {
 		console.log('submitted for chat id:' + id);
 	},
-	onAskerInputChange: function(data) {
+	askerOnInputChange: function(o) {
+		let mutableChat = storage.chat.asMutable({deep: true});
+		let neededObject = mutableChat[o.chatId].answer.dataNeeded[o.askerId];
+
 		console.log('something changed:');
-		console.log(data);
+
+		// Save value
+		neededObject.value = o.value;
+
+		// Validate
+		neededObject.help.isValid = Validator.validate({
+			name: neededObject.type,
+			o: neededObject
+		});
+
+		// Set help
+		if(neededObject.help.isValid === false) {
+			switch(neededObject.type) {
+				case 'number':
+					neededObject.help.content = Help.number + neededObject.min +
+						' and ' + neededObject.max + '.';
+					break;
+			}
+		}
+
+		// Show help icon?
+		if(
+			neededObject.value != '' ||
+			(
+				typeof(neededObject.help.isValid) !== 'undefined' &&
+				neededObject.required
+			)
+
+		) {
+			neededObject.help.showIcon = true;
+		} else {
+			neededObject.help.showIcon = false;
+		}
+
+		storage.chat = Immutable(mutableChat);
+	},
+	askerChangeShowHelp: function(o) {
+		let mutableChat = storage.chat.asMutable({deep: true});
+		let neededObject = storage.chat[o.chatId].answer.dataNeeded[o.askerId];
+
+		neededObject.help.showHelp = o.value;
+
+		storage.chat = Immutable(mutableChat);
 	}
 });
 
@@ -332,10 +403,13 @@ Dispatcher.register(function(action) {
 			Store.askerSubmit(action.id);
 			Store.emitChange();
 			break;
-		case Constants.Actions.CONVERSATION_ON_ASKER_INPUT_CHANGE:
-			Store.onAskerInputChange(action.data);
+		case Constants.Actions.CONVERSATION_ASKER_ON_INPUT_CHANGE:
+			Store.askerOnInputChange(action.o);
 			Store.emitChange();
 			break;
+		case Constants.Actions.CONVERSATION_ASKER_CHANGE_SHOW_HELP:
+			Store.askerChangeShowHelp(action.o);
+			Store.emitChange();
 	}
 });
 
