@@ -117,6 +117,7 @@ export default React.createClass({
 							lists.push(
 								<Groceries key='groceries' data={o.templateData} />
 							);
+							break;
 						case 'watson':
 							lists.push(
 								<Watson key='watson' data={o.templateData} />
