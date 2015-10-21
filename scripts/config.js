@@ -27,7 +27,7 @@ export default (() => {
 			settings = {
 				uglify: true,
 				styles: 'compressed',
-				baseUrl: 'http://ome-demo.pathway.com:5000/'
+				baseUrl: 'http://atldevstage.pathway.com:5000/'
 			};
 	}
 
