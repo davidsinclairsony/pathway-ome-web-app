@@ -23,11 +23,11 @@ export default (() => {
 				baseUrl: 'http://atlstage.pathway.com:5000/'
 			};
 			break;
-		default:
+		case 'production':
 			settings = {
 				uglify: true,
 				styles: 'compressed',
-				baseUrl: 'http://atldevstage.pathway.com:5000/'
+				baseUrl: 'http://ome-demo.pathway.com:5000/'
 			};
 	}
 
