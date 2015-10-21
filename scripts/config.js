@@ -31,7 +31,7 @@ export default (() => {
 			};
 	}
 
-	settings.version = 20;
+	settings.version = 21;
 
 	return settings;
 })();

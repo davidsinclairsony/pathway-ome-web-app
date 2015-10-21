@@ -81,12 +81,12 @@ export default React.createClass(assign({}, base, {
 					className: 'buttons',
 					key: 'buttons'
 				},
-				React.DOM.button({
+				/*React.DOM.button({
 					className: 'close button medium negative',
 					key: 'close',
 					id: 'close',
 					onClick: this.closeHandler
-				}, 'Close Account'),
+				}, 'Close Account'),*/
 				React.DOM.button({
 					className: 'submit button medium positive',
 					key: 'save',
