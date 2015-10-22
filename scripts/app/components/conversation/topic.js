@@ -14,7 +14,8 @@ import Watson from './topic/watson';
 let getState = () => {
 	return {
 		mainHeight: 0,
-		footerHeight: 0
+		footerHeight: 0,
+		focusOnCommentInput: false
 	};
 };
 
@@ -27,14 +28,16 @@ export default React.createClass({
 		this.setMainHeight();
 		this.setFooterHeight();
 	},
-	componentDidUpdate: function()  {
+	componentDidUpdate: function() {
 		this.setMainHeight();
 		this.setFooterHeight();
 
 		let main = React.findDOMNode(this).querySelector('main');
 		imagesLoaded(main, this.setMainHeight);
 
-		if(this.props.data.feedback.showComment) {
+		// Focus on comment input
+		if(this.state.focusOnCommentInput) {
+			this.setState({focusOnCommentInput: false});
 			this.refs.commentInput.getDOMNode().focus();
 		}
 	},
@@ -188,6 +191,7 @@ export default React.createClass({
 								Actions.Conversation.changeShowComment(
 									d.id, !d.feedback.showComment
 								);
+								this.setState({focusOnCommentInput: true});
 							}}
 						>
 							Comment
