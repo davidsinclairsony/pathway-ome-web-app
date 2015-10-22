@@ -204,7 +204,7 @@ export default React.createClass({
 
 		return (
 			<li id={this.props.id} className={d.answer.status}>
-				<header>{d.question.question}</header>
+				<header onClick={Actions.Conversation.askAnother}>{d.question.question}</header>
 				<Spring
 					endValue={{
 						val: {height: this.state.mainHeight},

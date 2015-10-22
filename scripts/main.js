@@ -6,6 +6,8 @@ import routes from './app/routes';
 
 FastClick(document.body);
 
+window.addEventListener('orientationchange', () => {location.reload();});
+
 const main = document.getElementById('main');
 
 React.render(<Router history={history}>{routes}</Router>, main);
@@ -54,26 +56,43 @@ React.render(<Router history={history}>{routes}</Router>, main);
 	}
 };
 
-document.addEventListener('touchstart', preventScrolling);
-document.addEventListener('mousedown', preventScrolling);
 
-$.fn.preventScrolling = function(e) {
+
+
+const preventScrolling = e => {
 	var $target = $(e.target);
-	var hasScrollBar = function($this) {
-		return $this.get(0).scrollHeight > $this.outerHeight();
+	var hasScrollBar = function(element) {
+		//return $this.get(0).scrollHeight > $this.outerHeight();
+
+
+		if(!element || element === document) {
+			return false;
+		}
+
+		const styles = window.getComputedStyle(element);
+		const margin = parseFloat(styles['marginTop']) +
+			parseFloat(styles['marginBottom']);
+		const outerHeight = Math.ceil(element.offsetHeight + margin);
+
+console.log('failed')
+			console.log(element)
+
+		return (element.scrollHeight > outerHeight) && margin > 0;
 	};
 
 	// Get which element could have scroll bars
-	if(!hasScrollBar($target)) {
+	if(!hasScrollBar(e.target)) {
 		$target = $target
 			.parents()
-			.filter(function() {return hasScrollBar($(this));})
+			.filter(function() {return hasScrollBar(this);})
 			.first()
 		;
 	}
 
+	console.log('first:');
+		console.log($target);
 	// Prevent if nothing is scrollable
-	if(!$target.length) {
+	if(!$target.length || $target.is('body')) {
 		console.log('prevented!');
 		e.preventDefault();
 	} else {
@@ -91,10 +110,6 @@ $.fn.preventScrolling = function(e) {
 	}
 };
 
-$(document).on('touchstart mousedown', function(e) {
-		// Prevent scrolling on any touches to screen
-		console.log('hit');
-		$(this).preventScrolling(e);
-	});*/
-
-window.addEventListener('orientationchange', () => {location.reload();});
+document.addEventListener('touchstart', preventScrolling);
+document.addEventListener('mousedown', preventScrolling);
+*/
