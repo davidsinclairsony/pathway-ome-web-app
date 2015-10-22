@@ -32,7 +32,7 @@ export default (() => {
 			break;
 	}
 
-	settings.version = 23;
+	settings.version = 24;
 
 	return settings;
 })();
