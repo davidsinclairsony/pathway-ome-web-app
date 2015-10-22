@@ -100,9 +100,10 @@ $(document).on('touchstart mousedown', function(e) {
 
 
 window.addEventListener('orientationchange', function () {
+	alert('detected');
     var originalBodyStyle = getComputedStyle(document.body).getPropertyValue('display');
     document.body.style.display='none';
     setTimeout(function () {
       document.body.style.display = originalBodyStyle;
-    }, 10);
+    }, 1000);
   });
