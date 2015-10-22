@@ -40,7 +40,11 @@ export default React.createClass(assign({}, base, {
 
 		navItems.map((item, index) => {
 			let link;
-			let span = React.DOM.span(null, item.name);
+			let span = (
+				<span>
+					{item.name == 'profile'? 'user profile' : item.name}
+				</span>
+			);
 			let className = 'icon-' + item.name;
 
 			// Output certain type of link

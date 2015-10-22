@@ -29,9 +29,10 @@ export default (() => {
 				styles: 'compressed',
 				baseUrl: 'http://atldevstage.pathway.com:5000/'
 			};
+			break;
 	}
 
-	settings.version = 21;
+	settings.version = 22;
 
 	return settings;
 })();
