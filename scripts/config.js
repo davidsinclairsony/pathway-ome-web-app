@@ -1,5 +1,12 @@
+if(process.env.NODE_ENV) {
+	console.log('Starting in ' + process.env.NODE_ENV + ' environment...');
+} else {
+	console.log('No environment variable set.');
+	process.exit();
+}
+
 export default (() => {
-	let settings;
+	let settings = {};
 
 	switch(process.env.NODE_ENV) {
 		case 'dev':
@@ -32,7 +39,7 @@ export default (() => {
 			break;
 	}
 
-	settings.version = 27;
+	settings.version = 28;
 
 	return settings;
 })();
